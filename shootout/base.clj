@@ -13,7 +13,7 @@
            (println ~(str "Benchmarking: " f)) 
            (println "----------------------------------------------------") 
            (println ~(str "Hashing \"" HELLO_WORLD "\"")) 
-           (bench (~f ~HELLO_WORLD)) 
+           (quick-bench (~f ~HELLO_WORLD)) 
            (println "----------------------------------------------------")))))
 
 ;; ## File Hashing
@@ -26,7 +26,7 @@
            (println ~(str "Benchmarking: " f)) 
            (println "----------------------------------------------------") 
            (println ~(str "Hashing File:") ~file) 
-           (bench (~f ~file)) 
+           (quick-bench (~f ~file)) 
            (println "----------------------------------------------------")))))
 
 ;; ## Test Bench

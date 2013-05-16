@@ -4,6 +4,8 @@
   (:use pandect.hashable)
   (:import [java.io File]))
 
+(set! *warn-on-reflection* true)
+
 ;; ## Conversion
 
 (def ^:const ^:private ^String hex-chars "0123456789abcdef")
@@ -12,11 +14,14 @@
   "Convert Byte Array to Hex String"
   ^String
   [^"[B" data]
-  (let [^StringBuilder sb (StringBuilder. (* 2 (count data)))]
-    (doseq [b data]
-      (doto sb
-        (.append (.charAt hex-chars (bit-shift-right (bit-and b 0xF0) 4)))
-        (.append (.charAt hex-chars (bit-and b 0x0F)))))
+  (let [^StringBuilder sb (StringBuilder. (* 2 (count data)))
+        len (count data)]
+    (loop [i 0]
+      (when (< i len)
+        (let [b (aget data i)]
+          (doto sb
+            (.append (.charAt hex-chars (bit-shift-right (bit-and b 0xF0) 4)))
+            (.append (.charAt hex-chars (bit-and b 0x0F)))))))
     (.toString sb)))
 
 ;; ## Available Algorithms
@@ -32,11 +37,12 @@
      ~@(for [[sym algorithm] algorithms]
          (let [byte-sym (symbol (str sym "-bytes"))
                file-byte-sym (symbol (str sym "-file-bytes"))
-               file-sym (symbol (str sym "-file"))]
+               file-sym (symbol (str sym "-file"))
+               path-sym (vary-meta (gensym "path") assoc :tag `String)]
            (vector
              `(defn ~byte-sym [e#] (digest e# ~algorithm))
-             `(defn ~sym [e#] (bytes->hex (~byte-sym e#)))
-             `(defn ~file-byte-sym [path#] (~byte-sym (File. path#)))
+             `(defn ~sym [e#] (bytes->hex (digest e# ~algorithm)))
+             `(defn ~file-byte-sym [~path-sym] (digest (File. ~path-sym) ~algorithm))
              `(defn ~file-sym [path#] (bytes->hex (~file-byte-sym path#))))))))
 
 (create-digest-functions)

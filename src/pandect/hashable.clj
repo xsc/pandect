@@ -4,6 +4,8 @@
   (:import [java.security MessageDigest DigestInputStream]
            [java.io InputStream FileInputStream File]))
 
+(set! *warn-on-reflection* true)
+
 ;; ## Digest Base
 
 (defn- create-message-digest
