@@ -32,8 +32,8 @@ __REPL__
 
 These algorithms can be used (see `java.security.MessageDigest`):
 
-- MD2 (`md2`)
-- MD5 (`md5`)
+- MD2 (`md2`) __DO NOT USE FOR CRYPTOGRAPHIC HASHES!__
+- MD5 (`md5`) __DO NOT USE FOR CRYPTOGRAPHIC HASHES!__
 - SHA-1 (`sha1`)
 - SHA-256 (`sha256`)
 - SHA-384 (`sha384`)
@@ -84,6 +84,14 @@ Library                |   MD2   |   MD5   |  SHA-1  | SHA-256 | SHA-384 | SHA-5
 __pandect__            | 4.90us  |  754ns  |  941ns  | 1.18us  | 1.62us  | 1.55us
 __clj-digest__         | 6.34us  | 2.35us  | 3.07us  | 4.30us  | 6.60us  | 8.77us
 __clj-message-digest__ | 29.6us  | 25.8us  | 30.0us  | 48.1us  | 71.9us  | 89.9us
+
+__File (8811 bytes), given as path, to hexadecimal Digest String__
+
+Library                |   MD2   |   MD5   |  SHA-1  | SHA-256 | SHA-384 | SHA-512
+:----------------------|:-------:|:-------:|:-------:|:-------:|:-------:|:-------:
+__pandect__            | 1.26ms  | 39.2us  | 59.8us  | 95.9us  | 70.9us  | 73.8us
+__clj-digest__         | 1.26ms  | 49.6us  | 70.6us  |  105us  | 84.0us  | 88.7us
+__clj-message-digest__ | 1.44ms  |  210us  |  238us  |  292us  |  284us  |  320us
 
 ## License
 
