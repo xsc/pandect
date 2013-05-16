@@ -5,24 +5,26 @@
   (:import [java.io File]))
 
 (set! *warn-on-reflection* true)
+(set! *unchecked-math* true)
 
 ;; ## Conversion
 
-(def ^:const ^:private ^String hex-chars "0123456789abcdef")
+(def ^:private ^"[B" hex-chars 
+  (byte-array (.getBytes "0123456789abcdef" "UTF-8")))
 
 (defn bytes->hex
   "Convert Byte Array to Hex String"
   ^String
   [^"[B" data]
-  (let [^StringBuilder sb (StringBuilder. (* 2 (count data)))
-        len (count data)]
+  (let [len (count data) 
+        ^"[B" buffer (byte-array (* 2 len))]
     (loop [i 0]
       (when (< i len)
         (let [b (aget data i)]
-          (doto sb
-            (.append (.charAt hex-chars (bit-shift-right (bit-and b 0xF0) 4)))
-            (.append (.charAt hex-chars (bit-and b 0x0F)))))))
-    (.toString sb)))
+          (aset buffer (* 2 i) (aget hex-chars (bit-shift-right (bit-and b 0xF0) 4)))
+          (aset buffer (inc (* 2 i)) (aget hex-chars (bit-and b 0x0F))))
+        (recur (inc i))))
+    (String. buffer "UTF-8")))
 
 ;; ## Available Algorithms
 
