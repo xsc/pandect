@@ -31,11 +31,19 @@ __REPL__
 
 ## Supported Algorithms
 
-These algorithms can be used (see `java.security.MessageDigest`):
+__Checksum Algorithms:__
 
-- MD2 (`md2`) __DO NOT USE FOR CRYPTOGRAPHIC HASHES!__
-- MD5 (`md5`) __DO NOT USE FOR CRYPTOGRAPHIC HASHES!__
-- SHA-1 (`sha1`)
+- Adler32 (`adler32`)
+- CRC32 (`crc32`)
+
+__Insecure Hash Functions__
+
+- MD2 (`md2`)
+- MD5 (`md5`)
+
+__Secure Hash Functions (for now)__
+
+- SHA-1 (`sha1`) 
 - SHA-256 (`sha256`)
 - SHA-384 (`sha384`)
 - SHA-512 (`sha512`)
