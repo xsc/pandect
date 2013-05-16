@@ -17,11 +17,15 @@
   (update-digest! [this data offset length]
     (.update ^MessageDigest this ^"[B" data offset length))
   (read-digest! [this]
-    (.digest this)))
+    (.digest ^MessageDigest this))
+  (byte-digest [this data]
+    (.digest ^MessageDigest this ^"[B" data)))
 
 ;; ## Register Algorithms
 
 (defmacro ^:private init-message-digest
+  "Create `create-digest` multimethods for the algorithms supported
+   by MessageDigest."
   []
   `(do
      ~@(for [algorithm ["MD2" "MD5" "SHA-1" "SHA-256" "SHA-384" "SHA-512"]]

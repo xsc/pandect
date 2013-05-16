@@ -18,6 +18,8 @@
   (fact "about hashing 'Hello World!' as a string"
     (?digest "Hello World!") => ?result)
   ?digest       ?result
+  adler32       "1c49043e"
+  crc32         "1c291ca3"
   md2           "315f7c67223f01fb7cab4b95100e872e"
   md5           "ed076287532e86365e841e92bfc50d8c"
   sha1          "2ef7bde608ce5404e97d5f042f95f89f1c232871"
@@ -29,6 +31,8 @@
   (fact "about hashing 'Hello World!' as an input stream"
     (?digest (input-stream (.getBytes "Hello World!"))) => ?result)
   ?digest       ?result
+  adler32       "1c49043e"
+  crc32         "1c291ca3"
   md2           "315f7c67223f01fb7cab4b95100e872e"
   md5           "ed076287532e86365e841e92bfc50d8c"
   sha1          "2ef7bde608ce5404e97d5f042f95f89f1c232871"
@@ -43,6 +47,8 @@
     (?digest path) => ?result)
     (delete-file path)) 
   ?digest       ?result
+  adler32-file  "1c49043e"
+  crc32-file    "1c291ca3"
   md2-file      "315f7c67223f01fb7cab4b95100e872e"
   md5-file      "ed076287532e86365e841e92bfc50d8c"
   sha1-file     "2ef7bde608ce5404e97d5f042f95f89f1c232871"

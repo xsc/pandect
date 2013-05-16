@@ -1,4 +1,5 @@
-(ns 
+(ns ^{:doc "General Digest Abstraction"
+      :author "Yannick Scherer"}
   pandect.hashable
   (:import [java.security MessageDigest DigestInputStream]
            [java.io InputStream FileInputStream File]))
@@ -10,11 +11,17 @@
 
 (defprotocol Digest
   "Protocol for Digests."
-  (reset-digest! [this])
-  (update-digest! [this data offset length])
-  (read-digest! [this]))
+  (reset-digest! [this]
+    "Reset Digest IV.")
+  (update-digest! [this data offset length]
+    "Add data to Digest buffer.")
+  (read-digest! ^"[B" [this]
+    "Get result from Digest.")
+  (byte-digest ^"[B" [this data]
+    "Directly compute Digest for the given Byte Array."))
 
 (defmulti create-digest
+  "Create entity implementing Protocol `Digest` based on an algorithm string."
   (fn [algorithm] algorithm)
   :default nil)
 
@@ -25,9 +32,7 @@
   (class (byte-array 0))
   (digest [this algorithm]
     (let [md (create-digest algorithm)]
-      (reset-digest! md)
-      (update-digest! md this 0 (count this))
-      (read-digest! md)))
+      (byte-digest md this)))
 
   String
   (digest [this algorithm]
@@ -38,11 +43,12 @@
   (digest [this algorithm]
     (let [md (create-digest algorithm)
           ^"[B" buffer (byte-array 2048)] 
-      (reset-digest! md)
+      #_(reset-digest! md)
       (loop []
         (let [read-length (.read this buffer 0 2048)]
           (when-not (= read-length -1)
-            (update-digest! md buffer 0 read-length))))
+            (update-digest! md buffer 0 read-length)
+            (recur))))
       (read-digest! md)))
 
   File
