@@ -1,6 +1,6 @@
 # pandect
 
-__pandect__ is a [Message Digest](http://en.wikipedia.org/wiki/Message_digest) library for Clojure.
+__pandect__ is a fast and easy-to-use [Message Digest](http://en.wikipedia.org/wiki/Message_digest) library for Clojure.
 
 [![Build Status](https://travis-ci.org/xsc/panoptic.png)](https://travis-ci.org/xsc/pandect)
 [![endorse](https://api.coderwall.com/xsc/endorsecount.png)](https://coderwall.com/xsc)
@@ -10,7 +10,7 @@ __pandect__ is a [Message Digest](http://en.wikipedia.org/wiki/Message_digest) l
 __Leiningen__ ([via Clojars](https://clojars.org/pandect))
 
 ```clojure
-[pandect "0.1.0-SNAPSHOT"]
+[pandect "0.1.0"]
 ```
 
 __REPL__
