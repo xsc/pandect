@@ -1,7 +1,8 @@
 (ns ^{:doc "Digest Creation for Pandect"
       :author "Yannick Scherer"}
   pandect.core
-  (:use pandect.hashable)
+  (:use pandect.message-digest
+        pandect.hashable)
   (:import [java.io File]))
 
 (set! *warn-on-reflection* true)
