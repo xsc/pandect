@@ -3,17 +3,15 @@
 
 ;; ## String Hashing
 
-(def ^:const ^String HELLO_WORLD "Hello, World!")
-
 (defmacro bench-hash-function
-  [& fs]
+  [string & fs]
   `(do
      ~@(for [f fs]
          `((println "----------------------------------------------------") 
            (println ~(str "Benchmarking: " f)) 
            (println "----------------------------------------------------") 
-           (println ~(str "Hashing \"" HELLO_WORLD "\"")) 
-           (quick-bench (~f ~HELLO_WORLD)) 
+           (println (str "Hashing String: " ~string " (" (~f ~string) ")")) 
+           (quick-bench (~f ~string)) 
            (println "----------------------------------------------------")))))
 
 ;; ## File Hashing
@@ -25,7 +23,7 @@
          `((println "----------------------------------------------------") 
            (println ~(str "Benchmarking: " f)) 
            (println "----------------------------------------------------") 
-           (println ~(str "Hashing File:") ~file) 
+           (println (str "Hashing File: " ~file " (" (~f ~file) ")"))
            (quick-bench (~f ~file)) 
            (println "----------------------------------------------------")))))
 
@@ -42,9 +40,12 @@
            ~@(doall 
                (mapcat 
                  (fn [[flag [f1 f2]]] 
-                   [flag `(if (and ~f2 (= ~t "--file")) 
-                            (bench-file-hash-function (first ~args) ~f2)
-                            (bench-hash-function ~f1))])
+                   [flag `(case ~t
+                            "--file" (bench-file-hash-function (first ~args) ~f2)
+                            "--text" (bench-hash-function (first ~args) ~f1)
+                            (bench-hash-function "Hello, World!" ~f1))])
                  (partition 2 hash-fn-map)))
            (println "Unknown Algorithm: " algorithm#))
-         (catch Exception _# nil)))))
+         (catch NullPointerException e# nil)
+         (catch Exception e#
+           (.printStackTrace e#))))))
