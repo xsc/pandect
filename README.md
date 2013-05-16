@@ -41,9 +41,9 @@ These algorithms can be used (see `java.security.MessageDigest`):
 
 The following functions are created per algorithm identifier (see in parrens above):
 
-- `<algorithm>`: create string representing the hexadecimal value of the desired hash
+- `<algorithm>`: takes an entity, creates the hexadecimal string representation of its hash
   (e.g. `(md5 "Hello World")`).
-- `<algorithm>-bytes`: create byte array containing the desired hash 
+- `<algorithm>-bytes`: takes an entity, creates a byte array containing the desired hash 
   (e.g. `(md5-bytes "Hello World")`).
 - `<algorithm>-file`: create string representing the hexadecimal hash of the file at 
   the given path (e.g. `(md5-file "project.clj")`).
