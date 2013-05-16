@@ -52,6 +52,6 @@ The following functions are created per algorithm identifier (see in parrens abo
 
 ## License
 
-Copyright &copy; Yannick Scherer
+Copyright &copy; 2013 Yannick Scherer
 
 Distributed under the Eclipse Public License, the same as Clojure.
