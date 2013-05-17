@@ -80,6 +80,9 @@ is given, the simple string "Hello, World!" will be hashed.
 
 ## Benchmark Results
 
+Benchmarks are run using [Criterium](https://github.com/hugoduncan/criterium) on an Intel 
+Core i7 2670QM/2.2GHz/8GB RAM machine with Oracle JDK 1.7.0u21.
+
 __Input: "Hello, World!"___
 
 Library                   |  md2     |  md5     |  sha1    |  sha256  |  sha384  |  sha512  |  adler32 |  crc32   | 
