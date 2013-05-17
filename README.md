@@ -83,20 +83,20 @@ is given, the simple string "Hello, World!" will be hashed.
 Benchmarks are run using [Criterium](https://github.com/hugoduncan/criterium) on an Intel 
 Core i7 2670QM/2.2GHz/8GB RAM machine with Oracle JDK 1.7.0u21.
 
-__Input: "Hello, World!"___
+__Input: "Hello, World!"__
 
 Library                   |  md2     |  md5     |  sha1    |  sha256  |  sha384  |  sha512  |  adler32 |  crc32   | 
 --------------------------|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|
 pandect                   |  4.79µs  |   827ns  |  1.01µs  |  1.33µs  |  1.83µs  |  1.93µs  |   576ns  |   586ns  | 
-clj-digest                |  6.34µs  |  2.18µs  |  2.96µs  |   4.1µs  |  6.03µs  |   8.1µs  |     -    |     -    |
+clj-digest                |  6.34µs  |  2.18µs  |  2.96µs  |  4.10µs  |  6.03µs  |  8.10µs  |     -    |     -    |
 clj-message-digest        |  29.4µs  |  26.4µs  |  30.1µs  |  52.2µs  |  61.9µs  |  84.3µs  |     -    |     -    |
 
 __Input: 1KB file (times include I/O)__
 
 Library                   |  md2     |  md5     |  sha1    |  sha256  |  sha384  |  sha512  |  adler32 |  crc32   | 
 --------------------------|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|
-pandect                   |   141µs  |  9.12µs  |  11.7µs  |  15.7µs  |    14µs  |  14.1µs  |  6.79µs  |  6.85µs  | 
-clj-digest                |   145µs  |  14.4µs  |  16.6µs  |    22µs  |  21.3µs  |  23.7µs  |     -    |     -    |
+pandect                   |   141µs  |  9.12µs  |  11.7µs  |  15.7µs  |  14.0µs  |  14.1µs  |  6.79µs  |  6.85µs  | 
+clj-digest                |   145µs  |  14.4µs  |  16.6µs  |  22.0µs  |  21.3µs  |  23.7µs  |     -    |     -    |
 clj-message-digest        |   309µs  |   178µs  |   184µs  |   203µs  |   221µs  |   237µs  |     -    |     -    |
 
 __Input: 8KB file (times include I/O)__
@@ -113,7 +113,7 @@ Library                   |  md2     |  md5     |  sha1    |  sha256  |  sha384 
 --------------------------|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|
 pandect                   |   135ms  |  3.66ms  |  5.95ms  |  9.76ms  |  7.34ms  |  7.36ms  |  1.33ms  |  1.49ms  | 
 clj-digest                |   135ms  |  4.24ms  |  6.69ms  |  10.5ms  |  8.04ms  |  7.99ms  |     -    |     -    |
-clj-message-digest        |   134ms  |  3.83ms  |  6.19ms  |    10ms  |  7.66ms  |  7.57ms  |     -    |     -    |
+clj-message-digest        |   134ms  |  3.83ms  |  6.19ms  |  10.0ms  |  7.66ms  |  7.57ms  |     -    |     -    |
 
 ## License
 
