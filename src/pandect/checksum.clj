@@ -2,11 +2,22 @@
       :author "Yannick Scherer"}
   pandect.checksum
   (:use pandect.hashable)
-  (:import [java.util.zip Adler32 CRC32]
-           [java.nio ByteBuffer]))
+  (:import [java.util.zip Adler32 CRC32]))
 
 (set! *warn-on-reflection* true)
 (set! *unchecked-math* true)
+
+;; ## Long to 4 Bytes
+
+(defmacro ^:private long->4-bytes
+  "Convert an unsigned 32-bit integer (given as long) to a 4-byte array."
+  [v]
+  `(let [v# (long ~v)]
+     (doto (byte-array 4)
+      (aset 0 (byte (bit-and (bit-shift-right v# 24) 0xFF)))
+      (aset 1 (byte (bit-and (bit-shift-right v# 16) 0xFF)))
+      (aset 2 (byte (bit-and (bit-shift-right v# 8) 0xFF)))
+      (aset 3 (byte (bit-and v# 0xFF))))))
 
 ;; ## Adler32
 
@@ -21,10 +32,7 @@
   (update-digest! [this data offset length]
     (.update this ^"[B" data offset length))
   (read-digest! [this]
-    (let [v (int (.getValue this))]
-      (-> (ByteBuffer/allocate 4)
-        (.putInt v)
-        (.array))))
+    (long->4-bytes (.getValue this)))
   (byte-digest [this data]
     (doto this
       (reset-digest!)
@@ -44,10 +52,7 @@
   (update-digest! [this data offset length]
     (.update this ^"[B" data offset length))
   (read-digest! [this]
-    (let [v (int (.getValue this))]
-      (-> (ByteBuffer/allocate 4)
-        (.putInt v)
-        (.array))))
+    (long->4-bytes (.getValue this)))
   (byte-digest [this data]
     (doto this
       (reset-digest!)
