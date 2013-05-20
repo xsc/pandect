@@ -1,15 +1,6 @@
 language: clojure
 lein: lein2
 script: lein2 midje
-after_success:
-  - lein2 benchmark pandect --md2
-  - lein2 benchmark pandect --md5
-  - lein2 benchmark pandect --sha1
-  - lein2 benchmark pandect --sha256
-  - lein2 benchmark pandect --sha384
-  - lein2 benchmark pandect --sha512
-  - lein2 benchmark pandect --adler32
-  - lein2 benchmark pandect --crc32
 jdk:
   - openjdk7
   - openjdk6
