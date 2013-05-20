@@ -19,45 +19,40 @@ __REPL__
 ```clojure
 (use 'pandect.core)
 
-(md5 "Hello World!")
-;; => "ed076287532e86365e841e92bfc50d8c"
-
-(sha256 "Hello World!")
-;; => "7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069"
-
-(sha1-file "project.clj")
-;; => "cc5fdf7b312356fafa580b40429f97beda7e749f"
+(sha1 "Hello World!")           ;; => "2ef7bde608ce5404e97d5f042f95f89f1c232871"
+(sha1-bytes "Hello World!")     ;; => #<byte[] [B@5293b95>
+(sha1-file "project.clj")       ;; => "ff3b4565652aeb835edf2715b2a28586929ea4cc"
+(sha1-file-bytes "project.clj") ;; => #<byte[] [B@e2606c7>
 ```
 
 ## Supported Algorithms
 
 __Checksum Algorithms:__
 
-- Adler32 (`adler32`)
-- CRC32 (`crc32`)
+- Adler32 (`adler32`, `adler32-bytes`, `adler32-file`, `adler32-file-bytes`)
+- CRC32 (`crc32`, `crc32-bytes`, `crc32-file`, `crc32-file-bytes`))
 
 __Insecure Hash Functions__
 
-- MD2 (`md2`)
-- MD5 (`md5`)
+- MD2 (`md2`, `md2-bytes`, `md2-file`, `md2-file-bytes`))
+- MD5 (`md5`, `md5-bytes`, `md5-file`, `md5-file-bytes`))
 
 __Secure Hash Functions (for now)__
 
-- SHA-1 (`sha1`) 
-- SHA-256 (`sha256`)
-- SHA-384 (`sha384`)
-- SHA-512 (`sha512`)
+- SHA-1 (`sha1`, `sha1-bytes`, `sha1-file`, `sha1-file-bytes`)) 
+- SHA-256 (`sha256`, `sha256-bytes`, `sha256-file`, `sha256-file-bytes`))
+- SHA-384 (`sha384`, `sha384-bytes`, `sha384-file`, `sha384-file-bytes`))
+- SHA-512 (`sha512`, `sha512-bytes`, `sha512-file`, `sha512-file-bytes`))
 
-The following functions are created per algorithm identifier (see in parrens above):
+`adler32`/`adler32-bytes`, `crc32`/`crc32-bytes`, etc... take one of the following as input
+parameter:
 
-- `<algorithm>`: takes an entity, creates the hexadecimal string representation of its hash
-  (e.g. `(md5 "Hello World")`).
-- `<algorithm>-bytes`: takes an entity, creates a byte array containing the desired hash 
-  (e.g. `(md5-bytes "Hello World")`).
-- `<algorithm>-file`: create string representing the hexadecimal hash of the file at 
-  the given path (e.g. `(md5-file "project.clj")`).
-- `<algorithm>-file-bytes`: create byte array containing the hash of the file at the
-  given path (e.g `(md5-file-bytes "project.clj")`).
+- a string
+- a byte array
+- an input stream
+- a `java.io.File` object
+
+`adler32-file`/`adler32-file-bytes`, etc... take the path to a file as input parameter.
 
 ## Benchmarks
 
