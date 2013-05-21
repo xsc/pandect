@@ -10,4 +10,4 @@
   "--sha384"  [pandect.core/sha384  pandect.core/sha384-file]
   "--sha512"  [pandect.core/sha512  pandect.core/sha512-file]
   "--adler32" [pandect.core/adler32 pandect.core/adler32-file]
-  "--crc32"   [pandect.core/crc32   pandect.core/crc32*-file])
+  "--crc32"   [pandect.core/crc32   pandect.core/crc32-file])
