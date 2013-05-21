@@ -1,12 +1,43 @@
 (ns ^{:doc "Checksum Implementations"
       :author "Yannick Scherer"}
-  pandect.checksum
+  pandect.gen.checksum
   (:use pandect.gen.core)
   (:require [pandect.utils.convert :as c only [long->4-bytes]]) 
-  (:import [java.util.zip Adler32]))
+  (:import [java.util.zip Adler32 CRC32]))
 
 (set! *warn-on-reflection* true)
 (set! *unchecked-math* true)
+
+;; ## CRC32
+
+(deftype CRC32CodeGen []
+  CodeGen
+  (algorithm-string [_] "ADLER-32")
+  (bytes->hash [_ form]
+    `(let [buf# ~form
+           a# (CRC32.)]
+       (.update a# buf# 0 (count buf#))
+       (.getValue a#)))
+  (stream->hash [_ form]
+    `(let [s# ~form
+           buf# (byte-array 2048)
+           a# (CRC32.)]
+       (loop []
+         (let [r# (.read s# buf# 0 2048)]
+           (when-not (= r# -1)
+             (.update a# buf# 0 r#)
+             (recur))))
+       (.getValue a#)))
+  (hash->bytes [_ form]
+    `(c/long->4-bytes ~form))
+  (hash->string [_ form]
+    `(c/long->hex ~form)))
+
+(defmethod code-generator "CRC-32"
+  [_]
+  (CRC32CodeGen.))
+
+;; ## Adler32
 
 (deftype Adler32CodeGen []
   CodeGen
@@ -29,7 +60,7 @@
   (hash->bytes [_ form]
     `(c/long->4-bytes ~form))
   (hash->string [_ form]
-    `(Long/toString (long ~form) 16)))
+    `(c/long->hex ~form)))
 
 (defmethod code-generator "ADLER-32"
   [_]

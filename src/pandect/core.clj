@@ -2,9 +2,7 @@
       :author "Yannick Scherer"}
   pandect.core
   (:use pandect.gen.core)
-  (:require [pandect.gen 
-             message-digest 
-             crc32 adler32]))
+  (:require [pandect.gen message-digest checksum]))
 
 (set! *warn-on-reflection* true)
 (set! *unchecked-math* true)

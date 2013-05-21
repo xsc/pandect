@@ -97,13 +97,14 @@
         id-file-bytes (symbol (str id "-file-bytes"))
         id-raw (symbol (str id "*"))
         id-raw-file (symbol (str id "*-file"))
-        sym (gensym "v")]
+        sym (gensym "v")
+        fsym (vary-meta sym assoc :tag `String)]
     (vector
       `(defn ~id-raw [~sym] (~f ~sym))
-      `(defn ~id-raw-file [~sym] (~f (File. (str ~sym))))
+      `(defn ~id-raw-file [~fsym] (~f (File. ~fsym)))
       `(defn ~id-bytes [~sym] ~(hash->bytes code-gen `(~f ~sym)))
-      `(defn ~id-file [~sym] ~(hash->string code-gen `(~f (File. (str ~sym)))))
-      `(defn ~id-file-bytes [~sym] ~(hash->bytes code-gen `(~f (File. (str ~sym)))))
+      `(defn ~id-file [~fsym] ~(hash->string code-gen `(~f (File. ~fsym))))
+      `(defn ~id-file-bytes [~fsym] ~(hash->bytes code-gen `(~f (File. ~fsym))))
       `(defn ~id [~sym] ~(hash->string code-gen `(~f ~sym))))))
 
 (defn generate-hash

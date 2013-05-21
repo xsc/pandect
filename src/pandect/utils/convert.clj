@@ -34,3 +34,17 @@
       (aset 1 (byte (bit-and (bit-shift-right v# 16) 0xFF)))
       (aset 2 (byte (bit-and (bit-shift-right v# 8) 0xFF)))
       (aset 3 (byte (bit-and v# 0xFF))))))
+
+;; ## Unsigned Int (as Long) to String
+
+(defn long->hex
+  "Convert an unsigned 32-bit integer (given as long) to a 8-char hexstring."
+  ^String
+  [b]
+  (let [buf (byte-array 8)]
+    (loop [i 7
+           n (long b)]
+      (when (>= i 0)
+        (aset buf i (aget hex-chars (bit-and 0xF n)))
+        (recur (dec i) (bit-shift-right n 4))))
+    (String. buf "UTF-8")))
