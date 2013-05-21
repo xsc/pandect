@@ -4,6 +4,7 @@
   (:import java.io.File)
   (:use midje.sweet
         pandect.core
+        [pandect.utils.convert :only [bytes->hex]]
         [clojure.java.io :only [input-stream delete-file]]))
 
 (tabular

@@ -1,6 +1,8 @@
 (ns ^ {:doc "CRC32 Implementation"
        :author "Yannick Scherer"}
-  pandect.checksum.crc32)
+  pandect.gen.crc32
+  (:use pandect.gen.core)
+  (:require [pandect.utils.convert :as c only [long->4-bytes]]))
 
 (set! *unchecked-math* true)
 
@@ -47,3 +49,27 @@
   (bit-xor 
     (long 0xFFFFFFFF) 
     (crc-update (long 0xFFFFFFFF) buffer length))))
+
+;; ## Code Generator
+
+(deftype CRC32CodeGen []
+  CodeGen
+  (algorithm-string [_] "CRC-32")
+  (bytes->hash [_ form]
+    `(crc32 ~form))
+  (stream->hash [_ form]
+    `(let [s# ~form
+           buf# (byte-array 2048)]
+       (loop [crc# (long 0xFFFFFFFF)]
+         (let [r# (.read s# buf# 0 2048)]
+           (if (= r# -1)
+             (bit-xor 0xFFFFFFFF crc#) 
+             (recur (crc-update crc# buf# r#)))))))
+  (hash->bytes [_ form]
+    `(c/long->4-bytes ~form))
+  (hash->string [_ form]
+    `(Long/toString (long ~form) 16)))
+
+(defmethod code-generator "CRC-32"
+  [_]
+  (CRC32CodeGen.))
