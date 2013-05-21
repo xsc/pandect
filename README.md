@@ -11,7 +11,7 @@ __pandect__ is a fast and easy-to-use [Message Digest](http://en.wikipedia.org/w
 __Leiningen__ ([via Clojars](https://clojars.org/pandect))
 
 ```clojure
-[pandect "0.2.1"]
+[pandect "0.2.2"]
 ```
 
 __REPL__
@@ -30,19 +30,19 @@ __REPL__
 __Checksum Algorithms:__
 
 - Adler32 (`adler32`, `adler32-bytes`, `adler32-file`, `adler32-file-bytes`)
-- CRC32 (`crc32`, `crc32-bytes`, `crc32-file`, `crc32-file-bytes`))
+- CRC32 (`crc32`, `crc32-bytes`, `crc32-file`, `crc32-file-bytes`)
 
 __Insecure Hash Functions__
 
-- MD2 (`md2`, `md2-bytes`, `md2-file`, `md2-file-bytes`))
-- MD5 (`md5`, `md5-bytes`, `md5-file`, `md5-file-bytes`))
+- MD2 (`md2`, `md2-bytes`, `md2-file`, `md2-file-bytes`)
+- MD5 (`md5`, `md5-bytes`, `md5-file`, `md5-file-bytes`)
 
 __Secure Hash Functions (for now)__
 
-- SHA-1 (`sha1`, `sha1-bytes`, `sha1-file`, `sha1-file-bytes`)) 
-- SHA-256 (`sha256`, `sha256-bytes`, `sha256-file`, `sha256-file-bytes`))
-- SHA-384 (`sha384`, `sha384-bytes`, `sha384-file`, `sha384-file-bytes`))
-- SHA-512 (`sha512`, `sha512-bytes`, `sha512-file`, `sha512-file-bytes`))
+- SHA-1 (`sha1`, `sha1-bytes`, `sha1-file`, `sha1-file-bytes`) 
+- SHA-256 (`sha256`, `sha256-bytes`, `sha256-file`, `sha256-file-bytes`)
+- SHA-384 (`sha384`, `sha384-bytes`, `sha384-file`, `sha384-file-bytes`)
+- SHA-512 (`sha512`, `sha512-bytes`, `sha512-file`, `sha512-file-bytes`)
 
 `adler32`/`adler32-bytes`, `crc32`/`crc32-bytes`, etc... take one of the following as input
 parameter:
@@ -76,7 +76,7 @@ is given, the simple string "Hello, World!" will be hashed.
 ## Benchmark Results
 
 Benchmarks are run using [Criterium](https://github.com/hugoduncan/criterium) on an Intel 
-Core i7 2670QM/2.2GHz/8GB RAM machine with Oracle JDK 1.7.0u21.
+Core i7 2670QM/2.2GHz/8GB RAM machine with Oracle JDK 1.7.0u21 (64-bit).
 
 __Input: "Hello, World!"__
 

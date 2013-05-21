@@ -1,12 +1,8 @@
 ## Changelog
 
-### 0.3.0
+### 0.2.2
 
-- CRC-32 implemented directly in Clojure
 - switched to compile-time code generation for hash functions
-- performance improvements, e.g. computing time (for "Hello, World!" example) reduced for:
-  - CRC-32: -50%
-  - MD5: -12%
 
 ### 0.2.1
 
