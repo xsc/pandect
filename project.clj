@@ -3,8 +3,7 @@
   :url "https://github.com/xsc/pandect"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/data.codec "0.1.0"]] 
+  :dependencies [[org.clojure/clojure "1.5.1"]]
   :profiles {:dev {:dependencies [[midje "1.5.1"]]
                    :plugins [[lein-midje "3.0.1"]]}
              :benchmark {:dependencies [[criterium "0.4.1"]
