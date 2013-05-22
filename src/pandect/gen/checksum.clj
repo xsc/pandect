@@ -12,7 +12,7 @@
 
 (deftype CRC32CodeGen []
   CodeGen
-  (algorithm-string [_] "ADLER-32")
+  (algorithm-string [_] "CRC-32")
   (bytes->hash [_ form]
     `(let [buf# ~form
            a# (CRC32.)]
