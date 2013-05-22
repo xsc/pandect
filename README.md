@@ -25,6 +25,13 @@ __REPL__
 (sha1-file-bytes "project.clj") ;; => #<byte[] [B@e2606c7>
 ```
 
+If you want to hash a String using a specific encoding, you should create the respective byte array manually:
+
+```clojure
+(sha1 "Hällo World!")                          ;; => "f19c05a67c3d0f297b62e868657cf177913ce02a"
+(sha1 (.getBytes "Hällo World!" "ISO-8859-1")) ;; => "cfe670bd6845020f5754b19a3c0eee602043eb89"
+```
+
 ## Supported Algorithms
 
 __Checksum Algorithms:__
