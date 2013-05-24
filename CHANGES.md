@@ -1,4 +1,8 @@
-## Changelog
+## Changelog: `pandect`
+
+### 0.2.3
+
+- removed unnecessary `java.io.File` creation from file hashing functions
 
 ### 0.2.2
 
@@ -6,7 +10,7 @@
 
 ### 0.2.1
 
-- Adler32 and CRC32 now create a byte array directly, not via a `ByteBuffer`
+- Adler32 and CRC32 now create a byte array directly, not via a `java.nio.ByteBuffer`
 
 ### 0.2.0
 

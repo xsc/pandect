@@ -11,7 +11,7 @@ __pandect__ is a fast and easy-to-use [Message Digest](http://en.wikipedia.org/w
 __Leiningen__ ([via Clojars](https://clojars.org/pandect))
 
 ```clojure
-[pandect "0.2.2"]
+[pandect "0.2.3"]
 ```
 
 __REPL__
