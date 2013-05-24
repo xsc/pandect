@@ -98,14 +98,16 @@
         id-raw (symbol (str id "*"))
         id-raw-file (symbol (str id "*-file"))
         sym (gensym "v")
-        fsym (vary-meta sym assoc :tag `String)]
+        fsym (vary-meta sym assoc :tag `String)
+        call-direct `(~f ~sym)
+        call-file `(with-open [in# (FileInputStream. ~fsym)] (~f in#))]
     (vector
-      `(defn ~id-raw [~sym] (~f ~sym))
-      `(defn ~id-raw-file [~fsym] (~f (File. ~fsym)))
-      `(defn ~id-bytes [~sym] ~(hash->bytes code-gen `(~f ~sym)))
-      `(defn ~id-file [~fsym] ~(hash->string code-gen `(~f (File. ~fsym))))
-      `(defn ~id-file-bytes [~fsym] ~(hash->bytes code-gen `(~f (File. ~fsym))))
-      `(defn ~id [~sym] ~(hash->string code-gen `(~f ~sym))))))
+      `(defn ~id-raw [~sym] ~call-direct)
+      `(defn ~id-raw-file [~fsym] ~call-file)
+      `(defn ~id-bytes [~sym] ~(hash->bytes code-gen call-direct))
+      `(defn ~id-file [~fsym] ~(hash->string code-gen call-file))
+      `(defn ~id-file-bytes [~fsym] ~(hash->bytes code-gen call-file))
+      `(defn ~id [~sym] ~(hash->string code-gen call-direct)))))
 
 (defn generate-hash
   "Generate protocol and computing functions using the give code generator and
