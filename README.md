@@ -1,7 +1,10 @@
 # pandect
 
-__pandect__ is a fast and easy-to-use [Message Digest](http://en.wikipedia.org/wiki/Message_digest) and 
-[Checksum](http://en.wikipedia.org/wiki/Checksum) library for Clojure.
+__pandect__ is a fast and easy-to-use 
+[Message Digest](http://en.wikipedia.org/wiki/Message_digest), 
+[Checksum](http://en.wikipedia.org/wiki/Checksum) and 
+[HMAC](https://en.wikipedia.org/wiki/Hash-based_message_authentication_code)
+library for Clojure.
 
 [![Build Status](https://travis-ci.org/xsc/panoptic.png)](https://travis-ci.org/xsc/pandect)
 [![endorse](https://api.coderwall.com/xsc/endorsecount.png)](https://coderwall.com/xsc)
@@ -11,7 +14,7 @@ __pandect__ is a fast and easy-to-use [Message Digest](http://en.wikipedia.org/w
 __Leiningen__ ([via Clojars](https://clojars.org/pandect))
 
 ```clojure
-[pandect "0.2.3"]
+[pandect "0.3.0"]
 ```
 
 __REPL__
@@ -23,6 +26,9 @@ __REPL__
 (sha1-bytes "Hello World!")     ;; => #<byte[] [B@5293b95>
 (sha1-file "project.clj")       ;; => "ff3b4565652aeb835edf2715b2a28586929ea4cc"
 (sha1-file-bytes "project.clj") ;; => #<byte[] [B@e2606c7>
+
+(sha1-hmac "Hello World!" "secret-key")       ;; => "399fc3d94f6df2213f92fcf2a8b6669279ef7d20"
+(sha1-hmac-bytes "Hello World!" "secret-key") ;; => #<byte[] [B@602bd522>
 ```
 
 If you want to hash a String using a specific encoding, you should create the respective byte array manually:
@@ -50,6 +56,14 @@ __Secure Hash Functions (for now)__
 - SHA-256 (`sha256`, `sha256-bytes`, `sha256-file`, `sha256-file-bytes`)
 - SHA-384 (`sha384`, `sha384-bytes`, `sha384-file`, `sha384-file-bytes`)
 - SHA-512 (`sha512`, `sha512-bytes`, `sha512-file`, `sha512-file-bytes`)
+
+__HMAC Functions__
+
+- MD5 (`md5-hmac`, `md5-hmac-bytes`, `md5-hmac-file`, `md5-hmac-file-bytes`)
+- SHA1 (`sha1-hmac`, `sha1-hmac-bytes`, `sha1-hmac-file`, `sha1-hmac-file-bytes`)
+- SHA256 (`sha256-hmac`, `sha256-hmac-bytes`, `sha256-hmac-file`, `sha256-hmac-file-bytes`)
+- SHA384 (`sha384-hmac`, `sha384-hmac-bytes`, `sha384-hmac-file`, `sha384-hmac-file-bytes`)
+- SHA512 (`sha512-hmac`, `sha512-hmac-bytes`, `sha512-hmac-file`, `sha512-hmac-file-bytes`)
 
 `adler32`/`adler32-bytes`, `crc32`/`crc32-bytes`, etc... take one of the following as input
 parameter:
