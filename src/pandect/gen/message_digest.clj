@@ -63,7 +63,7 @@
 (def ^:private MD_ALGORITHMS
   (vector
     ["MD2"]
-    ["MD5"]
+    ["MD5"     "HmacMD5"]
     ["SHA-1"   "HmacSHA1"]
     ["SHA-256" "HmacSHA256"]
     ["SHA-384" "HmacSHA384"]

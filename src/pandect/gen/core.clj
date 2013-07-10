@@ -24,14 +24,14 @@
     "Does this code generator support HMAC?")
   (bytes->hmac [this msg-form key-form]
     "Generate code to convert the byte array produced by the given `msg-form`
-     to a value representing the hashed message authentication code using the given
+     to a value representing the hash-based message authentication code using the given
      `key-form` (a byte array).")
   (bytes->hash [this form]
     "Generate code to convert the byte array produced by the given form to 
      a value representing the given hash.")
   (stream->hmac [this stream-form key-form]
     "Generate code to convert the input stream produced by the given `stream-form`
-     to a value representing the hashed message authentication code using the given
+     to a value representing the hash-based message authentication code using the given
      `key-form` (a byte array).")
   (stream->hash [this form]
     "Generate code to convert the input stream produced by the given form
