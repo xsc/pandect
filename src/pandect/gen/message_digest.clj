@@ -4,18 +4,47 @@
   (:use pandect.gen.core)
   (:require [pandect.utils.convert :as c :only [bytes->hex]])
   (:import [java.security MessageDigest]
+           [javax.crypto Mac]
+           [javax.crypto.spec SecretKeySpec]
            [java.io InputStream FileInputStream File]))
 
 ;; ## Code Generator
 
-(deftype MessageDigestCodeGen [algorithm]
+(deftype MessageDigestCodeGen [hash-algorithm hmac-algorithm]
   CodeGen
-  (algorithm-string [_] algorithm)
+  (algorithm-string [_] 
+    (if (and hash-algorithm hmac-algorithm) 
+      (str hash-algorithm "/" hmac-algorithm)
+      (or hash-algorithm hmac-algorithm)))
+  (support-hash? [_] (boolean hash-algorithm))
+  (support-hmac? [_] (boolean hmac-algorithm))
+  (bytes->hmac [_ msg-form key-form]
+    (let [msg (vary-meta (gensym "msg") assoc :tag "[B")]
+      `(let [mac# (Mac/getInstance ~hmac-algorithm)
+             ~msg ~msg-form
+             k# (SecretKeySpec. ~key-form ~hmac-algorithm)]
+         (-> (doto mac#
+               (.init k#)
+               (.update ~msg))
+           (.doFinal)))))
+  (stream->hmac [_ stream-form key-form]
+    (let [s (vary-meta (gensym "s") assoc :tag `InputStream)]
+      `(let [mac# (Mac/getInstance ~hmac-algorithm)
+             k# (SecretKeySpec. ~key-form ~hmac-algorithm) 
+             buf# (byte-array 2048)
+             ~s ~stream-form]
+         (.init mac# k#)
+         (loop []
+           (let [r# (.read ~s buf# 0 2048)]
+             (when-not (= r# -1)
+               (.update mac# buf# 0 r#)
+               (recur))))
+         (.doFinal mac#))))
   (bytes->hash [_ form]
-    `(let [md# (MessageDigest/getInstance ~algorithm)]
+    `(let [md# (MessageDigest/getInstance ~hash-algorithm)]
        (.digest md# ~form)))
   (stream->hash [_ form]
-    `(let [md# (MessageDigest/getInstance ~algorithm)
+    `(let [md# (MessageDigest/getInstance ~hash-algorithm)
            buf# (byte-array 2048)
            s# ~form]
        (loop []
@@ -31,14 +60,24 @@
 
 ;; ## Register all Algorithms
 
+(def ^:private MD_ALGORITHMS
+  (vector
+    ["MD2"]
+    ["MD5"]
+    ["SHA-1"   "HmacSHA1"]
+    ["SHA-256" "HmacSHA256"]
+    ["SHA-384" "HmacSHA384"]
+    ["SHA-512" "HmacSHA512"]))
+
 (defmacro ^:private register-code-generators!
   "Register all MessageDigest code generators by implementing
    pandect.gen.core/code-generator."
   []
   `(do
-     ~@(for [algorithm ["MD2" "MD5" "SHA-1" "SHA-256" "SHA-384" "SHA-512"]]
-         `(defmethod code-generator ~algorithm
-            [_#]
-            (MessageDigestCodeGen. ~algorithm)))))
+     ~@(for [[hash-algorithm hmac-algorithm] MD_ALGORITHMS]
+         (let [algorithm (or hash-algorithm hmac-algorithm)]
+           `(defmethod code-generator ~algorithm
+              [_#]
+              (MessageDigestCodeGen. ~hash-algorithm ~hmac-algorithm))))))
 
 (register-code-generators!)
