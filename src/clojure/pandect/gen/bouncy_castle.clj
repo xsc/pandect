@@ -4,14 +4,19 @@
 
 ;; ## Code Generator
 
-(deftype BouncyCastleCodeGen [algorithm digest-class]
+(defn- create-digest-form
+  [digest-class constructor-args]
+  `(new ~(symbol (format "org.bouncycastle.crypto.digests.%s" digest-class))
+        ~@constructor-args))
+
+(deftype BouncyCastleCodeGen [algorithm digest-class constructor-args]
   CodeGen
   (algorithm-string [_] algorithm)
   (support-hash? [_] true)
   (support-hmac? [_] false)
   (bytes->hash [_ form]
     `(let [buf# ~form
-           digest# (new ~(symbol (format "org.bouncycastle.crypto.digests.%s" digest-class)))
+           digest# ~(create-digest-form digest-class constructor-args)
            result# (byte-array (.getDigestSize digest#))]
        (doto digest#
          (.update buf# 0 (alength (bytes buf#)))
@@ -20,7 +25,7 @@
   (stream->hash [_ form]
     `(let [s# ~form
            c# (int *buffer-size*)
-           digest# (new ~(symbol (format "org.bouncycastle.crypto.digests.%s" digest-class)))
+           digest# ~(create-digest-form digest-class constructor-args)
            buf# (byte-array c#)]
        (loop []
          (let [r# (.read s# buf# 0 c#)]
@@ -38,25 +43,29 @@
 ;; ## Register Bouncy Castle Algorithms
 
 (def ^:private BC_ALGORITHMS
-  '{GOST3411Digest  "GOST 34.11-94"
-    MD4Digest       "MD4"
-    RIPEMD128Digest "RIPEMD-128"
-    RIPEMD160Digest "RIPEMD-160"
-    RIPEMD256Digest "RIPEMD-256"
-    RIPEMD320Digest "RIPEMD-320"
-    SHA224Digest    "SHA-224"
-    SHA3Digest      "SHA-3"
-    TigerDigest     "Tiger"
-    WhirlpoolDigest "Whirlpool"})
+  '{"GOST 34.11-94"  GOST3411Digest
+    "MD4"            MD4Digest
+    "RIPEMD-128"     RIPEMD128Digest
+    "RIPEMD-160"     RIPEMD160Digest
+    "RIPEMD-256"     RIPEMD256Digest
+    "RIPEMD-320"     RIPEMD320Digest
+    "SHA-224"        SHA224Digest
+    "SHA-3 (224)"    [SHA3Digest 224]
+    "SHA-3 (256)"    [SHA3Digest 256]
+    "SHA-3 (384)"    [SHA3Digest 384]
+    "SHA-3 (512)"    [SHA3Digest 512]
+    "Tiger (192,3)"  TigerDigest
+    "Whirlpool"      WhirlpoolDigest})
 
 (defmacro ^:private register-code-generators!
   "Register all MessageDigest code generators by implementing
    pandect.gen.core/code-generator."
   []
   `(do
-     ~@(for [[digest-class algorithm] BC_ALGORITHMS]
-         `(defmethod code-generator ~algorithm
-            [_#]
-            (BouncyCastleCodeGen. ~algorithm '~digest-class)))))
+     ~@(for [[algorithm v] BC_ALGORITHMS]
+         (let [[digest-class & args] (if (vector? v) v [v])]
+           `(defmethod code-generator ~algorithm
+              [_#]
+              (BouncyCastleCodeGen. ~algorithm '~digest-class [~@args]))))))
 
 (register-code-generators!)
