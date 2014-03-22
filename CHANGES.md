@@ -1,5 +1,24 @@
 ## Changelog: `pandect`
 
+### 0.3.1
+
+- added hash algorithms from BouncyCastle:
+  - MD4
+  - GOST 34.11-94
+  - SHA-224
+  - SHA3-224
+  - SHA3-256
+  - SHA3-384
+  - SHA3-512
+  - RIPEMD-128
+  - RIPEMD-160
+  - RIPEMD-256
+  - RIPEMD-320
+  - Tiger (192,3)
+  - Whirlpool
+- added corresponding HMAC functions.
+- added `with-buffer-size` to influence the buffer for stream processing.
+
 ### 0.3.0
 
 - added hash-based message authentication code (HMAC) functions:
