@@ -13,7 +13,7 @@
   CodeGen
   (algorithm-string [_] algorithm)
   (support-hash? [_] true)
-  (support-hmac? [_] false)
+  (support-hmac? [_] true)
   (bytes->hash [_ form]
     `(let [buf# ~form
            digest# ~(create-digest-form digest-class constructor-args)
@@ -34,6 +34,33 @@
              (recur))))
        (let [result# (byte-array (.getDigestSize digest#))]
          (.doFinal digest# result# 0)
+         result#)))
+  (bytes->hmac [_ stream-form key-form]
+    `(let [buf# ~stream-form
+           mac# (org.bouncycastle.crypto.macs.HMac.
+                  ~(create-digest-form digest-class constructor-args))
+           k# (org.bouncycastle.crypto.params.KeyParameter. ~key-form)
+           result# (byte-array (.getMacSize mac#))]
+       (doto mac#
+         (.init k#)
+         (.update buf# 0 (alength (bytes buf#)))
+         (.doFinal result# 0))
+       result#))
+  (stream->hmac [_ stream-form key-form]
+    `(let [s# ~stream-form
+           c# (int *buffer-size*)
+           mac# (org.bouncycastle.crypto.macs.HMac.
+                  ~(create-digest-form digest-class constructor-args))
+           k# (org.bouncycastle.crypto.params.KeyParameter. ~key-form)
+           buf# (byte-array c#)]
+       (.init mac# k#)
+       (loop []
+         (let [r# (.read s# buf# 0 c#)]
+           (when (not= r# -1)
+             (.update mac# buf# 0 r#)
+             (recur))))
+       (let [result# (byte-array (.getMacSize mac#))]
+         (.doFinal mac# result# 0)
          result#)))
   (hash->string [_ form]
     `(c/bytes->hex ~form))

@@ -51,7 +51,13 @@
   (class (byte-array 0))
   (convert-to-byte-array [this] this)
   String
-  (convert-to-byte-array [this] (.getBytes this)))
+  (convert-to-byte-array [this] (.getBytes this))
+  java.io.File
+  (convert-to-byte-array [this]
+    (.getBytes (slurp this)))
+  java.io.InputStream
+  (convert-to-byte-array [this]
+    (.getBytes (slurp this))))
 
 ;; ## Multimethod
 
