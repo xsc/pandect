@@ -6,7 +6,7 @@ __pandect__ is a fast and easy-to-use
 [HMAC](https://en.wikipedia.org/wiki/Hash-based_message_authentication_code)
 library for Clojure.
 
-[![Build Status](https://travis-ci.org/xsc/panoptic.png)](https://travis-ci.org/xsc/pandect)
+[![Build Status](https://travis-ci.org/xsc/pandect.svg?branch=master)](https://travis-ci.org/xsc/pandect)
 [![endorse](https://api.coderwall.com/xsc/endorsecount.png)](https://coderwall.com/xsc)
 
 ## Usage
