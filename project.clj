@@ -6,9 +6,9 @@
   :dependencies [[org.clojure/clojure "1.5.1"]]
   :source-paths ["src/clojure"]
   :java-source-paths ["src/java"]
-  :profiles {:dev {:dependencies [[midje "1.5.1"]]
-                   :plugins [[lein-midje "3.0.1"]]}
-             :benchmark {:dependencies [[criterium "0.4.1"]
+  :profiles {:dev {:dependencies [[midje "1.6.3"]]
+                   :plugins [[lein-midje "3.1.3"]]}
+             :benchmark {:dependencies [[criterium "0.4.3"]
                                         [clj-message-digest "1.0.0"]
                                         [digest "1.4.3"]]
                          :source-paths ["shootout"]
