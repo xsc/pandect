@@ -27,7 +27,7 @@
      to a value representing the hash-based message authentication code using the given
      `key-form` (a byte array).")
   (bytes->hash [this form]
-    "Generate code to convert the byte array produced by the given form to 
+    "Generate code to convert the byte array produced by the given form to
      a value representing the given hash.")
   (stream->hmac [this stream-form key-form]
     "Generate code to convert the input stream produced by the given `stream-form`
@@ -71,7 +71,7 @@
   "Will generate a protocol that offers a single function generating an algorithm-
    specific hash value. Will also extend the following types to implement said
    protocol:
- 
+
    - byte array
    - String
    - InputStream
@@ -88,12 +88,12 @@
                        [`(~hash-f [~sym] ~(h-fn code-gen msg-form))])
                      (when (support-hmac? code-gen)
                        [`(~hmac-f [~sym ~k] ~(hm-fn code-gen msg-form k))])))]
-    (vector 
+    (vector
       `(defprotocol ~P
          ~(str "Protocol for " (algorithm-string code-gen) " hash generation.")
-         ~@(when (support-hash? code-gen) 
+         ~@(when (support-hash? code-gen)
              [`(~hash-f [this#])])
-         ~@(when (support-hmac? code-gen) 
+         ~@(when (support-hmac? code-gen)
              [`(~hmac-f [this# key#])]))
       `(extend-protocol ~P
          (class (byte-array 0))
@@ -118,7 +118,7 @@
 (defn- generate-compute-fns
   "Generate functions that call a prviously created hash function and wrap the result
    in string/byte conversions. The created functions, based on an id X, will be:
-   
+
    - `X` : outputs hex string
    - `X-bytes` : outputs byte array
    - `X-file` : input is path to file, outputs string
@@ -150,7 +150,7 @@
         k (gensym "k")
         fsym (vary-meta sym assoc :tag `String)
         call-hmac-direct `(~hmac-f ~sym (convert-to-byte-array ~k))
-        call-hmac-file `(with-open [in# (FileInputStream. ~fsym)] (~hmac-f in# (convert-to-byte-array ~k))) 
+        call-hmac-file `(with-open [in# (FileInputStream. ~fsym)] (~hmac-f in# (convert-to-byte-array ~k)))
         call-hash-direct `(~hash-f ~sym)
         call-hash-file `(with-open [in# (FileInputStream. ~fsym)] (~hash-f in#))]
     (concat
@@ -158,9 +158,9 @@
         (vector
           `(defn ~id-hmac-raw [~sym ~k] ~call-hmac-direct)
           `(defn ~id-hmac-raw-file [~fsym ~k] ~call-hmac-file)
-          `(defn ~id-hmac-bytes [~sym ~k] ~(hash->bytes code-gen call-hmac-direct))  
-          `(defn ~id-hmac-file [~sym ~k] ~(hash->string code-gen call-hmac-file))  
-          `(defn ~id-hmac-file-bytes [~sym ~k] ~(hash->bytes code-gen call-hmac-file))  
+          `(defn ~id-hmac-bytes [~sym ~k] ~(hash->bytes code-gen call-hmac-direct))
+          `(defn ~id-hmac-file [~sym ~k] ~(hash->string code-gen call-hmac-file))
+          `(defn ~id-hmac-file-bytes [~sym ~k] ~(hash->bytes code-gen call-hmac-file))
           `(defn ~id-hmac [~sym ~k] ~(hash->string code-gen call-hmac-direct))))
       (when (support-hash? code-gen)
         (vector

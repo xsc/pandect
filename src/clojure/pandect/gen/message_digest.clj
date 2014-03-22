@@ -12,8 +12,8 @@
 
 (deftype MessageDigestCodeGen [hash-algorithm hmac-algorithm]
   CodeGen
-  (algorithm-string [_] 
-    (if (and hash-algorithm hmac-algorithm) 
+  (algorithm-string [_]
+    (if (and hash-algorithm hmac-algorithm)
       (str hash-algorithm "/" hmac-algorithm)
       (or hash-algorithm hmac-algorithm)))
   (support-hash? [_] (boolean hash-algorithm))
