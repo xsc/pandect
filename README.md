@@ -1,8 +1,8 @@
 # pandect
 
-__pandect__ is a fast and easy-to-use 
-[Message Digest](http://en.wikipedia.org/wiki/Message_digest), 
-[Checksum](http://en.wikipedia.org/wiki/Checksum) and 
+__pandect__ is a fast and easy-to-use
+[Message Digest](http://en.wikipedia.org/wiki/Message_digest),
+[Checksum](http://en.wikipedia.org/wiki/Checksum) and
 [HMAC](https://en.wikipedia.org/wiki/Hash-based_message_authentication_code)
 library for Clojure.
 
@@ -52,7 +52,7 @@ __Insecure Hash Functions__
 
 __Secure Hash Functions (for now)__
 
-- SHA-1 (`sha1`, `sha1-bytes`, `sha1-file`, `sha1-file-bytes`) 
+- SHA-1 (`sha1`, `sha1-bytes`, `sha1-file`, `sha1-file-bytes`)
 - SHA-256 (`sha256`, `sha256-bytes`, `sha256-file`, `sha256-file-bytes`)
 - SHA-384 (`sha384`, `sha384-bytes`, `sha384-file`, `sha384-file-bytes`)
 - SHA-512 (`sha512`, `sha512-bytes`, `sha512-file`, `sha512-file-bytes`)
@@ -96,40 +96,40 @@ is given, the simple string "Hello, World!" will be hashed.
 
 ## Benchmark Results
 
-Benchmarks are run using [Criterium](https://github.com/hugoduncan/criterium) on an Intel 
-Core i7 2670QM/2.2GHz/8GB RAM machine with Oracle JDK 1.7.0u21 (64-bit). 
+Benchmarks are run using [Criterium](https://github.com/hugoduncan/criterium) on an Intel
+Core i7 2670QM/2.2GHz/8GB RAM machine with Oracle JDK 1.7.0u21 (64-bit).
 
 Results obtained using pandect __0.2.2__.
 
 __Input: "Hello, World!"__
 
-Library                   |  md2     |  md5     |  sha1    |  sha256  |  sha384  |  sha512  |  adler32 |  crc32   | 
+Library                   |  md2     |  md5     |  sha1    |  sha256  |  sha384  |  sha512  |  adler32 |  crc32   |
 --------------------------|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|
-__pandect__               |  4.79µs  |   827ns  |  1.01µs  |  1.33µs  |  1.83µs  |  1.93µs  |   359ns  |   338ns  | 
+__pandect__               |  4.79µs  |   827ns  |  1.01µs  |  1.33µs  |  1.83µs  |  1.93µs  |   359ns  |   338ns  |
 __clj-digest__            |  6.34µs  |  2.18µs  |  2.96µs  |  4.10µs  |  6.03µs  |  8.10µs  |     -    |     -    |
 __clj-message-digest__    |  29.4µs  |  26.4µs  |  30.1µs  |  52.2µs  |  61.9µs  |  84.3µs  |     -    |     -    |
 
 __Input: 1KB file (times include I/O)__
 
-Library                   |  md2     |  md5     |  sha1    |  sha256  |  sha384  |  sha512  |  adler32 |  crc32   | 
+Library                   |  md2     |  md5     |  sha1    |  sha256  |  sha384  |  sha512  |  adler32 |  crc32   |
 --------------------------|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|
-__pandect__               |   141µs  |  9.12µs  |  11.7µs  |  15.7µs  |  14.0µs  |  14.1µs  |  6.52µs  |  6.59µs  | 
+__pandect__               |   141µs  |  9.12µs  |  11.7µs  |  15.7µs  |  14.0µs  |  14.1µs  |  6.52µs  |  6.59µs  |
 __clj-digest__            |   145µs  |  14.4µs  |  16.6µs  |  22.0µs  |  21.3µs  |  23.7µs  |     -    |     -    |
 __clj-message-digest__    |   309µs  |   178µs  |   184µs  |   203µs  |   221µs  |   237µs  |     -    |     -    |
 
 __Input: 8KB file (times include I/O)__
 
-Library                   |  md2     |  md5     |  sha1    |  sha256  |  sha384  |  sha512  |  adler32 |  crc32   | 
+Library                   |  md2     |  md5     |  sha1    |  sha256  |  sha384  |  sha512  |  adler32 |  crc32   |
 --------------------------|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|
-__pandect__               |  1.07ms  |  34.1µs  |  52.4µs  |  82.2µs  |  64.1µs  |  64.2µs  |  15.3µs  |  16.4µs  | 
+__pandect__               |  1.07ms  |  34.1µs  |  52.4µs  |  82.2µs  |  64.1µs  |  64.2µs  |  15.3µs  |  16.4µs  |
 __clj-digest__            |  1.07ms  |  42.4µs  |  60.4µs  |  91.7µs  |  74.7µs  |  77.4µs  |     -    |     -    |
 __clj-message-digest__    |  1.24ms  |   201µs  |   223µs  |   272µs  |   278µs  |   300µs  |     -    |     -    |
 
 __Input: 1MB file (times include I/O)__
 
-Library                   |  md2     |  md5     |  sha1    |  sha256  |  sha384  |  sha512  |  adler32 |  crc32   | 
+Library                   |  md2     |  md5     |  sha1    |  sha256  |  sha384  |  sha512  |  adler32 |  crc32   |
 --------------------------|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|
-__pandect__               |   135ms  |  3.66ms  |  5.95ms  |  9.76ms  |  7.34ms  |  7.36ms  |  1.33ms  |  1.49ms  | 
+__pandect__               |   135ms  |  3.66ms  |  5.95ms  |  9.76ms  |  7.34ms  |  7.36ms  |  1.33ms  |  1.49ms  |
 __clj-digest__            |   135ms  |  4.24ms  |  6.69ms  |  10.5ms  |  8.04ms  |  7.99ms  |     -    |     -    |
 __clj-message-digest__    |   134ms  |  3.83ms  |  6.19ms  |  10.0ms  |  7.66ms  |  7.57ms  |     -    |     -    |
 
