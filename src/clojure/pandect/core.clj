@@ -16,7 +16,7 @@
     md4       "MD4"           gost      "GOST 34.11-94"
     sha1      "SHA-1"         sha224    "SHA-224"
     sha256    "SHA-256"       sha384    "SHA-384"
-    sha512    "SHA-512"       sha3      "SHA-3 (256)"
+    sha512    "SHA-512"       sha3-256  "SHA-3 (256)"
     sha3-224  "SHA-3 (224)"   sha3-384  "SHA-3 (384)"
     sha3-512  "SHA-3 (512)"   whirlpool "Whirlpool"
     adler32   "ADLER-32"      crc32     "CRC-32"
