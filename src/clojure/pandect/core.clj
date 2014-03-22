@@ -31,3 +31,11 @@
      nil))
 
 (generate-hash-functions!)
+
+;; ## Buffer Size
+
+(defmacro with-buffer-size
+  "Set buffer size for stream processing."
+  [n & body]
+  `(binding [*buffer-size* ~n]
+     ~@body))

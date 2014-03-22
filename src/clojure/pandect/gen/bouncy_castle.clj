@@ -19,10 +19,11 @@
        result#))
   (stream->hash [_ form]
     `(let [s# ~form
+           c# (int *buffer-size*)
            digest# (new ~(symbol (format "org.bouncycastle.crypto.digests.%s" digest-class)))
-           buf# (byte-array *buffer-size*)]
+           buf# (byte-array c#)]
        (loop []
-         (let [r# (.read s# buf# 0 *buffer-size*)]
+         (let [r# (.read s# buf# 0 c#)]
            (when (not= r# -1)
              (.update digest# buf# 0 r#)
              (recur))))

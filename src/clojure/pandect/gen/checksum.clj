@@ -22,10 +22,11 @@
        (.getValue a#)))
   (stream->hash [_ form]
     `(let [s# ~form
-           buf# (byte-array *buffer-size*)
+           c# (int *buffer-size*)
+           buf# (byte-array c#)
            a# (CRC32.)]
        (loop []
-         (let [r# (.read s# buf# 0 *buffer-size*)]
+         (let [r# (.read s# buf# 0 c#)]
            (when-not (= r# -1)
              (.update a# buf# 0 r#)
              (recur))))
@@ -53,10 +54,11 @@
        (.getValue a#)))
   (stream->hash [_ form]
     `(let [s# ~form
-           buf# (byte-array *buffer-size*)
+           c# (int *buffer-size*)
+           buf# (byte-array c#)
            a# (Adler32.)]
        (loop []
-         (let [r# (.read s# buf# 0 *buffer-size*)]
+         (let [r# (.read s# buf# 0 c#)]
            (when-not (= r# -1)
              (.update a# buf# 0 r#)
              (recur))))
