@@ -30,12 +30,12 @@
   (stream->hmac [_ stream-form key-form]
     (let [s (vary-meta (gensym "s") assoc :tag `InputStream)]
       `(let [mac# (Mac/getInstance ~hmac-algorithm)
-             k# (SecretKeySpec. ~key-form ~hmac-algorithm) 
-             buf# (byte-array 2048)
+             k# (SecretKeySpec. ~key-form ~hmac-algorithm)
+             buf# (byte-array *buffer-size*)
              ~s ~stream-form]
          (.init mac# k#)
          (loop []
-           (let [r# (.read ~s buf# 0 2048)]
+           (let [r# (.read ~s buf# 0 *buffer-size*)]
              (when-not (= r# -1)
                (.update mac# buf# 0 r#)
                (recur))))
@@ -45,10 +45,10 @@
        (.digest md# ~form)))
   (stream->hash [_ form]
     `(let [md# (MessageDigest/getInstance ~hash-algorithm)
-           buf# (byte-array 2048)
+           buf# (byte-array *buffer-size*)
            s# ~form]
        (loop []
-         (let [r# (.read s# buf# 0 2048)]
+         (let [r# (.read s# buf# 0 *buffer-size*)]
            (when-not (= r# -1)
              (.update md# buf# 0 r#)
              (recur))))

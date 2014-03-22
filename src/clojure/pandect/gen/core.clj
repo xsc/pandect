@@ -181,3 +181,7 @@
     `(do
        ~@(generate-protocol-impl code-gen id hash-f hmac-f)
        ~@(generate-compute-fns code-gen id hash-f hmac-f))))
+
+;; ## Dynamic Variable for Buffer Size
+
+(def ^:dynamic *buffer-size* 2048)
