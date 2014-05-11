@@ -1,5 +1,9 @@
 ## Changelog: `pandect`
 
+### 0.3.2
+
+- remove reflection when converting HMAC key to byte array. (thanks to @totakke, PR #1)
+
 ### 0.3.1
 
 - added hash algorithms from BouncyCastle:
