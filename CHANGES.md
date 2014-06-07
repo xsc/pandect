@@ -1,5 +1,10 @@
 ## Changelog: `pandect`
 
+### 0.3.3
+
+- added HMAC algorithms:
+  - SipHash-2-4
+
 ### 0.3.2
 
 - remove reflection when converting HMAC key to byte array. (thanks to @totakke, PR #1)
