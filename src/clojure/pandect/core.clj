@@ -2,7 +2,7 @@
       :author "Yannick Scherer"}
   pandect.core
   (:require [pandect.gen
-             [core :refer [generate code-generator]]
+             [core :refer [generate code-generator *buffer-size*]]
              [hash-generator :refer [hash-generator]]
              [hmac-generator :refer [hmac-generator]]
              message-digest
