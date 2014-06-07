@@ -1,8 +1,11 @@
 (ns ^ {:doc "Message Digest Code Generation"
        :author "Yannick Scherer"}
   pandect.gen.message-digest
-  (:use pandect.gen.core)
-  (:require [pandect.utils.convert :as c :only [bytes->hex]])
+  (:require [pandect.gen
+             [core :refer :all]
+             [hash-generator :refer :all]
+             [hmac-generator :refer :all]]
+            [pandect.utils.convert :as c :only [bytes->hex]])
   (:import [java.security MessageDigest]
            [javax.crypto Mac]
            [javax.crypto.spec SecretKeySpec]

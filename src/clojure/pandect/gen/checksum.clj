@@ -1,8 +1,11 @@
 (ns ^{:doc "Checksum Implementations"
       :author "Yannick Scherer"}
   pandect.gen.checksum
-  (:use pandect.gen.core)
-  (:require [pandect.utils.convert :as c only [long->4-bytes]]) 
+  (:require [pandect.gen
+             [core :refer :all]
+             [hash-generator :refer :all]
+             [hmac-generator :refer :all]]
+            [pandect.utils.convert :as c only [long->4-bytes]])
   (:import [java.util.zip Adler32 CRC32]))
 
 (set! *warn-on-reflection* true)

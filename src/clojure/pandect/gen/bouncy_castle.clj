@@ -1,5 +1,8 @@
 (ns pandect.gen.bouncy-castle
-  (:require [pandect.gen.core :refer :all]
+  (:require [pandect.gen
+             [core :refer :all]
+             [hash-generator :refer :all]
+             [hmac-generator :refer :all]]
             [pandect.utils.convert :as c]))
 
 ;; ## Code Generator

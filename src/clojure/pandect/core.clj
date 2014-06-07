@@ -1,9 +1,12 @@
 (ns ^{:doc "Digest Creation for Pandect"
       :author "Yannick Scherer"}
   pandect.core
-  (:use pandect.gen.core)
   (:require [pandect.gen
-             message-digest checksum
+             [core :refer [generate code-generator]]
+             [hash-generator :refer [hash-generator]]
+             [hmac-generator :refer [hmac-generator]]
+             message-digest
+             checksum
              bouncy-castle]))
 
 (set! *warn-on-reflection* true)
@@ -24,12 +27,18 @@
     ripemd256 "RIPEMD-256"    ripemd320 "RIPEMD-320"
     tiger     "Tiger (192,3)" sip-hash  "SipHash-2-4"})
 
+(def ^:private generators
+  [hash-generator
+   hmac-generator])
+
 (defmacro ^:private generate-hash-functions!
   []
   `(do
-     ~@(for [[sym algorithm] algorithms]
-         (when-let [cg (code-generator algorithm)]
-           (generate-hash cg sym)))
+     ~@(for [[sym algorithm] algorithms
+             generator generators
+             :let [code-gen (code-generator algorithm)]
+             :when code-gen]
+         (generate generator code-gen sym))
      nil))
 
 (generate-hash-functions!)
