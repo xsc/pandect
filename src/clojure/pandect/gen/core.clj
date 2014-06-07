@@ -17,22 +17,28 @@
   "Protocol for Pandect Code Generators."
   (algorithm-string [this]
     "Get String representing the Algorithm this Code Generator is built
-     for.")
-  (support-hash? [this]
-    "Does this code generator support hashing?")
-  (support-hmac? [this]
-    "Does this code generator support HMAC?")
+     for."))
+
+(defprotocol HMACGen
   (bytes->hmac [this msg-form key-form]
     "Generate code to convert the byte array produced by the given `msg-form`
      to a value representing the hash-based message authentication code using the given
      `key-form` (a byte array).")
-  (bytes->hash [this form]
-    "Generate code to convert the byte array produced by the given form to
-     a value representing the given hash.")
   (stream->hmac [this stream-form key-form]
     "Generate code to convert the input stream produced by the given `stream-form`
      to a value representing the hash-based message authentication code using the given
      `key-form` (a byte array).")
+  (hmac->string [this form]
+    "Generate code to convert the HMAC value produced by the given form to
+     a hex string.")
+  (hmac->bytes [this form]
+    "Generate code to convert the HMAC value produced by the given form to
+     a byte array."))
+
+(defprotocol HashGen
+  (bytes->hash [this form]
+    "Generate code to convert the byte array produced by the given form to
+     a value representing the given hash.")
   (stream->hash [this form]
     "Generate code to convert the input stream produced by the given form
      to a value representing the given hash.")
@@ -42,6 +48,14 @@
   (hash->bytes [this form]
     "Generate code to convert the hash value produced by the given form to
      a byte array."))
+
+(defn support-hash?
+  [code-gen]
+  (satisfies? HashGen code-gen))
+
+(defn support-hmac?
+  [code-gen]
+  (satisfies? HMACGen code-gen))
 
 (defprotocol ByteArrayConvertable
   "Protocol for Entities that can be converted to byte arrays."
@@ -164,10 +178,10 @@
         (vector
           `(defn ~id-hmac-raw [~sym ~k] ~call-hmac-direct)
           `(defn ~id-hmac-raw-file [~fsym ~k] ~call-hmac-file)
-          `(defn ~id-hmac-bytes [~sym ~k] ~(hash->bytes code-gen call-hmac-direct))
-          `(defn ~id-hmac-file [~sym ~k] ~(hash->string code-gen call-hmac-file))
-          `(defn ~id-hmac-file-bytes [~sym ~k] ~(hash->bytes code-gen call-hmac-file))
-          `(defn ~id-hmac [~sym ~k] ~(hash->string code-gen call-hmac-direct))))
+          `(defn ~id-hmac-bytes [~sym ~k] ~(hmac->bytes code-gen call-hmac-direct))
+          `(defn ~id-hmac-file [~sym ~k] ~(hmac->string code-gen call-hmac-file))
+          `(defn ~id-hmac-file-bytes [~sym ~k] ~(hmac->bytes code-gen call-hmac-file))
+          `(defn ~id-hmac [~sym ~k] ~(hmac->string code-gen call-hmac-direct))))
       (when (support-hash? code-gen)
         (vector
           `(defn ~id-raw [~sym] ~call-hash-direct)

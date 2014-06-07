@@ -13,8 +13,8 @@
 (deftype CRC32CodeGen []
   CodeGen
   (algorithm-string [_] "CRC-32")
-  (support-hash? [_] true)
-  (support-hmac? [_] false)
+
+  HashGen
   (bytes->hash [_ form]
     `(let [buf# ~form
            a# (CRC32.)]
@@ -45,8 +45,8 @@
 (deftype Adler32CodeGen []
   CodeGen
   (algorithm-string [_] "ADLER-32")
-  (support-hash? [_] true)
-  (support-hmac? [_] false)
+
+  HashGen
   (bytes->hash [_ form]
     `(let [buf# ~form
            a# (Adler32.)]

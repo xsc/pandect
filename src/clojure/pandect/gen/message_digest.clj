@@ -16,8 +16,8 @@
     (if (and hash-algorithm hmac-algorithm)
       (str hash-algorithm "/" hmac-algorithm)
       (or hash-algorithm hmac-algorithm)))
-  (support-hash? [_] (boolean hash-algorithm))
-  (support-hmac? [_] (boolean hmac-algorithm))
+
+  HMACGen
   (bytes->hmac [_ msg-form key-form]
     (let [msg (vary-meta (gensym "msg") assoc :tag "[B")]
       `(let [mac# (Mac/getInstance ~hmac-algorithm)
@@ -41,6 +41,12 @@
                (.update mac# buf# 0 r#)
                (recur))))
          (.doFinal mac#))))
+  (hmac->string [_ form]
+    `(c/bytes->hex ~form))
+  (hmac->bytes [_ form]
+    form)
+
+  HashGen
   (bytes->hash [_ form]
     `(let [md# (MessageDigest/getInstance ~hash-algorithm)]
        (.digest md# ~form)))
