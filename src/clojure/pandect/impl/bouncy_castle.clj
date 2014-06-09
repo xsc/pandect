@@ -1,15 +1,20 @@
-(ns pandect.gen.bouncy-castle
+(ns pandect.impl.bouncy-castle
   (:require [pandect.gen
              [core :refer :all]
              [hash-generator :refer :all]
              [hmac-generator :refer :all]]
             [pandect.utils.convert :as c]))
 
-;; ## Code Generator
+;; ## Helpers
 
 (defn- create-digest-form
   [digest-class constructor-args]
   `(new ~(symbol (format "org.bouncycastle.crypto.digests.%s" digest-class))
+        ~@constructor-args))
+
+(defn- create-mac-form
+  [digest-class constructor-args]
+  `(new ~(symbol (format "org.bouncycastle.crypto.macs.%s" digest-class))
         ~@constructor-args))
 
 (defn- create-hmac-generation
@@ -25,9 +30,9 @@
      result#))
 
 (defn- create-hmac-stream-generation
-  [stream-form key-form mac-form]
+  [stream-form key-form buffer-size mac-form]
   `(let [s# ~stream-form
-         c# (int *buffer-size*)
+         c# (int ~buffer-size)
          mac# ~mac-form
          k# (org.bouncycastle.crypto.params.KeyParameter. ~key-form)
          buf# (byte-array c#)]
@@ -41,62 +46,76 @@
        (.doFinal mac# result# 0)
        result#)))
 
+(defn- create-digest-generation
+  [form digest-form]
+  `(let [buf# ~form
+         digest# ~digest-form
+         result# (byte-array (.getDigestSize digest#))]
+     (doto digest#
+       (.update buf# 0 (alength (bytes buf#)))
+       (.doFinal result# 0))
+     result#))
+
+(defn- create-digest-stream-generation
+  [form buffer-size digest-form]
+  `(let [s# ~form
+         c# (int ~buffer-size)
+         digest# ~digest-form
+         buf# (byte-array c#)]
+     (loop []
+       (let [r# (.read s# buf# 0 c#)]
+         (when (not= r# -1)
+           (.update digest# buf# 0 r#)
+           (recur))))
+     (let [result# (byte-array (.getDigestSize digest#))]
+       (.doFinal digest# result# 0)
+       result#)))
+
 (deftype BouncyCastleDigestCodeGen [algorithm digest-class constructor-args]
   CodeGen
   (algorithm-string [_] algorithm)
 
   HashGen
   (bytes->hash [_ form]
-    `(let [buf# ~form
-           digest# ~(create-digest-form digest-class constructor-args)
-           result# (byte-array (.getDigestSize digest#))]
-       (doto digest#
-         (.update buf# 0 (alength (bytes buf#)))
-         (.doFinal result# 0))
-       result#))
-  (stream->hash [_ form]
-    `(let [s# ~form
-           c# (int *buffer-size*)
-           digest# ~(create-digest-form digest-class constructor-args)
-           buf# (byte-array c#)]
-       (loop []
-         (let [r# (.read s# buf# 0 c#)]
-           (when (not= r# -1)
-             (.update digest# buf# 0 r#)
-             (recur))))
-       (let [result# (byte-array (.getDigestSize digest#))]
-         (.doFinal digest# result# 0)
-         result#)))
+    (->> (create-digest-form digest-class constructor-args)
+         (create-digest-generation form)))
+  (stream->hash [_ form buffer-size]
+    (->> (create-digest-form digest-class constructor-args)
+         (create-digest-stream-generation form buffer-size)))
   (hash->string [_ form]
     `(c/bytes->hex ~form))
   (hash->bytes [_ form]
     form)
 
   HMACGen
+  (base-symbol [_ sym]
+    (symbol+ sym :hmac))
   (bytes->hmac [_ stream-form key-form]
     (->> `(org.bouncycastle.crypto.macs.HMac.
             ~(create-digest-form digest-class constructor-args))
          (create-hmac-generation stream-form key-form)))
-  (stream->hmac [_ stream-form key-form]
+  (stream->hmac [_ stream-form key-form buffer-size]
     (->> `(org.bouncycastle.crypto.macs.HMac.
             ~(create-digest-form digest-class constructor-args))
-         (create-hmac-stream-generation stream-form key-form)))
+         (create-hmac-stream-generation stream-form key-form buffer-size)))
   (hmac->string [_ form]
     `(c/bytes->hex ~form))
   (hmac->bytes [_ form]
     form))
 
-(deftype BouncyCastleMacCodeGen [algorithm digest-class constructor-args]
+(deftype BouncyCastleMacCodeGen [algorithm mac-class constructor-args]
   CodeGen
   (algorithm-string [_] algorithm)
 
   HMACGen
+  (base-symbol [_ sym]
+    sym)
   (bytes->hmac [_ stream-form key-form]
-    (->> `(org.bouncycastle.crypto.macs.SipHash.)
+    (->> (create-mac-form mac-class constructor-args)
          (create-hmac-generation stream-form key-form)))
-  (stream->hmac [_ stream-form key-form]
-    (->> `(org.bouncycastle.crypto.macs.SipHash.)
-         (create-hmac-stream-generation stream-form key-form)))
+  (stream->hmac [_ stream-form key-form buffer-size]
+    (->> (create-mac-form mac-class constructor-args)
+         (create-hmac-stream-generation stream-form key-form buffer-size)))
   (hmac->string [_ form]
     `(c/bytes->hex ~form))
   (hmac->bytes [_ form]
@@ -120,22 +139,15 @@
     "Whirlpool"      WhirlpoolDigest})
 
 (def ^:private BC_MACS
-  '{"SipHash-2-4"    SipHash})
+  '{"SipHash-2-4"    SipHash
+    "SipHash-4-8"    [SipHash 4 8]})
 
-(defmacro ^:private register-code-generators!
-  "Register all MessageDigest code generators by implementing
-   pandect.gen.core/code-generator."
-  []
-  `(do
-     ~@(for [[algorithm v] BC_DIGESTS]
-         (let [[digest-class & args] (if (vector? v) v [v])]
-           `(defmethod code-generator ~algorithm
-              [_#]
-              (BouncyCastleDigestCodeGen. ~algorithm '~digest-class [~@args]))))
-     ~@(for [[algorithm v] BC_MACS]
-         (let [[digest-class & args] (if (vector? v) v [v])]
-           `(defmethod code-generator ~algorithm
-              [_#]
-              (BouncyCastleMacCodeGen. ~algorithm '~digest-class [~@args]))))))
+(doseq [[algorithm v] BC_DIGESTS]
+  (let [[digest-class & args] (if (vector? v) v [v])]
+    (register-algorithm!
+      (BouncyCastleDigestCodeGen. algorithm digest-class args))))
 
-(register-code-generators!)
+(doseq [[algorithm v] BC_MACS]
+  (let [[digest-class & args] (if (vector? v) v [v])]
+    (register-algorithm!
+      (BouncyCastleMacCodeGen. algorithm digest-class args))))

@@ -6,7 +6,7 @@
   (bytes->hash [this form]
     "Generate code to convert the byte array produced by the given form to
      a value representing the given hash.")
-  (stream->hash [this form]
+  (stream->hash [this form buffer-size]
     "Generate code to convert the input stream produced by the given form
      to a value representing the given hash.")
   (hash->string [this form]
@@ -30,10 +30,11 @@
   (reify Generator
     (can-generate? [_ code-gen]
       (satisfies? HashGen code-gen))
-    (generate-protocol [_ code-gen id]
+    (generate-protocol [_ code-gen id buffer-size]
       (let [f (vary-meta id assoc :private true)
             sym (gensym "data")
-            P (with-meta (gensym) {:private true})]
+            P (with-meta (gensym) {:private true})
+            stream-form (stream->hash code-gen sym buffer-size)]
         `(do
            (defprotocol ~P
              (~f [this#]))
@@ -43,10 +44,10 @@
              String
              (~f [~sym] ~(bytes->hash code-gen `(.getBytes ~sym)))
              InputStream
-             (~f [~sym] ~(stream->hash code-gen sym))
+             (~f [~sym] ~stream-form)
              File
              (~f [~sym]
-               ~(wrap-file-stream (stream->hash code-gen sym) sym))))))
+               ~(wrap-file-stream stream-form sym))))))
     (generate-functions [_ code-gen id f]
       (let [f-bytes (symbol+ f :bytes)
             f-file  (symbol+ f :file)

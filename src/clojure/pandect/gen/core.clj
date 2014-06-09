@@ -21,21 +21,36 @@
 
 (defprotocol Generator
   "Protocol for the actual code generation based on algorithm code generators."
-  (can-generate? [this code-gen])
-  (generate-protocol [this code-gen id])
-  (generate-functions [this code-gen id f]))
+  (can-generate? [this code-gen]
+    "Can this generator process the given algorithm generator?")
+  (generate-protocol [this code-gen id buffer-size]
+    "Generate and implement protocol for the types that should be processable.
+     The given symbol should be used as the hash/HMAC function name.")
+  (generate-functions [this code-gen id f]
+    "Generate functions relying on the protocol function given in `id`. `f` is the
+     symbol to be used as the base function name; `buffer-size` is the form used to
+     lookup the buffer size for stream processing."))
 
-;; ## Multimethod
+;; ## Code Generator List
 
-(defmulti code-generator
-  "Get code generator for the given algorithm."
-  identity
-  :default nil)
+(defonce ^:private code-generators {})
 
-(defmethod code-generator nil
-  [x]
-  (println "WARN: No such Code Generator: " x)
-  nil)
+(defn register-algorithm!
+  "Register new algorithm code generator."
+  ([code-gen]
+   (register-algorithm! (algorithm-string code-gen) code-gen))
+  ([algorithm-string code-gen]
+   (alter-var-root
+     #'code-generators
+     assoc algorithm-string code-gen)))
+
+(defn code-generator
+  "Lookup code generator by algorithm."
+  [algorithm-string]
+  (let [v (code-generators algorithm-string ::none)]
+    (if (= v ::none)
+      (println "WARN: No such Code Generator:" algorithm-string)
+      v)))
 
 ;; ## Helpers
 
@@ -50,7 +65,9 @@
 
 (defn symbol+
   [sym suffix]
-  (symbol (str (name sym) "-" (name suffix))))
+  (with-meta
+    (symbol (str (name sym) "-" (name suffix)))
+    (meta sym)))
 
 (defn symbol*
   [sym]
@@ -60,13 +77,9 @@
 
 (defn generate
   "Generate algorithm functions based on the given generators."
-  [generator code-gen f]
+  [generator code-gen f buffer-size]
   (when (can-generate? generator code-gen)
     (let [id (gensym (str "compute-" (name f)))]
       `(do
-         ~(generate-protocol generator code-gen id)
+         ~(generate-protocol generator code-gen id buffer-size)
          ~(generate-functions generator code-gen id f)))))
-
-;; ## Dynamic Variable for Buffer Size
-
-(def ^:dynamic *buffer-size* 2048)

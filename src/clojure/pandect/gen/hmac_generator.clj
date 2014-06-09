@@ -23,11 +23,13 @@
 ;; ## Generation
 
 (defprotocol HMACGen
+  (base-symbol [this sym]
+    "Create base symbol for function generation.")
   (bytes->hmac [this msg-form key-form]
     "Generate code to convert the byte array produced by the given `msg-form`
      to a value representing the hash-based message authentication code using the given
      `key-form` (a byte array).")
-  (stream->hmac [this stream-form key-form]
+  (stream->hmac [this stream-form key-form buffer-size]
     "Generate code to convert the input stream produced by the given `stream-form`
      to a value representing the hash-based message authentication code using the given
      `key-form` (a byte array).")
@@ -52,11 +54,12 @@
   (reify Generator
     (can-generate? [_ code-gen]
       (satisfies? HMACGen code-gen))
-    (generate-protocol [_ code-gen id]
+    (generate-protocol [_ code-gen id buffer-size]
       (let [f (vary-meta id assoc :private true)
             sym (gensym "data")
             k (gensym "key")
-            P (with-meta (gensym) {:private true})]
+            P (with-meta (gensym) {:private true})
+            stream-form (stream->hmac code-gen sym k buffer-size)]
         `(do
            (defprotocol ~P
              (~f [this# key#]))
@@ -66,20 +69,20 @@
              String
              (~f [~sym ~k] ~(bytes->hmac code-gen `(.getBytes ~sym) k))
              InputStream
-             (~f [~sym ~k] ~(stream->hmac code-gen sym k))
+             (~f [~sym ~k] ~stream-form)
              File
              (~f [~sym ~k]
-               ~(wrap-file-stream (stream->hmac code-gen sym k) sym))))))
+               ~(wrap-file-stream stream-form sym))))))
     (generate-functions [_ code-gen id f]
-      (let [f (symbol+ f :hmac)
+      (let [f (base-symbol code-gen f)
             f-bytes (symbol+ f :bytes)
             f-file  (symbol+ f :file)
             f-file-bytes (symbol+ f :file-bytes)
             f-raw (symbol* f)
             f-raw-file (symbol+ f :file*)
-            sym (gensym "data")
+            sym 'data
             fsym (vary-meta sym assoc :tag `String)
-            k (gensym "key")
+            k 'key
             call `(~id ~sym (convert-to-byte-array ~k))
             call-file (wrap-file-stream call sym fsym)]
         (vector

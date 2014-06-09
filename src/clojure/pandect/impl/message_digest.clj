@@ -1,6 +1,6 @@
 (ns ^ {:doc "Message Digest Code Generation"
        :author "Yannick Scherer"}
-  pandect.gen.message-digest
+  pandect.impl.message-digest
   (:require [pandect.gen
              [core :refer :all]
              [hash-generator :refer :all]
@@ -21,6 +21,8 @@
       (or hash-algorithm hmac-algorithm)))
 
   HMACGen
+  (base-symbol [_ sym]
+    (symbol+ sym :hmac))
   (bytes->hmac [_ msg-form key-form]
     (let [msg (vary-meta (gensym "msg") assoc :tag "[B")]
       `(let [mac# (Mac/getInstance ~hmac-algorithm)
@@ -30,11 +32,11 @@
                (.init k#)
                (.update ~msg))
            (.doFinal)))))
-  (stream->hmac [_ stream-form key-form]
+  (stream->hmac [_ stream-form key-form buffer-size]
     (let [s (vary-meta (gensym "s") assoc :tag `InputStream)]
       `(let [mac# (Mac/getInstance ~hmac-algorithm)
              k# (SecretKeySpec. ~key-form ~hmac-algorithm)
-             c# (int *buffer-size*)
+             c# (int ~buffer-size)
              buf# (byte-array c#)
              ~s ~stream-form]
          (.init mac# k#)
@@ -53,9 +55,9 @@
   (bytes->hash [_ form]
     `(let [md# (MessageDigest/getInstance ~hash-algorithm)]
        (.digest md# ~form)))
-  (stream->hash [_ form]
+  (stream->hash [_ form buffer-size]
     `(let [md# (MessageDigest/getInstance ~hash-algorithm)
-           c# (int *buffer-size*)
+           c# (int ~buffer-size)
            buf# (byte-array c#)
            s# ~form]
        (loop []
@@ -80,15 +82,7 @@
     ["SHA-384" "HmacSHA384"]
     ["SHA-512" "HmacSHA512"]))
 
-(defmacro ^:private register-code-generators!
-  "Register all MessageDigest code generators by implementing
-   pandect.gen.core/code-generator."
-  []
-  `(do
-     ~@(for [[hash-algorithm hmac-algorithm] MD_ALGORITHMS]
-         (let [algorithm (or hash-algorithm hmac-algorithm)]
-           `(defmethod code-generator ~algorithm
-              [_#]
-              (MessageDigestCodeGen. ~hash-algorithm ~hmac-algorithm))))))
-
-(register-code-generators!)
+(doseq [[hash-algorithm hmac-algorithm] MD_ALGORITHMS]
+  (register-algorithm!
+    (or hash-algorithm hmac-algorithm)
+    (MessageDigestCodeGen. hash-algorithm hmac-algorithm)))
