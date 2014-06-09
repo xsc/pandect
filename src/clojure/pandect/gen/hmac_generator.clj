@@ -83,7 +83,7 @@
                  `(defn ~(symbol+ f suffix)
                     ~(format
                        (str "[HMAC] %s (%s)%nThe secret can be given as any "
-                            "value implementing `ByteConvertable`.")
+                            "value implementing `pandect.gen.hmac-generator/ByteConvertable`.")
                        algorithm docstring)
                     [~sym ~k]
                     ~call))
