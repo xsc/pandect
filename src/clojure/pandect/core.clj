@@ -35,7 +35,7 @@
     adler32   "ADLER-32"      crc32     "CRC-32"
     ripemd128 "RIPEMD-128"    ripemd160 "RIPEMD-160"
     ripemd256 "RIPEMD-256"    ripemd320 "RIPEMD-320"
-    tiger     "Tiger (192,3)" siphash  "SipHash-2-4"
+    tiger     "Tiger (192,3)" siphash   "SipHash-2-4"
     siphash48 "SipHash-4-8"})
 
 (def ^:private generators

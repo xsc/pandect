@@ -49,19 +49,20 @@
              (~f [~sym]
                ~(wrap-file-stream stream-form sym))))))
     (generate-functions [_ code-gen id f]
-      (let [f-bytes (symbol+ f :bytes)
-            f-file  (symbol+ f :file)
-            f-file-bytes (symbol+ f :file-bytes)
-            f-raw (symbol* f)
-            f-raw-file (symbol+ f :file*)
-            sym (gensym "data")
+      (let [sym 'x
+            algorithm (algorithm-string code-gen)
             fsym (vary-meta sym assoc :tag `String)
+            mk (fn [suffix docstring call]
+                 `(defn ~(symbol+ f suffix)
+                    ~(format "[Hash] %s (%s)" algorithm docstring)
+                    [~sym]
+                    ~call))
             call `(~id ~sym)
             call-file (wrap-file-stream call sym fsym)]
-        (vector
-          `(defn ~f-raw [~sym] ~call)
-          `(defn ~f-raw-file [~sym] ~call-file)
-          `(defn ~f-file-bytes [~sym] ~(hash->bytes code-gen call-file))
-          `(defn ~f-file [~sym] ~(hash->string code-gen call-file))
-          `(defn ~f-bytes [~sym] ~(hash->bytes code-gen call))
-          `(defn ~f [~sym] ~(hash->string code-gen call)))))))
+        (->> [[:*          "raw value"                 call]
+              [:file*      "file path -> raw value"  call-file]
+              [:file-bytes "file path -> byte array" (hash->bytes code-gen call-file)]
+              [:file       "file path -> string"     (hash->string code-gen call-file)]
+              [:bytes      "value -> byte array"     (hash->bytes code-gen call)]
+              [nil         "value -> string"         (hash->string code-gen call)]]
+             (mapv #(apply mk %)))))))

@@ -65,13 +65,9 @@
 
 (defn symbol+
   [sym suffix]
-  (with-meta
-    (symbol (str (name sym) "-" (name suffix)))
-    (meta sym)))
-
-(defn symbol*
-  [sym]
-  (symbol (str (name sym) "*")))
+  (cond (= suffix :*) (symbol (str (name sym) "*"))
+        suffix (symbol (str (name sym) "-" (name suffix)))
+        :else sym))
 
 ;; ## Generation
 

@@ -75,20 +75,24 @@
                ~(wrap-file-stream stream-form sym))))))
     (generate-functions [_ code-gen id f]
       (let [f (base-symbol code-gen f)
-            f-bytes (symbol+ f :bytes)
-            f-file  (symbol+ f :file)
-            f-file-bytes (symbol+ f :file-bytes)
-            f-raw (symbol* f)
-            f-raw-file (symbol+ f :file*)
-            sym 'data
+            algorithm (algorithm-string code-gen)
+            sym 'x
             fsym (vary-meta sym assoc :tag `String)
-            k 'key
+            k 'secret
+            mk (fn [suffix docstring call]
+                 `(defn ~(symbol+ f suffix)
+                    ~(format
+                       (str "[HMAC] %s (%s)%nThe secret can be given as any "
+                            "value implementing `ByteConvertable`.")
+                       algorithm docstring)
+                    [~sym ~k]
+                    ~call))
             call `(~id ~sym (convert-to-byte-array ~k))
             call-file (wrap-file-stream call sym fsym)]
-        (vector
-          `(defn ~f-raw [~sym ~k] ~call)
-          `(defn ~f-raw-file [~sym ~k] ~call-file)
-          `(defn ~f-file-bytes [~sym ~k] ~(hmac->bytes code-gen call-file))
-          `(defn ~f-file [~sym ~k] ~(hmac->string code-gen call-file))
-          `(defn ~f-bytes [~sym ~k] ~(hmac->bytes code-gen call))
-          `(defn ~f [~sym ~k] ~(hmac->string code-gen call)))))))
+        (->> [[:*          "raw value"                 call]
+              [:file*      "file path -> raw value"  call-file]
+              [:file-bytes "file path -> byte array" (hmac->bytes code-gen call-file)]
+              [:file       "file path -> string"     (hmac->string code-gen call-file)]
+              [:bytes      "value -> byte array"     (hmac->bytes code-gen call)]
+              [nil         "value -> string"         (hmac->string code-gen call)]]
+             (mapv #(apply mk %)))))))
