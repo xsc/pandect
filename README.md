@@ -14,7 +14,7 @@ library for Clojure.
 __Leiningen__ ([via Clojars](https://clojars.org/pandect))
 
 ```clojure
-[pandect "0.3.2"]
+[pandect "0.3.3"]
 ```
 
 __REPL__
@@ -40,62 +40,57 @@ If you want to hash a String using a specific encoding, you should create the re
 
 ## Supported Algorithms
 
+See the [generated documentation](http://xsc.github.io/pandect/pandect.core.html) for the available
+functions and their parameters.
+
 __Checksum Algorithms:__
 
-- Adler32 (`adler32`, `adler32-bytes`, `adler32-file`, `adler32-file-bytes`)
-- CRC32 (`crc32`, `crc32-bytes`, `crc32-file`, `crc32-file-bytes`)
+- Adler32
+- CRC32
 
 __Insecure Hash Functions__
 
-- MD2 (`md2`, `md2-bytes`, `md2-file`, `md2-file-bytes`)
-- MD4 (`md4`, `md4-bytes`, `md4-file`, `md4-file-bytes`)
-- MD5 (`md5`, `md5-bytes`, `md5-file`, `md5-file-bytes`)
-- GOST (`gost`, `gost-bytes`, `gost-file`, `gost-file-bytes`)
+- MD2
+- MD4
+- MD5
+- GOST
 
 __Secure Hash Functions (for now)__
 
-- SHA-1 (`sha1`, `sha1-bytes`, `sha1-file`, `sha1-file-bytes`)
-- SHA-256 (`sha256`, `sha256-bytes`, `sha256-file`, `sha256-file-bytes`)
-- SHA-384 (`sha384`, `sha384-bytes`, `sha384-file`, `sha384-file-bytes`)
-- SHA-512 (`sha512`, `sha512-bytes`, `sha512-file`, `sha512-file-bytes`)
-- SHA3-224 (`sha3-224`, `sha3-224-bytes`, `sha3-224-file`, `sha3-224-file-bytes`)
-- SHA3-256 (`sha3-256`, `sha3-256-bytes`, `sha3-256-file`, `sha3-256-file-bytes`)
-- SHA3-384 (`sha3-384`, `sha3-384-bytes`, `sha3-384-file`, `sha3-384-file-bytes`)
-- SHA3-512 (`sha3-512`, `sha3-512-bytes`, `sha3-512-file`, `sha3-512-file-bytes`)
-- RIPEMD-128 (`ripemd128`, `ripemd128-bytes`, `ripemd128-file`, `ripemd128-file-bytes`)
-- RIPEMD-160 (`ripemd160`, `ripemd160-bytes`, `ripemd160-file`, `ripemd160-file-bytes`)
-- RIPEMD-256 (`ripemd256`, `ripemd256-bytes`, `ripemd256-file`, `ripemd256-file-bytes`)
-- RIPEMD-320 (`ripemd320`, `ripemd320-bytes`, `ripemd320-file`, `ripemd320-file-bytes`)
-- Tiger192,3 (`tiger`, `tiger-bytes`, `tiger-file`, `tiger-file-bytes`)
-- Whirlpool (`whirlpool`, `whirlpool-bytes`, `whirlpool-file`, `whirlpool-file-bytes`)
+- SHA-1
+- SHA-256
+- SHA-384
+- SHA-512
+- SHA3-224
+- SHA3-256
+- SHA3-384
+- SHA3-512
+- RIPEMD-128
+- RIPEMD-160
+- RIPEMD-256
+- RIPEMD-320
+- Tiger192,3
+- Whirlpool
 
 __HMAC Functions__
 
-- MD5 (`md5-hmac`, `md5-hmac-bytes`, `md5-hmac-file`, `md5-hmac-file-bytes`)
-- SHA-1 (`sha1-hmac`, `sha1-hmac-bytes`, `sha1-hmac-file`, `sha1-hmac-file-bytes`)
-- SHA-256 (`sha256-hmac`, `sha256-hmac-bytes`, `sha256-hmac-file`, `sha256-hmac-file-bytes`)
-- SHA-384 (`sha384-hmac`, `sha384-hmac-bytes`, `sha384-hmac-file`, `sha384-hmac-file-bytes`)
-- SHA-512 (`sha512-hmac`, `sha512-hmac-bytes`, `sha512-hmac-file`, `sha512-hmac-file-bytes`)
-- SHA3-224 (`sha3-224-hmac`, `sha3-224-hmac-bytes`, `sha3-224-hmac-file`, `sha3-224-hmac-file-bytes`)
-- SHA3-256 (`sha3-256-hmac`, `sha3-256-hmac-bytes`, `sha3-256-hmac-file`, `sha3-256-hmac-file-bytes`)
-- SHA3-384 (`sha3-384-hmac`, `sha3-384-hmac-bytes`, `sha3-384-hmac-file`, `sha3-384-hmac-file-bytes`)
-- SHA3-512 (`sha3-512-hmac`, `sha3-512-hmac-bytes`, `sha3-512-hmac-file`, `sha3-512-hmac-file-bytes`)
-- RIPEMD-128 (`ripemd128-hmac`, `ripemd128-hmac-bytes`, `ripemd128-hmac-file`, `ripemd128-hmac-file-bytes`)
-- RIPEMD-160 (`ripemd160-hmac`, `ripemd160-hmac-bytes`, `ripemd160-hmac-file`, `ripemd160-hmac-file-bytes`)
-- RIPEMD-256 (`ripemd256-hmac`, `ripemd256-hmac-bytes`, `ripemd256-hmac-file`, `ripemd256-hmac-file-bytes`)
-- RIPEMD-320 (`ripemd320-hmac`, `ripemd320-hmac-bytes`, `ripemd320-hmac-file`, `ripemd320-hmac-file-bytes`)
-- Tiger192,3 (`tiger-hmac`, `tiger-hmac-bytes`, `tiger-hmac-file`, `tiger-hmac-file-bytes`)
-- Whirlpool (`whirlpool-hmac`, `whirlpool-hmac-bytes`, `whirlpool-hmac-file`, `whirlpool-hmac-file-bytes`)
-
-`adler32`/`adler32-bytes`, `crc32`/`crc32-bytes`, etc... take one of the following as input
-parameter:
-
-- a string
-- a byte array
-- an input stream
-- a `java.io.File` object
-
-`adler32-file`/`adler32-file-bytes`, etc... take the path to a file as input parameter.
+- MD5
+- SHA-1
+- SHA-256
+- SHA-384
+- SHA-512
+- SHA3-224
+- SHA3-256
+- SHA3-384
+- SHA3-512
+- RIPEMD-128
+- RIPEMD-160
+- RIPEMD-256
+- RIPEMD-320
+- Tiger192,3
+- Whirlpool
+- SipHash-2-4
+- SipHash-4-8
 
 ## Benchmarks
 
@@ -157,6 +152,6 @@ __clj-message-digest__    |   134ms  |  3.83ms  |  6.19ms  |  10.0ms  |  7.66ms 
 
 ## License
 
-Copyright &copy; 2013 Yannick Scherer
+Copyright &copy; 2014 Yannick Scherer
 
 Distributed under the Eclipse Public License, the same as Clojure.
