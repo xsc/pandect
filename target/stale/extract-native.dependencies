@@ -1,0 +1,1 @@
+([:dependencies ([codox/codox.core "0.8.9"] [org.clojure/clojure "1.5.1"] [org.bouncycastle/bcprov-jdk15on "1.50"] [org.clojure/tools.nrepl "0.2.3" :exclusions ([org.clojure/clojure])] [clojure-complete/clojure-complete "0.2.3" :exclusions ([org.clojure/clojure])] [midje/midje "1.6.3"])])
