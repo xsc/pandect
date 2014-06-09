@@ -8,7 +8,9 @@
   :source-paths ["src/clojure"]
   :java-source-paths ["src/java"]
   :profiles {:dev {:dependencies [[midje "1.6.3"]]
-                   :plugins [[lein-midje "3.1.3"]]}
+                   :plugins [[lein-midje "3.1.3"]
+                             [codox "0.8.9"]]
+                   :codox {:include [pandect.core]}}
              :benchmark {:dependencies [[criterium "0.4.3"]
                                         [clj-message-digest "1.0.0"]
                                         [digest "1.4.3"]]
