@@ -44,14 +44,14 @@ If you want to hash a String using a specific encoding, you should create the re
 See the [generated documentation](http://xsc.github.io/pandect/pandect.core.html) for the available
 functions and their parameters.
 
-| Checksum | MDx  | SHA       | SHA-3       | RIPEMD      | Others                  |
-|----------|------|-----------|-------------|-------------|-------------------------|
-| Adler32  | MD2  | SHA-1*    | SHA3-224*   | RIPEMD-128* | SipHash-2-4<sup>+</sup> |
-| CRC-32   | MD4  | SHA-256*  | SHA3-256*   | RIPEMD-160* | SipHash-4-8<sup>+</sup> |
-|          | MD5* | SHA-384*  | SHA3-384*   | RIPEMD-256* | Tiger192,3*             |
-|          |      | SHA-512*  | SHA3-512*   | RIPEMD-320* | Whirlpool*              |
+| Checksum | MDx  | SHA      | SHA-3      | RIPEMD     | Others                  |
+|----------|------|----------|------------|------------|-------------------------|
+| Adler32* | MD2* | SHA-1    | SHA3-224   | RIPEMD-128 | SipHash-2-4<sup>+</sup> |
+| CRC-32*  | MD4* | SHA-256  | SHA3-256   | RIPEMD-160 | SipHash-4-8<sup>+</sup> |
+|          | MD5  | SHA-384  | SHA3-384   | RIPEMD-256 | Tiger192,3              |
+|          |      | SHA-512  | SHA3-512   | RIPEMD-320 | Whirlpool               |
 
-\* also available as MAC<br />
+\* not available as MAC<br />
 <sup>+</sup> only available as MAC
 
 ## Benchmarks
