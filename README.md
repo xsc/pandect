@@ -20,10 +20,11 @@ __Leiningen__ ([via Clojars](https://clojars.org/pandect))
 __REPL__
 
 ```clojure
-(use 'pandect.core)
+(require '[pandect.core :refer :all] '[clojure.java.io :as io])
 
 (sha1 "Hello World!")           ;; => "2ef7bde608ce5404e97d5f042f95f89f1c232871"
 (sha1-bytes "Hello World!")     ;; => #<byte[] [B@5293b95>
+(sha1 (io/file "project.clj"))  ;; => "ff3b4565652aeb835edf2715b2a28586929ea4cc"
 (sha1-file "project.clj")       ;; => "ff3b4565652aeb835edf2715b2a28586929ea4cc"
 (sha1-file-bytes "project.clj") ;; => #<byte[] [B@e2606c7>
 
@@ -43,16 +44,12 @@ If you want to hash a String using a specific encoding, you should create the re
 See the [generated documentation](http://xsc.github.io/pandect/pandect.core.html) for the available
 functions and their parameters.
 
-| Checksum | MDx | SHA        | RIPEMD      | Others                  |
-|----------|-----|------------|-------------|-------------------------|
-| Adler32  | MD2  | SHA-1*    | RIPEMD-128* | SipHash-2-4<sup>+</sup> |
-| CRC-32   | MD4  | SHA-256*  | RIPEMD-160* | SipHash-4-8<sup>+</sup> |
-|          | MD5* | SHA-384*  | RIPEMD-256* | Tiger192,3*             |
-|          |      | SHA-512*  | RIPEMD-320* | Whirlpool*              |
-|          |      | SHA3-224* |             |                         |
-|          |      | SHA3-256* |             |                         |
-|          |      | SHA3-384* |             |                         |
-|          |      | SHA3-512* |             |                         |
+| Checksum | MDx  | SHA       | SHA-3       | RIPEMD      | Others                  |
+|----------|------|-----------|-------------|-------------|-------------------------|
+| Adler32  | MD2  | SHA-1*    | SHA3-224*   | RIPEMD-128* | SipHash-2-4<sup>+</sup> |
+| CRC-32   | MD4  | SHA-256*  | SHA3-256*   | RIPEMD-160* | SipHash-4-8<sup>+</sup> |
+|          | MD5* | SHA-384*  | SHA3-384*   | RIPEMD-256* | Tiger192,3*             |
+|          |      | SHA-512*  | SHA3-512*   | RIPEMD-320* | Whirlpool*              |
 
 \* also available as MAC<br />
 <sup>+</sup> only available as MAC
