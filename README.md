@@ -43,54 +43,19 @@ If you want to hash a String using a specific encoding, you should create the re
 See the [generated documentation](http://xsc.github.io/pandect/pandect.core.html) for the available
 functions and their parameters.
 
-__Checksum Algorithms:__
+| Checksum | MDx | SHA        | RIPEMD      | Others                  |
+|----------|-----|------------|-------------|-------------------------|
+| Adler32  | MD2  | SHA-1*    | RIPEMD-128* | SipHash-2-4<sup>+</sup> |
+| CRC-32   | MD4  | SHA-256*  | RIPEMD-160* | SipHash-4-8<sup>+</sup> |
+|          | MD5* | SHA-384*  | RIPEMD-256* | Tiger192,3*             |
+|          |      | SHA-512*  | RIPEMD-320* | Whirlpool*              |
+|          |      | SHA3-224* |             |                         |
+|          |      | SHA3-256* |             |                         |
+|          |      | SHA3-384* |             |                         |
+|          |      | SHA3-512* |             |                         |
 
-- Adler32
-- CRC32
-
-__Insecure Hash Functions__
-
-- MD2
-- MD4
-- MD5
-- GOST
-
-__Secure Hash Functions (for now)__
-
-- SHA-1
-- SHA-256
-- SHA-384
-- SHA-512
-- SHA3-224
-- SHA3-256
-- SHA3-384
-- SHA3-512
-- RIPEMD-128
-- RIPEMD-160
-- RIPEMD-256
-- RIPEMD-320
-- Tiger192,3
-- Whirlpool
-
-__HMAC Functions__
-
-- MD5
-- SHA-1
-- SHA-256
-- SHA-384
-- SHA-512
-- SHA3-224
-- SHA3-256
-- SHA3-384
-- SHA3-512
-- RIPEMD-128
-- RIPEMD-160
-- RIPEMD-256
-- RIPEMD-320
-- Tiger192,3
-- Whirlpool
-- SipHash-2-4
-- SipHash-4-8
+\* also available as MAC<br />
+<sup>+</sup> only available as MAC
 
 ## Benchmarks
 
