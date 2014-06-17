@@ -13,29 +13,27 @@
 
 ;; ## Code Generator
 
-(deftype MessageDigestCodeGen [hash-algorithm hmac-algorithm]
+(deftype MessageDigestHMACGen [algorithm]
   CodeGen
   (algorithm-string [_]
-    (if (and hash-algorithm hmac-algorithm)
-      (str hash-algorithm "/" hmac-algorithm)
-      (or hash-algorithm hmac-algorithm)))
+    algorithm)
 
   HMACGen
   (base-symbol [_ sym]
     (symbol+ sym :hmac))
   (bytes->hmac [_ msg-form key-form]
     (let [msg (vary-meta (gensym "msg") assoc :tag "[B")]
-      `(let [mac# (Mac/getInstance ~hmac-algorithm)
+      `(let [mac# (Mac/getInstance ~algorithm)
              ~msg ~msg-form
-             k# (SecretKeySpec. ~key-form ~hmac-algorithm)]
+             k# (SecretKeySpec. ~key-form ~algorithm)]
          (-> (doto mac#
                (.init k#)
                (.update ~msg))
            (.doFinal)))))
   (stream->hmac [_ stream-form key-form buffer-size]
     (let [s (vary-meta (gensym "s") assoc :tag `InputStream)]
-      `(let [mac# (Mac/getInstance ~hmac-algorithm)
-             k# (SecretKeySpec. ~key-form ~hmac-algorithm)
+      `(let [mac# (Mac/getInstance ~algorithm)
+             k# (SecretKeySpec. ~key-form ~algorithm)
              c# (int ~buffer-size)
              buf# (byte-array c#)
              ~s ~stream-form]
@@ -49,14 +47,19 @@
   (hmac->string [_ form]
     `(c/bytes->hex ~form))
   (hmac->bytes [_ form]
-    form)
+    form))
+
+(deftype MessageDigestHashGen [algorithm]
+  CodeGen
+  (algorithm-string [_]
+    algorithm)
 
   HashGen
   (bytes->hash [_ form]
-    `(let [md# (MessageDigest/getInstance ~hash-algorithm)]
+    `(let [md# (MessageDigest/getInstance ~algorithm)]
        (.digest md# ~form)))
   (stream->hash [_ form buffer-size]
-    `(let [md# (MessageDigest/getInstance ~hash-algorithm)
+    `(let [md# (MessageDigest/getInstance ~algorithm)
            c# (int ~buffer-size)
            buf# (byte-array c#)
            s# ~form]
@@ -84,5 +87,7 @@
 
 (doseq [[hash-algorithm hmac-algorithm] MD_ALGORITHMS]
   (register-algorithm!
-    (or hash-algorithm hmac-algorithm)
-    (MessageDigestCodeGen. hash-algorithm hmac-algorithm)))
+    hash-algorithm
+    (MessageDigestHashGen. hash-algorithm)
+    (when hmac-algorithm
+      (MessageDigestHMACGen. hmac-algorithm))))

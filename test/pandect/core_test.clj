@@ -39,7 +39,7 @@
 
   ;; HMAC
   'gost-hmac
-  'md2-hmac       'md4-hmac       'md5-hmac
+  'md4-hmac       'md5-hmac
   'ripemd128-hmac 'ripemd160-hmac 'ripemd256-hmac 'ripemd320-hmac
   'sha1-hmac
   'sha224-hmac    'sha256-hmac    'sha384-hmac    'sha512-hmac

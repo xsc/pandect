@@ -2,7 +2,7 @@
       :author "Yannick Scherer"}
   pandect.core
   (:require [pandect.gen
-             [core :refer [generate code-generator]]
+             [core :refer [generate get-code-generators]]
              [hash-generator :refer [hash-generator]]
              [hmac-generator :refer [hmac-generator]]]
             [pandect.impl message-digest checksum bouncy-castle]))
@@ -47,8 +47,7 @@
   `(do
      ~@(for [[sym algorithm] algorithms
              generator generators
-             :let [code-gen (code-generator algorithm)]
-             :when code-gen]
+             code-gen (get-code-generators algorithm)]
          (generate generator code-gen sym `*buffer-size*))
      nil))
 

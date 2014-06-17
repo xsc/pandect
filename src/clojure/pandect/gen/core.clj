@@ -39,13 +39,14 @@
   "Register new algorithm code generator."
   ([code-gen]
    (register-algorithm! (algorithm-string code-gen) code-gen))
-  ([algorithm-string code-gen]
-   (alter-var-root
-     #'code-generators
-     assoc algorithm-string code-gen)))
+  ([algorithm-string & code-gens]
+   (->> (filter identity code-gens)
+        (alter-var-root
+          #'code-generators
+          update-in [algorithm-string] concat))))
 
-(defn code-generator
-  "Lookup code generator by algorithm."
+(defn get-code-generators
+  "Lookup code generators by algorithm."
   [algorithm-string]
   (let [v (code-generators algorithm-string ::none)]
     (if (= v ::none)
