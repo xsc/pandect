@@ -1,5 +1,9 @@
 ## Changelog: `pandect`
 
+### 0.3.4
+
+- remove accidentally created MD2 HMAC functions
+
 ### 0.3.3
 
 - added HMAC algorithms:
