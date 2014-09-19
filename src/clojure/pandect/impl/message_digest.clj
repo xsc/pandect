@@ -22,28 +22,26 @@
   (base-symbol [_ sym]
     (symbol+ sym :hmac))
   (bytes->hmac [_ msg-form key-form]
-    (let [msg (vary-meta (gensym "msg") assoc :tag "[B")]
-      `(let [mac# (Mac/getInstance ~algorithm)
-             ~msg ~msg-form
-             k# (SecretKeySpec. ~key-form ~algorithm)]
-         (-> (doto mac#
-               (.init k#)
-               (.update ~msg))
-           (.doFinal)))))
+    `(let [mac# (Mac/getInstance ~algorithm)
+           msg# (bytes ~msg-form)
+           k# (SecretKeySpec. ~key-form ~algorithm)]
+       (-> (doto mac#
+             (.init k#)
+             (.update msg#))
+           (.doFinal))))
   (stream->hmac [_ stream-form key-form buffer-size]
-    (let [s (vary-meta (gensym "s") assoc :tag `InputStream)]
-      `(let [mac# (Mac/getInstance ~algorithm)
-             k# (SecretKeySpec. ~key-form ~algorithm)
-             c# (int ~buffer-size)
-             buf# (byte-array c#)
-             ~s ~stream-form]
-         (.init mac# k#)
-         (loop []
-           (let [r# (.read ~s buf# 0 c#)]
-             (when-not (= r# -1)
-               (.update mac# buf# 0 r#)
-               (recur))))
-         (.doFinal mac#))))
+    `(let [mac# (Mac/getInstance ~algorithm)
+           k# (SecretKeySpec. ~key-form ~algorithm)
+           c# (int ~buffer-size)
+           buf# (byte-array c#)
+           s# ~stream-form]
+       (.init mac# k#)
+       (loop []
+         (let [r# (.read s# buf# 0 c#)]
+           (when-not (= r# -1)
+             (.update mac# buf# 0 r#)
+             (recur))))
+       (.doFinal mac#)))
   (hmac->string [_ form]
     `(c/bytes->hex ~form))
   (hmac->bytes [_ form]
