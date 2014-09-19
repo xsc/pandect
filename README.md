@@ -37,6 +37,13 @@ If you want to hash a String using a specific encoding, you should create the re
 (sha1 (.getBytes "Hällo World!" "ISO-8859-1")) ;; => "cfe670bd6845020f5754b19a3c0eee602043eb89"
 ```
 
+If you only need one algorithm, namespaces prefixed with `pandect.algo.` can be required:
+
+```clojure
+(require '[pandect.algo.md5 :refer :all])
+(md5 "Hello World!") ;; => "ed076287532e86365e841e92bfc50d8c"
+```
+
 ## Supported Algorithms
 
 See the [generated documentation](http://xsc.github.io/pandect/pandect.core.html) for the available
