@@ -61,8 +61,11 @@
    (->> (vary-meta sym assoc :tag `File)
         (wrap-file-stream generator-code sym)))
   ([generator-code sym fsym]
-   `(with-open [~sym (FileInputStream. ~fsym)]
-      ~generator-code)))
+   (let [wrap-fn (condp = (:tag (meta fsym))
+                   `File `clojure.java.io/as-file
+                   `String `str)]
+     `(with-open [~sym (FileInputStream. (~wrap-fn ~fsym))]
+        ~generator-code))))
 
 (defn symbol+
   [sym suffix]

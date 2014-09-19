@@ -4,8 +4,9 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.5.1"]
+                 [potemkin "0.3.9"]
                  [org.bouncycastle/bcprov-jdk15on "1.50"]]
-  :source-paths ["src/clojure"]
+  :source-paths ["src/clojure" "target/generated"]
   :java-source-paths ["src/java"]
   :profiles {:dev {:dependencies [[midje "1.6.3"]]
                    :plugins [[lein-midje "3.1.3"]
@@ -16,4 +17,6 @@
                                         [digest "1.4.3"]]
                          :source-paths ["shootout"]
                          :jvm-opts ["-Xmx1g" "-server"]}}
-  :aliases { "benchmark" ["with-profile" "dev,benchmark" "run" "-m"] })
+  :prep-tasks ["codegen"]
+  :aliases { "benchmark" ["with-profile" "dev,benchmark" "run" "-m"]
+             "codegen" ["run" "-m" "pandect.codegen"]})
