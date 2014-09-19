@@ -13,9 +13,7 @@ library for Clojure.
 
 __Leiningen__ ([via Clojars](https://clojars.org/pandect))
 
-```clojure
-[pandect "0.3.4"]
-```
+[![Clojars Project](http://clojars.org/pandect/latest-version.svg)](http://clojars.org/pandect)
 
 __REPL__
 
