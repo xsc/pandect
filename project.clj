@@ -3,9 +3,9 @@
   :url "https://github.com/xsc/pandect"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :dependencies [[org.clojure/clojure "1.5.1"]
+  :dependencies [[org.clojure/clojure "1.6.0"]
                  [potemkin "0.3.9"]
-                 [org.bouncycastle/bcprov-jdk15on "1.50"]]
+                 [org.bouncycastle/bcprov-jdk15on "1.51"]]
   :source-paths ["src/clojure" "target/generated"]
   :java-source-paths ["src/java"]
   :profiles {:dev {:dependencies [[midje "1.6.3"]]
@@ -14,9 +14,10 @@
                    :codox {:include [pandect.core]}}
              :benchmark {:dependencies [[criterium "0.4.3"]
                                         [clj-message-digest "1.0.0"]
-                                        [digest "1.4.3"]]
+                                        [digest "1.4.4"]]
                          :source-paths ["shootout"]
                          :jvm-opts ["-Xmx1g" "-server"]}}
   :prep-tasks ["codegen"]
-  :aliases { "benchmark" ["with-profile" "dev,benchmark" "run" "-m"]
-             "codegen" ["run" "-m" "pandect.codegen"]})
+  :aliases {"benchmark" ["with-profile" "dev,benchmark" "run" "-m"]
+            "codegen" ["run" "-m" "pandect.codegen"]
+            "test" ["with-profile" "+dev" "midje"]})
