@@ -112,6 +112,12 @@ __pandect__               |   135ms  |  3.66ms  |  5.95ms  |  9.76ms  |  7.34ms 
 __clj-digest__            |   135ms  |  4.24ms  |  6.69ms  |  10.5ms  |  8.04ms  |  7.99ms  |     -    |     -    |
 __clj-message-digest__    |   134ms  |  3.83ms  |  6.19ms  |  10.0ms  |  7.66ms  |  7.57ms  |     -    |     -    |
 
+## Contributors
+
+- Yannick Scherer ([@xsc](https://github.com/xsc))
+- Toshiki Takeuchi ([@totakke](https://github.com/totakke))
+- Jan Stępień ([@jstepien](https://github.com/jstepien))
+
 ## License
 
 Copyright &copy; 2014 Yannick Scherer
