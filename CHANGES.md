@@ -1,5 +1,12 @@
 ## Changelog: `pandect`
 
+### 0.4.0
+
+- create a single namespace `pandect.algo.XXX` for each algorithm `XXX` and import to
+  `pandect.core` from there.
+- upgrade `org.bouncycastle/bcprov-jdk15on` to version "1.51".
+- use Clojure 1.6 internally.
+
 ### 0.3.4
 
 - remove accidentally created MD2 HMAC functions
