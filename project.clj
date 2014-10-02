@@ -23,6 +23,6 @@
   :prep-tasks ["codegen"]
   :aliases {"benchmark" ["with-profile" "dev,benchmark" "run" "-m"]
             "codegen" ["run" "-m" "pandect.codegen"]
-            "all" ["with-profile" "+dev:+1.4:+1.5"]
+            "all" ["with-profile" "+dev:+1.5"]
             "test" ["with-profile" "+dev" "midje"]}
   :pedantic? :abort)
