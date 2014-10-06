@@ -3,27 +3,30 @@
   pandect.core
   (:require [pandect.utils.buffer :refer [*buffer-size*]]
             [potemkin :refer [import-vars]]
-            [pandect.codegen :refer [algorithms]]))
+            [pandect.codegen :refer [algorithms algorithm-namespace]]))
 
 (set! *warn-on-reflection* true)
 (set! *unchecked-math* true)
 
 ;; ## Re-export all algorithms
 
+(defn- collect-algorithm-functions
+  [ns algorithm-symbol]
+  (require ns)
+  (let [s (name algorithm-symbol)]
+    (->> (ns-publics ns)
+         (map (comp first))
+         (filter #(.startsWith (name %) s)))))
+
 (defmacro ^:private reexport-algos
   []
-  (list*
-    `import-vars
-    (for [algo (algorithms)
-          :let [ns (symbol (str 'pandect.algo. algo))]]
-      (do
-        (require ns)
-        (list*
-          ns
-          (for [[sym _] (ns-publics (symbol (str 'pandect.algo. algo)))
-                :when (.startsWith (str sym) (str algo))]
-            sym))))))
+  `(do
+     (import-vars pandect.utils.buffer/with-buffer-size)
+     ~@(for [algo (algorithms)
+             :let [ns (algorithm-namespace algo)]]
+         `(do
+            (require '~ns)
+            (import-vars
+              [~ns ~@(collect-algorithm-functions ns algo)])))))
 
 (reexport-algos)
-
-(import-vars pandect.utils.buffer/with-buffer-size)
