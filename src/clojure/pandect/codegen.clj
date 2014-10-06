@@ -25,6 +25,10 @@
   [hash-generator
    hmac-generator])
 
+(defn algorithm-namespace
+  [algorithm-symbol]
+  (symbol (str 'pandect.algo. algorithm-symbol)))
+
 (defn- write-source!
   [file sym algorithm]
   (let [out (writer file)
@@ -33,7 +37,7 @@
                    :let [code (generate generator code-gen sym '*buffer-size*)]
                    :when code]
                code)]
-    (doseq [form `((ns ~(symbol (str 'pandect.algo. sym))
+    (doseq [form `((ns ~(algorithm-namespace sym)
                      ~'(:require [pandect.utils
                                   [buffer :refer [*buffer-size*]]
                                   [convert]]
