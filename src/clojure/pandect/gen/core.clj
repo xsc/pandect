@@ -1,6 +1,4 @@
-(ns ^ {:doc "Code Generation for Pandect"
-       :author "Yannick Scherer"}
-  pandect.gen.core
+(ns ^:no-doc pandect.gen.core
   (:import [java.io File FileInputStream InputStream]))
 
 ;; ## Concept

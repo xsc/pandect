@@ -1,6 +1,4 @@
-(ns ^ {:doc "Message Digest Code Generation"
-       :author "Yannick Scherer"}
-  pandect.impl.message-digest
+(ns ^:no-doc pandect.impl.message-digest
   (:require [pandect.gen
              [core :refer :all]
              [hash-generator :refer :all]

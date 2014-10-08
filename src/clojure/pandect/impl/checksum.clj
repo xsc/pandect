@@ -1,6 +1,4 @@
-(ns ^{:doc "Checksum Implementations"
-      :author "Yannick Scherer"}
-  pandect.impl.checksum
+(ns ^:no-doc pandect.impl.checksum
   (:require [pandect.gen
              [core :refer :all]
              [hash-generator :refer :all]

@@ -1,4 +1,4 @@
-(ns pandect.impl.bouncy-castle
+(ns ^:no-doc pandect.impl.bouncy-castle
   (:require [pandect.gen
              [core :refer :all]
              [hash-generator :refer :all]

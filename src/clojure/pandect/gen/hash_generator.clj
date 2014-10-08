@@ -1,4 +1,4 @@
-(ns pandect.gen.hash-generator
+(ns ^:no-doc pandect.gen.hash-generator
   (:require [pandect.gen.core :refer :all])
   (:import [java.io File FileInputStream InputStream]))
 

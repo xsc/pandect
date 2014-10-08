@@ -1,4 +1,4 @@
-(ns pandect.gen.hmac-generator
+(ns ^:no-doc pandect.gen.hmac-generator
   (:require [pandect.gen.core :refer :all])
   (:import [java.io File FileInputStream InputStream]))
 

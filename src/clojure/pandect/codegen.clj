@@ -1,4 +1,4 @@
-(ns pandect.codegen
+(ns ^:no-doc pandect.codegen
   (:require [clojure.pprint :refer [pprint]]
             [clojure.java.io :refer [file writer]]
             [pandect.impl message-digest checksum bouncy-castle]
