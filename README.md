@@ -46,7 +46,7 @@ If you only need one algorithm, namespaces prefixed with `pandect.algo.` can be 
 
 ## Supported Algorithms
 
-See the [generated documentation](http://xsc.github.io/pandect/pandect.core.html) for the available
+See the [generated documentation](http://xsc.github.io/pandect) for the available
 functions and their parameters.
 
 | Checksum | MDx  | SHA      | SHA-3      | RIPEMD     | Others                  |
