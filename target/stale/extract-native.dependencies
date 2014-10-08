@@ -1,1 +1,0 @@
-([:dependencies ([codox/codox.core "0.8.9"] [org.clojure/clojure "1.6.0"] [potemkin/potemkin "0.3.9"] [org.bouncycastle/bcprov-jdk15on "1.51"])])
