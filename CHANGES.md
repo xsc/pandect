@@ -1,5 +1,9 @@
 ## Changelog: `pandect`
 
+### 0.4.1
+
+- fix problems with AOT compilation. (see #8)
+
 ### 0.4.0
 
 - create a single namespace `pandect.algo.XXX` for each algorithm `XXX` and import to
