@@ -63,6 +63,8 @@
         `(do
            (defprotocol ~P
              (~f [this# key#]))
+           (doseq [v# [(var ~P) (var ~f)]]
+             (alter-meta! v# assoc :private true))
            (extend-protocol ~P
              (class (byte-array 0))
              (~f [~sym ~k] ~(bytes->hmac code-gen sym k))

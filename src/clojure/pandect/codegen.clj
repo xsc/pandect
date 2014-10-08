@@ -37,21 +37,24 @@
                    :let [code (generate generator code-gen sym '*buffer-size*)]
                    :when code]
                code)]
-    (doseq [form `((ns ~(algorithm-namespace sym)
-                     ~'(:require [pandect.utils
-                                  [buffer :refer [*buffer-size*]]
-                                  [convert]]
-                                 [pandect.gen
-                                   [hash-generator]
-                                   [hmac-generator]]))
-                   ~@defs)]
+    (doseq [form (list*
+                   (list
+                     'ns (algorithm-namespace sym)
+                     (format "%s algorithm implementation" algorithm)
+                     '(:require [pandect.utils
+                                 [buffer :refer [*buffer-size*]]
+                                 [convert]]
+                                [pandect.gen
+                                 [hash-generator]
+                                 [hmac-generator]]))
+                   defs)]
       (pprint form out))))
 
 (defn- generate-algo-namespaces!
-  []
+  [base]
   (doseq [[sym algorithm] algorithms-names
           :let [filename (.replace (format "%s.clj" sym) \- \_)]]
-    (doto (file "target" "generated" "pandect" "algo" filename)
+    (doto (file base "pandect" "algo" filename)
       (-> .getParentFile .mkdirs)
       (write-source! sym algorithm))))
 
@@ -59,5 +62,6 @@
   []
   (keys algorithms-names))
 
-(defn -main [& _]
-  (generate-algo-namespaces!))
+(defn -main [& [base]]
+  (generate-algo-namespaces!
+    (or base "target/generated")))

@@ -38,6 +38,8 @@
         `(do
            (defprotocol ~P
              (~f [this#]))
+           (doseq [v# [(var ~P) (var ~f)]]
+             (alter-meta! v# assoc :private true))
            (extend-protocol ~P
              (class (byte-array 0))
              (~f [~sym] ~(bytes->hash code-gen sym))
