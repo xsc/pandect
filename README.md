@@ -18,7 +18,7 @@ __Leiningen__ ([via Clojars](https://clojars.org/pandect))
 __REPL__
 
 ```clojure
-(require '[pandect.core :refer :all] '[clojure.java.io :as io])
+(require '[pandect.algo.sha1 :refer :all] '[clojure.java.io :as io])
 
 (sha1 "Hello World!")           ;; => "2ef7bde608ce5404e97d5f042f95f89f1c232871"
 (sha1-bytes "Hello World!")     ;; => #<byte[] [B@5293b95>
@@ -37,12 +37,7 @@ If you want to hash a String using a specific encoding, you should create the re
 (sha1 (.getBytes "Hällo World!" "ISO-8859-1")) ;; => "cfe670bd6845020f5754b19a3c0eee602043eb89"
 ```
 
-If you only need one algorithm, namespaces prefixed with `pandect.algo.` can be required:
-
-```clojure
-(require '[pandect.algo.md5 :refer :all])
-(md5 "Hello World!") ;; => "ed076287532e86365e841e92bfc50d8c"
-```
+The namespace `pandect.core` contains all available algorithms but for better startup/compile times, using algorithm-specific ones is recommended.
 
 ## Supported Algorithms
 
