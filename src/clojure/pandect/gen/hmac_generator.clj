@@ -12,13 +12,13 @@
   (class (byte-array 0))
   (convert-to-byte-array [this] this)
   String
-  (convert-to-byte-array [this] (.getBytes this))
+  (convert-to-byte-array [this] (.getBytes this "UTF-8"))
   java.io.File
   (convert-to-byte-array [this]
-    (.getBytes ^String (slurp this)))
+    (.getBytes ^String (slurp this) "UTF-8"))
   java.io.InputStream
   (convert-to-byte-array [this]
-    (.getBytes ^String (slurp this))))
+    (.getBytes ^String (slurp this) "UTF-8")))
 
 ;; ## Generation
 
@@ -69,7 +69,7 @@
              (class (byte-array 0))
              (~f [~sym ~k] ~(bytes->hmac code-gen sym k))
              String
-             (~f [~sym ~k] ~(bytes->hmac code-gen `(.getBytes ~sym) k))
+             (~f [~sym ~k] ~(bytes->hmac code-gen `(.getBytes ~sym "UTF-8") k))
              InputStream
              (~f [~sym ~k] ~stream-form)
              File

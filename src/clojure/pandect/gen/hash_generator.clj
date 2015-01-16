@@ -44,7 +44,7 @@
              (class (byte-array 0))
              (~f [~sym] ~(bytes->hash code-gen sym))
              String
-             (~f [~sym] ~(bytes->hash code-gen `(.getBytes ~sym)))
+             (~f [~sym] ~(bytes->hash code-gen `(.getBytes ~sym "UTF-8")))
              InputStream
              (~f [~sym] ~stream-form)
              File

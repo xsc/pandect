@@ -34,7 +34,7 @@
     whirlpool      "d4b3ad3619bc70157376c5426b558dbdad30654cf441ab21d7c08e993873256becc80f32448d0218d5b1aab30bf4209e20e3928df002d3cbcfbe501a184680a8")
   ?input
   "Hello World!"
-  (input-stream (.getBytes "Hello World!"))
+  (input-stream (.getBytes "Hello World!" "UTF-8"))
   (let [f (doto (File/createTempFile "pandect" ".txt") (.deleteOnExit))]
     (spit f "Hello World!")
     f))

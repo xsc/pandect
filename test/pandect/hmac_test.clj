@@ -34,7 +34,7 @@
       whirlpool-hmac  "7f7192e3a155cb6a8171584ba146882f26821658112dfd2601272db013517a31e573637d146584596f86a884eb0decc9514dde000ecf2476dc5d436a92197527")
     ?input
     test-string
-    (input-stream (.getBytes test-string))
+    (input-stream (.getBytes test-string "UTF-8"))
     (let [f (doto (File/createTempFile "pandect" ".txt") (.deleteOnExit))]
       (spit f test-string)
       f)))
@@ -48,7 +48,7 @@
       sip-hash-hmac  "654cd7fbec56953a")
     ?input
     test-string
-    (input-stream (.getBytes test-string))
+    (input-stream (.getBytes test-string "UTF-8"))
     (let [f (doto (File/createTempFile "pandect" ".txt") (.deleteOnExit))]
       (spit f test-string)
       f)))
