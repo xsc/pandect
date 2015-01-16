@@ -9,7 +9,10 @@
 (tabular
   (tabular
     (fact "about hash functions."
-          (?digest ?input) => ?result)
+          (let [in ?input]
+            (?digest in) => ?result
+            (when (instance? java.io.Closeable in)
+              (.close in))))
     ?digest       ?result
     adler32       "1c49043e"
     crc32         "1c291ca3"

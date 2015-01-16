@@ -1,5 +1,6 @@
 (ns ^:no-doc pandect.gen.hmac-generator
-  (:require [pandect.gen.core :refer :all])
+  (:require [pandect.gen.core :refer :all]
+            [pandect.utils.convert :refer [slurp-bytes]])
   (:import [java.io File FileInputStream InputStream]))
 
 ;; ## Coercion
@@ -15,10 +16,10 @@
   (convert-to-byte-array [this] (.getBytes this "UTF-8"))
   java.io.File
   (convert-to-byte-array [this]
-    (.getBytes ^String (slurp this) "UTF-8"))
+    (slurp-bytes this))
   java.io.InputStream
   (convert-to-byte-array [this]
-    (.getBytes ^String (slurp this) "UTF-8")))
+    (slurp-bytes this)))
 
 ;; ## Generation
 

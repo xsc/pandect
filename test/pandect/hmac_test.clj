@@ -7,12 +7,22 @@
         [clojure.java.io :only [input-stream delete-file]]))
 
 (def test-string "The quick brown fox jumps over the lazy dog")
+(def test-key "key")
 
-(let [test-key "key"]
+(defn- tmp-file
+  [contents]
+  (let [f (doto (File/createTempFile "pandect" ".txt") (.deleteOnExit))]
+    (spit f contents)
+    f))
+
+(tabular
   (tabular
     (tabular
       (fact "about creating HMACs"
-            (?digest ?input test-key) => ?result)
+            (let [in ?input]
+              (?digest in ?test-key) => ?result
+              (when (instance? java.io.Closeable in)
+                (.close in))))
       ?digest         ?result
       gost-hmac       "e06ac9388fa2107fa7bb49d6b29c28a09a2c0cde316cd349a12bb4b0d3497370"
       md4-hmac        "8d3366c440a9c65124ab0b5f4ca27338"
@@ -35,20 +45,24 @@
     ?input
     test-string
     (input-stream (.getBytes test-string "UTF-8"))
-    (let [f (doto (File/createTempFile "pandect" ".txt") (.deleteOnExit))]
-      (spit f test-string)
-      f)))
+    (tmp-file test-string))
+  ?test-key
+  test-key
+  (.getBytes test-key "UTF-8")
+  (input-stream (.getBytes test-key "UTF-8"))
+  (tmp-file test-key))
 
 (let [test-key (apply str (take 16 (cycle (range 10))))]
   (tabular
     (tabular
       (fact "about HMACs with 128-bit keys"
-            (?digest ?input test-key) => ?result)
+            (let [in ?input]
+              (?digest in test-key) => ?result
+              (when (instance? java.io.Closeable in)
+                (.close in))))
       ?digest        ?result
       sip-hash-hmac  "654cd7fbec56953a")
     ?input
     test-string
     (input-stream (.getBytes test-string "UTF-8"))
-    (let [f (doto (File/createTempFile "pandect" ".txt") (.deleteOnExit))]
-      (spit f test-string)
-      f)))
+    (tmp-file test-string)))

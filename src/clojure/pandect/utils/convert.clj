@@ -1,19 +1,20 @@
 (ns ^{:doc "Conversion Utilities"
-      :author "Yannick Scherer"} 
-  pandect.utils.convert)
+      :author "Yannick Scherer"}
+  pandect.utils.convert
+  (:require [clojure.java.io :as io]))
 
 (set! *unchecked-math* true)
 
 ;; ## Byte-Array to Hex-String
 
-(def ^:private ^"[B" hex-chars 
+(def ^:private ^"[B" hex-chars
   (byte-array (.getBytes "0123456789abcdef" "UTF-8")))
 
 (defn bytes->hex
   "Convert Byte Array to Hex String"
   ^String
   [^"[B" data]
-  (let [len (count data) 
+  (let [len (count data)
         ^"[B" buffer (byte-array (* 2 len))]
     (loop [i 0]
       (when (< i len)
@@ -48,3 +49,13 @@
         (aset buf i (aget hex-chars (bit-and 0xF n)))
         (recur (dec i) (bit-shift-right n 4))))
     (String. buf "UTF-8")))
+
+;; ## Byte Array from Source
+
+(defn slurp-bytes
+  "Get bytes from the given source."
+  [source]
+  (with-open [in (io/input-stream source)]
+    (with-open [out (java.io.ByteArrayOutputStream.)]
+      (io/copy in out)
+      (.toByteArray out))))
