@@ -1,5 +1,11 @@
 ## Changelog: `pandect`
 
+### 0.5.0
+
+- __POSSIBLY BREAKING__ Strings are treated as UTF-8 by default.
+- __POSSIBLY BREAKING__ Files/InputStreams used as HMAC secrets are read directly as bytes
+  (formerly round-trip through String).
+
 ### 0.4.1
 
 - fix problems with AOT compilation. (see #8)
