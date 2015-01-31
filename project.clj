@@ -18,7 +18,7 @@
                                         [clj-message-digest "1.0.0"]
                                         [digest "1.4.4"]]
                          :source-paths ["shootout"]
-                         :jvm-opts ["-Xmx1g" "-server"]}
+                         :jvm-opts ^:replace ["-Xmx1g" "-server"]}
              :1.5 {:dependencies [[org.clojure/clojure "1.5.1"]]}}
 
   :prep-tasks ["codegen"]
