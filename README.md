@@ -117,6 +117,7 @@ __clj-message-digest__    |   134ms  |  3.83ms  |  6.19ms  |  10.0ms  |  7.66ms 
 - Yannick Scherer ([@xsc](https://github.com/xsc))
 - Toshiki Takeuchi ([@totakke](https://github.com/totakke))
 - Jan Stępień ([@jstepien](https://github.com/jstepien))
+- Tom Crayford ([@tcrayford](https://github.com/tcrayford))
 
 ## License
 
