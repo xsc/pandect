@@ -4,13 +4,13 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [potemkin "0.3.9"]
+                 [potemkin "0.3.11"]
                  [org.bouncycastle/bcprov-jdk15on "1.51"]]
   :exclusions [org.clojure/clojure]
   :source-paths ["src/clojure" "target/generated"]
   :java-source-paths ["src/java"]
   :profiles {:dev {:dependencies [[midje "1.6.3"]
-                                  [joda-time "2.4"]]
+                                  [joda-time "2.7"]]
                    :plugins [[lein-midje "3.1.3"]
                              [codox "0.8.10"]]
                    :codox {:project {:name "pandect"}} }
