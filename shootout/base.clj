@@ -7,11 +7,11 @@
   [string & fs]
   `(do
      ~@(for [f fs]
-         `((println "----------------------------------------------------") 
-           (println ~(str "Benchmarking: " f)) 
-           (println "----------------------------------------------------") 
-           (println (str "Hashing String: " ~string " (" (~f ~string) ")")) 
-           (bench (~f ~string)) 
+         `((println "----------------------------------------------------")
+           (println ~(str "Benchmarking: " f))
+           (println "----------------------------------------------------")
+           (println (str "Hashing String: " ~string " (" (~f ~string) ")"))
+           (bench (~f ~string))
            (println "----------------------------------------------------")))))
 
 ;; ## File Hashing
@@ -20,16 +20,16 @@
   [file & fs]
   `(do
      ~@(for [f fs]
-         `((println "----------------------------------------------------") 
-           (println ~(str "Benchmarking: " f)) 
-           (println "----------------------------------------------------") 
+         `((println "----------------------------------------------------")
+           (println ~(str "Benchmarking: " f))
+           (println "----------------------------------------------------")
            (println (str "Hashing File: " ~file " (" (~f ~file) ")"))
-           (bench (~f ~file)) 
+           (bench (~f ~file))
            (println "----------------------------------------------------")))))
 
 ;; ## Test Bench
 
-(defmacro defbench 
+(defmacro defbench
   [& hash-fn-map]
   (let [t (gensym "t")
         args (gensym "args")]
@@ -37,9 +37,9 @@
        [algorithm# & [~t & ~args]]
        (try
          (condp = algorithm#
-           ~@(doall 
-               (mapcat 
-                 (fn [[flag [f1 f2]]] 
+           ~@(doall
+               (mapcat
+                 (fn [[flag [f1 f2]]]
                    [flag `(case ~t
                             "--file" (bench-file-hash-function (first ~args) ~f2)
                             "--text" (bench-hash-function (first ~args) ~f1)
