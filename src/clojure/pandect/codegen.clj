@@ -41,9 +41,8 @@
                    (list
                      'ns (algorithm-namespace sym)
                      (format "%s algorithm implementation" algorithm)
-                     '(:require [pandect.utils
-                                 [buffer :refer [*buffer-size*]]
-                                 [convert]]
+                     '(:require [pandect.buffer :refer [*buffer-size*]]
+                                [pandect.utils.convert]
                                 [pandect.gen
                                  [hash-generator]
                                  [hmac-generator]]))

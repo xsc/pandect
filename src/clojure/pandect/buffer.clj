@@ -1,4 +1,4 @@
-(ns pandect.utils.buffer)
+(ns pandect.buffer)
 
 ;; ## Buffer Size
 

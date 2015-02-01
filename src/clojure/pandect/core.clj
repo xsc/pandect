@@ -1,7 +1,7 @@
 (ns ^{:doc "Digest Creation for Pandect"
       :author "Yannick Scherer"}
   pandect.core
-  (:require [pandect.utils.buffer :refer [*buffer-size*]]
+  (:require [pandect.buffer :refer [*buffer-size*]]
             [potemkin :refer [import-vars]]
             [pandect.codegen :refer [algorithms algorithm-namespace]]))
 
@@ -21,7 +21,7 @@
 (defmacro ^:private reexport-algos
   []
   `(do
-     (import-vars pandect.utils.buffer/with-buffer-size)
+     (import-vars pandect.buffer/with-buffer-size)
      ~@(for [algo (algorithms)
              :let [ns (algorithm-namespace algo)]]
          `(do
