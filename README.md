@@ -18,7 +18,8 @@ __Leiningen__ ([via Clojars](https://clojars.org/pandect))
 __REPL__
 
 ```clojure
-(require '[pandect.algo.sha1 :refer :all] '[clojure.java.io :as io])
+(require '[pandect.algo.sha1 :refer :all]
+         '[clojure.java.io :as io])
 
 (sha1 "Hello World!")           ;; => "2ef7bde608ce5404e97d5f042f95f89f1c232871"
 (sha1-bytes "Hello World!")     ;; => #<byte[] [B@5293b95>
@@ -28,6 +29,16 @@ __REPL__
 
 (sha1-hmac "Hello World!" "secret-key")       ;; => "399fc3d94f6df2213f92fcf2a8b6669279ef7d20"
 (sha1-hmac-bytes "Hello World!" "secret-key") ;; => #<byte[] [B@602bd522>
+```
+
+You can tune stream processing using `pandect.buffer/with-buffer-size` (default is 2KB):
+
+```clojure
+(require '[pandect.buffer :refer [with-buffer-size]])
+
+(with-open [in (io/input-stream "shootout/data/1mb.txt")]
+  (with-buffer-size (* 512 1024)
+    (sha256 in)))
 ```
 
 If you want to hash a String using a specific encoding, you should create the respective byte array manually:

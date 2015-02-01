@@ -1,5 +1,9 @@
 ## Changelog: `pandect`
 
+### 0.5.1
+
+- __BREAKING__ `pandect.utils.buffer` is now at `pandect.buffer`.
+
 ### 0.5.0
 
 - __POSSIBLY BREAKING__ Strings are treated as UTF-8 by default.
