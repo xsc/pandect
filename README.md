@@ -124,6 +124,6 @@ __clj-message-digest__    |   112ms  |  3.07ms  |  4.59ms  |  6.73ms  |  5.17ms 
 
 ## License
 
-Copyright &copy; 2014 Yannick Scherer
+Copyright &copy; 2014-2015 Yannick Scherer
 
 Distributed under the Eclipse Public License, the same as Clojure.
