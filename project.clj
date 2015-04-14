@@ -4,8 +4,8 @@
   :license {:name "MIT License"
             :url "http://xsc.mit-license.org"}
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [potemkin "0.3.11"]
-                 [org.bouncycastle/bcprov-jdk15on "1.51"]]
+                 [potemkin "0.3.13"]
+                 [org.bouncycastle/bcprov-jdk15on "1.52"]]
   :exclusions [org.clojure/clojure]
   :source-paths ["src/clojure" "target/generated"]
   :java-source-paths ["src/java"]
