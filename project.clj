@@ -2,7 +2,9 @@
   :description "Message Digest and Checksum Library for Clojure"
   :url "https://github.com/xsc/pandect"
   :license {:name "MIT License"
-            :url "http://xsc.mit-license.org"}
+            :url "http://opensource.org/licenses/MIT"
+            :year 2014
+            :key "mit"}
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [potemkin "0.3.13"]
                  [org.bouncycastle/bcprov-jdk15on "1.52"]]
