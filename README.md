@@ -124,12 +124,6 @@ __clj-message-digest__    |   112ms  |  3.07ms  |  4.59ms  |  6.73ms  |  5.17ms 
 
 ## License
 
-Copyright &copy; 2014-2015 Yannick Scherer
-
-This project is licensed under the [MIT License][license].
-
-[license]: http://opensource.org/licenses/MIT
-
 ```
 The MIT License (MIT)
 
