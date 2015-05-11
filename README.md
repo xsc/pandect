@@ -99,6 +99,7 @@ __pandect__               |  4.27µs  |   910ns  |  1.07µs  |  1.27µs  |  1.68
 __clj-digest__            |  5.92µs  |  2.62µs  |  3.47µs  |  4.36µs  |  5.65µs  |  7.09µs  |     -    |     -    |
 __clj-message-digest__    |  28.2µs  |    25µs  |  30.2µs  |  44.7µs  |  66.4µs  |  80.9µs  |     -    |     -    |
 
+
 __Input: 1KB file (times include I/O)__
 
 Library                   |  md2     |  md5     |  sha1    |  sha256  |  sha384  |  sha512  |  adler32 |  crc32   |
@@ -106,6 +107,7 @@ Library                   |  md2     |  md5     |  sha1    |  sha256  |  sha384 
 __pandect__               |   122µs  |  13.7µs  |  14.9µs  |  17.9µs  |  16.5µs  |  16.3µs  |  9.19µs  |  9.12µs  |
 __clj-digest__            |   128µs  |  19.1µs  |  20.5µs  |  24.8µs  |  25.1µs  |  26.1µs  |     -    |     -    |
 __clj-message-digest__    |   259µs  |   149µs  |   155µs  |   160µs  |   203µs  |   221µs  |     -    |     -    |
+
 
 __Input: 1MB file (times include I/O)__
 
