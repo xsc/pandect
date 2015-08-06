@@ -14,7 +14,7 @@
   "Convert Byte Array to Hex String"
   ^String
   [^"[B" data]
-  (let [len (count data)
+  (let [len (alength data)
         ^"[B" buffer (byte-array (* 2 len))]
     (loop [i 0]
       (when (< i len)
