@@ -123,6 +123,7 @@ __clj-message-digest__    |   112ms  |  3.07ms  |  4.59ms  |  6.73ms  |  5.17ms 
 - Toshiki Takeuchi ([@totakke](https://github.com/totakke))
 - Jan Stępień ([@jstepien](https://github.com/jstepien))
 - Tom Crayford ([@tcrayford](https://github.com/tcrayford))
+- Alexander Kiel ([@alexanderkiel](https://github.com/alexanderkiel))
 
 ## License
 
