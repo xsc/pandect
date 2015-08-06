@@ -1,5 +1,14 @@
 ## Changelog: `pandect`
 
+### 0.5.3
+
+- replaces a `count` on byte arrays with `alength` (see #13).
+- upgrade main Clojure version to 1.7.0 (add test against 1.6.0).
+
+### 0.5.2
+
+- now available under MIT License.
+
 ### 0.5.1
 
 - __BREAKING__ `pandect.utils.buffer` is now at `pandect.buffer`.
