@@ -5,6 +5,18 @@
 
 (set! *unchecked-math* true)
 
+;; ## Casts
+
+(defn as-public-key
+  ^java.security.PublicKey
+  [k]
+  k)
+
+(defn as-certificate
+  ^java.security.cert.Certificate
+  [k]
+  k)
+
 ;; ## Byte-Array to Hex-String
 
 (def ^:private ^"[B" hex-chars
