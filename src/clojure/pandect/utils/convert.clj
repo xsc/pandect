@@ -10,6 +10,9 @@
 (def ^:private ^"[B" hex-chars
   (byte-array (.getBytes "0123456789abcdef" "UTF-8")))
 
+(def ^:private hex-val
+  (zipmap "0123456789abcdef" (range 16)))
+
 (defn bytes->hex
   "Convert Byte Array to Hex String"
   ^String
@@ -23,6 +26,22 @@
           (aset buffer (inc (* 2 i)) (aget hex-chars (bit-and b 0x0F))))
         (recur (inc i))))
     (String. buffer "UTF-8")))
+
+(defn hex->bytes
+  "Convert Hex String to Byte Array"
+  ^"[B"
+  [^String data]
+  (let [data (.toLowerCase data)
+        len (count data)
+        result (byte-array (quot len 2))]
+    (loop [i 0]
+      (if (< i len)
+        (let [a (.charAt data i)
+              b (.charAt data (inc i))
+              v (+ (* (hex-val a) 16) (hex-val b))]
+          (aset result (quot i 2) (byte v))
+          (recur (+ i 2)))))
+    result))
 
 ;; ## Unsigned Int (as Long) to Byte Array
 
@@ -77,3 +96,10 @@
   java.io.InputStream
   (convert-to-byte-array [this]
     (slurp-bytes this)))
+
+(defn convert-signature-to-byte-array
+  ^"[B"
+  [value]
+  (if (string? value)
+    (hex->bytes value)
+    (convert-to-byte-array value)))
