@@ -1,76 +1,8 @@
 (ns ^:no-doc pandect.impl.message-digest
-  (:require [pandect.gen
-             [core :refer :all]
-             [hash-generator :refer :all]
-             [hmac-generator :refer :all]]
-            [pandect.utils.convert :as c :only [bytes->hex]])
-  (:import [java.security MessageDigest]
-           [javax.crypto Mac]
-           [javax.crypto.spec SecretKeySpec]
-           [java.io InputStream FileInputStream File]))
-
-;; ## Code Generator
-
-(deftype MessageDigestHMACGen [algorithm]
-  CodeGen
-  (algorithm-string [_]
-    algorithm)
-
-  HMACGen
-  (base-symbol [_ sym]
-    (symbol+ sym :hmac))
-  (bytes->hmac [_ msg-form key-form]
-    `(let [mac# (Mac/getInstance ~algorithm)
-           msg# (bytes ~msg-form)
-           k# (SecretKeySpec. ~key-form ~algorithm)]
-       (-> (doto mac#
-             (.init k#)
-             (.update msg#))
-           (.doFinal))))
-  (stream->hmac [_ stream-form key-form buffer-size]
-    `(let [mac# (Mac/getInstance ~algorithm)
-           k# (SecretKeySpec. ~key-form ~algorithm)
-           c# (int ~buffer-size)
-           buf# (byte-array c#)
-           s# ~stream-form]
-       (.init mac# k#)
-       (loop []
-         (let [r# (.read s# buf# 0 c#)]
-           (when-not (= r# -1)
-             (.update mac# buf# 0 r#)
-             (recur))))
-       (.doFinal mac#)))
-  (hmac->string [_ form]
-    `(c/bytes->hex ~form))
-  (hmac->bytes [_ form]
-    form))
-
-(deftype MessageDigestHashGen [algorithm]
-  CodeGen
-  (algorithm-string [_]
-    algorithm)
-
-  HashGen
-  (bytes->hash [_ form]
-    `(let [md# (MessageDigest/getInstance ~algorithm)]
-       (.digest md# ~form)))
-  (stream->hash [_ form buffer-size]
-    `(let [md# (MessageDigest/getInstance ~algorithm)
-           c# (int ~buffer-size)
-           buf# (byte-array c#)
-           s# ~form]
-       (loop []
-         (let [r# (.read s# buf# 0 c#)]
-           (when-not (= r# -1)
-             (.update md# buf# 0 r#)
-             (recur))))
-       (.digest md#)))
-  (hash->string [_ form]
-    `(c/bytes->hex ~form))
-  (hash->bytes [_ form]
-    form))
-
-;; ## Register all Algorithms
+  (:require [pandect.gen.core :as gen]
+            [pandect.impl.message-digest
+             [hmac :as hmac]
+             [hash :as hash]]))
 
 (def ^:private MD_ALGORITHMS
   (vector
@@ -82,8 +14,7 @@
     ["SHA-512" "HmacSHA512"]))
 
 (doseq [[hash-algorithm hmac-algorithm] MD_ALGORITHMS]
-  (register-algorithm!
+  (gen/register-algorithm!
     hash-algorithm
-    (MessageDigestHashGen. hash-algorithm)
-    (when hmac-algorithm
-      (MessageDigestHMACGen. hmac-algorithm))))
+    (hash/make hash-algorithm)
+    (hmac/make hmac-algorithm)))
