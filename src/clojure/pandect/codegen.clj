@@ -42,10 +42,7 @@
                      'ns (algorithm-namespace sym)
                      (format "%s algorithm implementation" algorithm)
                      '(:require [pandect.buffer :refer [*buffer-size*]]
-                                [pandect.utils.convert]
-                                [pandect.gen
-                                 [hash-generator]
-                                 [hmac-generator]]))
+                                [pandect.utils.convert]))
                    defs)]
       (pprint form out))))
 
