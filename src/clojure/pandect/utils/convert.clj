@@ -59,3 +59,21 @@
     (with-open [out (java.io.ByteArrayOutputStream.)]
       (io/copy in out)
       (.toByteArray out))))
+
+;; ## Bytes
+
+(defprotocol ByteArrayConvertable
+  "Protocol for Entities that can be converted to byte arrays."
+  (convert-to-byte-array [this]))
+
+(extend-protocol ByteArrayConvertable
+  (class (byte-array 0))
+  (convert-to-byte-array [this] this)
+  String
+  (convert-to-byte-array [this] (.getBytes this "UTF-8"))
+  java.io.File
+  (convert-to-byte-array [this]
+    (slurp-bytes this))
+  java.io.InputStream
+  (convert-to-byte-array [this]
+    (slurp-bytes this)))
