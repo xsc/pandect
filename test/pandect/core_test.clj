@@ -46,4 +46,10 @@
   'sha3-224-hmac  'sha3-256-hmac  'sha3-384-hmac  'sha3-512-hmac
   'siphash   'siphash48
   'tiger-hmac
-  'whirlpool-hmac)
+  'whirlpool-hmac
+
+  ;; Sign
+  'md2-rsa
+  'md5-rsa
+  'sha1-rsa   'sha1-dsa
+  'sha256-rsa 'sha384-rsa 'sha512-rsa)

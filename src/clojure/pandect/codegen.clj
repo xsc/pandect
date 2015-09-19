@@ -5,7 +5,8 @@
             [pandect.gen
              [core :refer [generate get-code-generators]]
              [hash-generator :refer [hash-generator]]
-             [hmac-generator :refer [hmac-generator]]]))
+             [hmac-generator :refer [hmac-generator]]
+             [signature-generator :refer [signature-generator]]]))
 
 (def ^:private algorithms-names
   '{md5       "MD5"           md2       "MD2"
@@ -23,7 +24,8 @@
 
 (def ^:private generators
   [hash-generator
-   hmac-generator])
+   hmac-generator
+   signature-generator])
 
 (defn algorithm-namespace
   [algorithm-symbol]
@@ -42,10 +44,7 @@
                      'ns (algorithm-namespace sym)
                      (format "%s algorithm implementation" algorithm)
                      '(:require [pandect.buffer :refer [*buffer-size*]]
-                                [pandect.utils.convert]
-                                [pandect.gen
-                                 [hash-generator]
-                                 [hmac-generator]]))
+                                [pandect.utils.convert]))
                    defs)]
       (pprint form out))))
 
