@@ -43,12 +43,13 @@
            :bytes  (bytes->verify code-gen this sig k)
            :stream (stream->verify  code-gen this sig k buffer-size)})))
     (generate-functions [_ code-gen protocol-fn f]
-      (let [algorithm (gen/algorithm-string code-gen)]
+      (let [algorithm (gen/algorithm-string code-gen)
+            sym (base-sym code-gen f)]
         (function/generate
           'x
 
           ;; sign function
-          {:name       (base-sym code-gen f)
+          {:name       sym
            :fn         protocol-fn
            :args       '[private-key]
            :docstring  (str "[Signature] " algorithm " (%s)%n%n"
@@ -58,7 +59,7 @@
            :wrap-bytes  #(signature->bytes code-gen %)}
 
           ;; verify function
-          {:name       (gen/symbol+ (base-sym code-gen f) :verify)
+          {:name       (gen/symbol+ sym :verify)
            :fn         (gen/symbol+ protocol-fn :verify)
            :args       '[signature public-key]
            :transform  {'signature `(convert-signature-to-byte-array ~'signature)}
