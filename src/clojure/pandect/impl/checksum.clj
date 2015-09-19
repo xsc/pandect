@@ -18,9 +18,9 @@
 
   HashGen
   (bytes->hash [_ form]
-    `(let [buf# ~form
+    `(let [buf# (bytes ~form)
            a# (new ~checksum-class)]
-       (.update a# buf# 0 (count buf#))
+       (.update a# buf# 0 (alength buf#))
        (.getValue a#)))
   (stream->hash [_ form buffer-size]
     `(let [s# ~form

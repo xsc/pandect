@@ -44,7 +44,7 @@
   ^"[B"
   [^String data]
   (let [data (.toLowerCase data)
-        len (count data)
+        len (.length data)
         result (byte-array (quot len 2))]
     (loop [i 0]
       (if (< i len)
