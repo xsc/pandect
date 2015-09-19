@@ -3,7 +3,7 @@
              [core :as gen]
              [protocol-utils :as protocol]
              [function-utils :as function]]
-            [pandect.utils.convert :refer [convert-signature-to-byte-array]]))
+            [pandect.utils.convert :as convert]))
 
 ;; ## Generation
 
@@ -62,13 +62,14 @@
           {:name       (gen/symbol+ sym :verify)
            :fn         (gen/symbol+ protocol-fn :verify)
            :args       '[signature public-key]
-           :transform  {'signature `(convert-signature-to-byte-array ~'signature)}
-           :docstring  (str "[Signature] " algorithm "\n\n"
-                            "Verify the given message signature using the given "
-                            "java.security.PublicKey\n"
-                            "or java.security.cert.Certificate.\n\n"
-                            "The signature can be given as a byte array, "
-                            "hex (!) string, java.io.File,\n"
-                            "java.io.InputStream or any value implementing "
-                            "`pandect.utils.convert/ByteConvertable`.")
+           :transform  {'signature `(convert/convert-signature-to-byte-array ~'signature)
+                        'public-key `(convert/convert-to-public-key ~'public-key)}
+           :docstring
+           (str
+             "[Signature] " algorithm "\n\n"
+             "Verify the given message signature using the given public key "
+             "(anything implementing `pandect.utils.convert/PublicKeyConvertable`)\n\n"
+             "The signature can be given as a byte array, hex (!) string, "
+             "java.io.File,\njava.io.InputStream or anything implementing "
+             "`pandect.utils.convert/ByteConvertable`.")
            :suffixes   {nil :none}})))))

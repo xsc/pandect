@@ -1,21 +1,7 @@
-(ns ^{:doc "Conversion Utilities"
-      :author "Yannick Scherer"}
-  pandect.utils.convert
+(ns pandect.utils.convert
   (:require [clojure.java.io :as io]))
 
 (set! *unchecked-math* true)
-
-;; ## Casts
-
-(defn as-public-key
-  ^java.security.PublicKey
-  [k]
-  k)
-
-(defn as-certificate
-  ^java.security.cert.Certificate
-  [k]
-  k)
 
 ;; ## Byte-Array to Hex-String
 
@@ -109,9 +95,30 @@
   (convert-to-byte-array [this]
     (slurp-bytes this)))
 
-(defn convert-signature-to-byte-array
+(defn ^:no-doc convert-signature-to-byte-array
   ^"[B"
   [value]
   (if (string? value)
     (hex->bytes value)
     (convert-to-byte-array value)))
+
+;; ## Public Key
+
+(defprotocol PublicKeyConvertable
+  "Protocol for entities that can be converted to public keys."
+  (convert-to-public-key [_]
+    "Convert value to `java.security.PublicKey`."))
+
+(extend-protocol PublicKeyConvertable
+  java.security.PublicKey
+  (convert-to-public-key [this]
+    this)
+
+  java.security.cert.Certificate
+  (convert-to-public-key [this]
+    (.getPublicKey ^java.security.cert.Certificate this)))
+
+(defn ^:no-doc as-public-key
+  "Helper to hint type of value to compiler."
+  ^java.security.PublicKey [v]
+  v)

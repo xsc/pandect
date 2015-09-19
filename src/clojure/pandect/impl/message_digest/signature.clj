@@ -22,10 +22,8 @@
        (.sign signer#)))
   (bytes->verify [_ form signature-form key-form]
     `(let [signer# (Signature/getInstance ~algorithm)
-           key# ~key-form]
-       (if (instance? PublicKey key#)
-         (.initVerify signer# (convert/as-public-key key#))
-         (.initVerify signer# (convert/as-certificate key#)))
+           key# (convert/as-public-key ~key-form)]
+       (.initVerify signer# key#)
        (.update signer# (bytes ~form))
        (.verify signer# (bytes ~signature-form))))
   (stream->signature [_ form key-form buffer-size]
@@ -45,10 +43,8 @@
            c# (int ~buffer-size)
            buf# (byte-array c#)
            s# ~form
-           key# ~key-form]
-       (if (instance? PublicKey key#)
-         (.initVerify signer# (convert/as-public-key key#))
-         (.initVerify signer# (convert/as-certificate key#)))
+           key# (convert/as-public-key ~key-form)]
+       (.initVerify signer# key#)
        (loop []
          (let [r# (.read s# buf# 0 c#)]
            (when-not (= r# -1)
