@@ -2,8 +2,9 @@
 
 __pandect__ is a fast and easy-to-use
 [Message Digest](http://en.wikipedia.org/wiki/Message_digest),
-[Checksum](http://en.wikipedia.org/wiki/Checksum) and
+[Checksum](http://en.wikipedia.org/wiki/Checksum),
 [HMAC](https://en.wikipedia.org/wiki/Hash-based_message_authentication_code)
+and [Signature](https://en.wikipedia.org/wiki/Digital_signature)
 library for Clojure.
 
 [![Build Status](https://travis-ci.org/xsc/pandect.svg?branch=master)](https://travis-ci.org/xsc/pandect)
@@ -18,20 +19,36 @@ __Leiningen__ ([via Clojars](https://clojars.org/pandect))
 __REPL__
 
 ```clojure
-(require '[pandect.algo.sha1 :refer :all]
-         '[clojure.java.io :as io])
+(require '[pandect.algo.sha1 :refer :all])
 
-(sha1 "Hello World!")           ;; => "2ef7bde608ce5404e97d5f042f95f89f1c232871"
-(sha1-bytes "Hello World!")     ;; => #<byte[] [B@5293b95>
-(sha1 (io/file "project.clj"))  ;; => "ff3b4565652aeb835edf2715b2a28586929ea4cc"
-(sha1-file "project.clj")       ;; => "ff3b4565652aeb835edf2715b2a28586929ea4cc"
-(sha1-file-bytes "project.clj") ;; => #<byte[] [B@e2606c7>
+(sha1 "Hello World!")                      ;; => "2ef7bde608ce5404e97d5f042f95f89f1c232871"
+(sha1 (.getBytes "Hello World!" "UTF-8"))  ;; => "2ef7bde608ce5404e97d5f042f95f89f1c232871"
+(sha1 (File. "project.clj"))               ;; => "ff3b4565652aeb835edf2715b2a28586929ea4cc"
+(sha1 (FileInputStream. "project.clj"))    ;; => "ff3b4565652aeb835edf2715b2a28586929ea4cc"
 
+;; more variants
+(sha1-bytes "Hello World!")                ;; => #<byte[] [B@5293b95>
+(sha1-file "project.clj")                  ;; => "ff3b4565652aeb835edf2715b2a28586929ea4cc"
+(sha1-file-bytes "project.clj")            ;; => #<byte[] [B@e2606c7>
+```
+
+HMAC functions take an additional key:
+
+```clojure
 (sha1-hmac "Hello World!" "secret-key")       ;; => "399fc3d94f6df2213f92fcf2a8b6669279ef7d20"
 (sha1-hmac-bytes "Hello World!" "secret-key") ;; => #<byte[] [B@602bd522>
 ```
 
-You can tune stream processing using `pandect.buffer/with-buffer-size` (default is 2KB):
+Signing functions expect a `java.security.PrivateKey`, while verification works
+with `java.security.PublicKey` or `java.security.cert.Certificate`:
+
+```clojure
+(sha1-rsa "Hello World!" private-key)                 ;; => "5866..."
+(sha1-rsa-verify "Hello World!" "5866..." public-key) ;; => true
+```
+
+You can tune stream processing using `pandect.buffer/with-buffer-size` (default
+is 2KB):
 
 ```clojure
 (require '[pandect.buffer :refer [with-buffer-size]])
@@ -41,14 +58,16 @@ You can tune stream processing using `pandect.buffer/with-buffer-size` (default 
     (sha256 in)))
 ```
 
-If you want to hash a String using a specific encoding, you should create the respective byte array manually:
+If you want to hash a String using a specific encoding, you should create the
+respective byte array manually:
 
 ```clojure
 (sha1 "Hällo World!")                          ;; => "f19c05a67c3d0f297b62e868657cf177913ce02a"
 (sha1 (.getBytes "Hällo World!" "ISO-8859-1")) ;; => "cfe670bd6845020f5754b19a3c0eee602043eb89"
 ```
 
-The namespace `pandect.core` contains all available algorithms but for better startup/compile times, using algorithm-specific ones is recommended.
+The namespace `pandect.core` contains all available algorithms but for better
+startup/compile times, using algorithm-specific ones is recommended.
 
 ## Supported Algorithms
 
@@ -86,8 +105,8 @@ is given, the simple string "Hello, World!" will be hashed.
 
 ## Benchmark Results
 
-Benchmarks are run using [Criterium](https://github.com/hugoduncan/criterium) on an Intel
-Core i7 2.7GHz/8GB RAM machine with Oracle JDK 1.7.0u67 (64-bit).
+Benchmarks are run using [Criterium](https://github.com/hugoduncan/criterium) on
+an Intel Core i7 2.7GHz/8GB RAM machine with Oracle JDK 1.7.0u67 (64-bit).
 
 Results obtained using pandect __0.5.0__.
 
