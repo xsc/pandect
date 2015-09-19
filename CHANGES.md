@@ -1,5 +1,11 @@
 ## Changelog: `pandect`
 
+### 0.5.4
+
+- replaces two more occurrences of `count` with `alength` and `String.length()`.
+- implements RSA/DSA signing functions for MD2, MD5, SHA-1, SHA-256, SHA-384 and
+  SHA-512.
+
 ### 0.5.3
 
 - replaces a `count` on byte arrays with `alength` (see #13).
