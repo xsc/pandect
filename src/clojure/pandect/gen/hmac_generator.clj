@@ -37,7 +37,8 @@
       (let [this (gensym "data")
             k (gensym "key")]
         (protocol/generate
-          [this]
+          (gensym)
+          this
           {:name   protocol-fn
            :args   [k]
            :bytes  (bytes->hmac code-gen this k)

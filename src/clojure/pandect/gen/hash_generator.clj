@@ -31,7 +31,8 @@
     (generate-protocol [_ code-gen protocol-fn buffer-size]
       (let [this (gensym "data")]
         (protocol/generate
-          [this]
+          (gensym)
+          this
           {:name   protocol-fn
            :bytes  (bytes->hash code-gen this)
            :stream (stream->hash code-gen this buffer-size)})))

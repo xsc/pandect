@@ -29,7 +29,8 @@
             sig (gensym "sig")
             k (gensym "key")]
         (protocol/generate
-          [this]
+          (gensym)
+          this
           ;; sign implementation
           {:name   protocol-fn
            :args   [k]

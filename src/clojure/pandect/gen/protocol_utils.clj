@@ -46,13 +46,21 @@
 
 (defn generate
   "Generate a `defprotocol' form, implementing it for the following classes:
+
    - byte array,
    - `String`,
    - `InputStream`,
-   - `File`
+   - `File`.
+
+   `fns` are maps with the following keys:
+
+   - `:name`: the name of the protocol function,
+   - `:args`: parameters (apart from `this`) for the function,
+   - `:bytes`: the implementation for byte arrays,
+   - `:stream`: the implementation for streams.
    "
-  [[this {:keys [protocol-name]}] & fns]
-  (let [P (with-meta (or protocol-name (gensym)) {:private true})]
+  [P this & fns]
+  (let [P (with-meta P {:private true})]
     `(do
        ~@(generate-protocol P this fns)
        ~(generate-byte-extends P this fns)
