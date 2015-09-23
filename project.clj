@@ -6,7 +6,6 @@
             :year 2014
             :key "mit"}
   :dependencies [[org.clojure/clojure "1.7.0"]
-                 [potemkin "0.4.1"]
                  [org.bouncycastle/bcprov-jdk15on "1.52"]]
   :exclusions [org.clojure/clojure]
   :source-paths ["src/clojure" "target/generated"]
