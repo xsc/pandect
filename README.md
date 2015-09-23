@@ -16,6 +16,9 @@ __Leiningen__ ([via Clojars](https://clojars.org/pandect))
 
 [![Clojars Project](http://clojars.org/pandect/latest-version.svg)](http://clojars.org/pandect)
 
+Note that, to use functions based on the BouncyCastle crypto provider, you have
+to manually include a version of the `org.bouncycastle/bcprov-jdk15on` artifact.
+
 __REPL__
 
 ```clojure
