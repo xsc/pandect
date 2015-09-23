@@ -5,8 +5,8 @@
             :url "http://opensource.org/licenses/MIT"
             :year 2014
             :key "mit"}
-  :dependencies [[org.clojure/clojure "1.7.0"]
-                 [org.bouncycastle/bcprov-jdk15on "1.52"]]
+  :dependencies [[org.clojure/clojure "1.7.0" :scope "provided"]
+                 [org.bouncycastle/bcprov-jdk15on "1.52" :scope "provided"]]
   :exclusions [org.clojure/clojure]
   :source-paths ["src/clojure" "target/generated"]
   :java-source-paths ["src/java"]
