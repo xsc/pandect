@@ -1,13 +1,12 @@
-(defproject pandect "0.5.5-SNAPSHOT"
+(defproject pandect "0.6.0-SNAPSHOT"
   :description "Message Digest and Checksum Library for Clojure"
   :url "https://github.com/xsc/pandect"
   :license {:name "MIT License"
             :url "http://opensource.org/licenses/MIT"
             :year 2014
             :key "mit"}
-  :dependencies [[org.clojure/clojure "1.7.0"]
-                 [potemkin "0.4.1"]
-                 [org.bouncycastle/bcprov-jdk15on "1.52"]]
+  :dependencies [[org.clojure/clojure "1.7.0" :scope "provided"]
+                 [org.bouncycastle/bcprov-jdk15on "1.52" :scope "provided"]]
   :exclusions [org.clojure/clojure]
   :source-paths ["src/clojure" "target/generated"]
   :java-source-paths ["src/java"]
