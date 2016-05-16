@@ -10,17 +10,17 @@
 
 (def ^:private algorithms-names
   '{md5       "MD5"           md2       "MD2"
-    md4       "MD4"           gost      "GOST 34.11-94"
+    md4       "MD4"           gost      "GOST3411"
     sha1      "SHA-1"         sha224    "SHA-224"
     sha256    "SHA-256"       sha384    "SHA-384"
-    sha512    "SHA-512"       sha3-256  "SHA-3 (256)"
-    sha3-224  "SHA-3 (224)"   sha3-384  "SHA-3 (384)"
-    sha3-512  "SHA-3 (512)"   whirlpool "Whirlpool"
+    sha512    "SHA-512"       sha3-256  "SHA3-256"
+    sha3-224  "SHA3-224"      sha3-384  "SHA3-384"
+    sha3-512  "SHA3-512"      whirlpool "Whirlpool"
     adler32   "ADLER-32"      crc32     "CRC-32"
-    ripemd128 "RIPEMD-128"    ripemd160 "RIPEMD-160"
-    ripemd256 "RIPEMD-256"    ripemd320 "RIPEMD-320"
-    tiger     "Tiger (192,3)" siphash   "SipHash-2-4"
-    siphash48 "SipHash-4-8"})
+    ripemd128 "RipeMD128"     ripemd160 "RipeMD160"
+    ripemd256 "RipeMD256"     ripemd320 "RipeMD320"
+    tiger     "Tiger"
+    siphash   "Siphash-2-4"   siphash48 "Siphash-4-8"})
 
 (def ^:private generators
   [hash-generator
