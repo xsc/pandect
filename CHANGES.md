@@ -1,5 +1,14 @@
 ## Changelog: `pandect`
 
+### 0.6.0
+
+- __BREAKING__: BouncyCastle dependency has to be explicitly included.
+- __BREAKING__: The implementation of SHA3 included in versions <= 0.5.4 has
+  been renamed to Keccak, i.e. `sha3-224` is now `keccak-224`.
+- added Digest algorithms:
+  - SHA3
+  - BLAKE2b
+
 ### 0.5.4
 
 - replaces two more occurrences of `count` with `alength` and `String.length()`.
