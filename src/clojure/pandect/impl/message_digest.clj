@@ -19,7 +19,7 @@
          rsa-algorithm
          dsa-algorithm] MD_ALGORITHMS]
   (gen/register-algorithm!
-    hash-algorithm
+    {:name hash-algorithm}
     (hash/make hash-algorithm)
     (hmac/make hmac-algorithm)
     (signature/make rsa-algorithm :rsa)

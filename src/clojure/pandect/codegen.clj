@@ -34,17 +34,24 @@
 (defn- write-source!
   [file sym algorithm]
   (let [out (writer file)
-        defs (for [generator generators
-                   code-gen (get-code-generators algorithm)
-                   :let [code (generate generator code-gen sym '*buffer-size*)]
-                   :when code]
-               code)]
+        analyzed (for [generator generators
+                       :let [{:keys [requires code-gens]}
+                             (get-code-generators algorithm)]
+                       code-gen code-gens
+                       :let [code (generate generator code-gen sym '*buffer-size*)]
+                       :when code]
+                   {:def code
+                    :requires requires})
+        requires (distinct (mapcat :requires analyzed))
+        defs (map :def analyzed)]
     (doseq [form (list*
                    (list
                      'ns (algorithm-namespace sym)
                      (format "%s algorithm implementation" algorithm)
-                     '(:require [pandect.buffer :refer [*buffer-size*]]
-                                [pandect.utils.convert]))
+                     (list* :require
+                            '[pandect.buffer :refer [*buffer-size*]]
+                            '[pandect.utils.convert]
+                            requires))
                    defs)]
       (pprint form out))))
 

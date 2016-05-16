@@ -36,12 +36,15 @@
 (defn register-algorithm!
   "Register new algorithm code generator."
   ([code-gen]
-   (register-algorithm! (algorithm-string code-gen) code-gen))
-  ([algorithm-string & code-gens]
-   (->> (filter identity code-gens)
-        (alter-var-root
-          #'code-generators
-          update-in [algorithm-string] concat))))
+   (register-algorithm! {:name (algorithm-string code-gen)} code-gen))
+  ([{:keys [name requires]} & code-gens]
+   (alter-var-root
+     #'code-generators
+     (fn [gens]
+       (-> gens
+           (update-in [name :requires] concat requires)
+           (update-in [name :code-gens]
+                      concat (filter identity code-gens)))))))
 
 (defn get-code-generators
   "Lookup code generators by algorithm."
