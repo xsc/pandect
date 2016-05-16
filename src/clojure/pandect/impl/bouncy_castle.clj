@@ -17,13 +17,17 @@
       ["Tiger"      "Hmac-Tiger"]
       ["Whirlpool"  "Hmac-Whirlpool"])
 
+    ;; KECCAK
+    (for [length [224 256 384 512]]
+      [(str "Keccak-" length) (str "Hmac-Keccak" length)])
+
     ;; RipeMD
     (for [rmd-length [128 160 256 320]]
       [(str "RipeMD" rmd-length) (str "Hmac-RipeMD" rmd-length)])
 
     ;; SHA-3
     (for [sha3-length [224 256 384 512]]
-      [(str "SHA3-" sha3-length) (str "Hmac-SHA3-" sha3-length)])))
+      [(str "SHA3-" sha3-length)])))
 
 (doseq [[hash-algorithm
          hmac-algorithm] MD_ALGORITHMS]

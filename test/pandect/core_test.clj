@@ -51,12 +51,20 @@
   [:* :file* :file :bytes :file-bytes]
   adler32
   crc32
-  md2)
+  md2
+  sha3-224
+  sha3-256
+  sha3-384
+  sha3-512)
 
 (deftest-api t-digest-and-hmac-functions
   [      :*     :file*      :file      :bytes      :file-bytes
    :hmac :hmac* :hmac-file* :hmac-file :hmac-bytes :hmac-file-bytes]
   gost
+  keccak-224
+  keccak-256
+  keccak-384
+  keccak-512
   md4
   md5
   ripemd128
@@ -68,10 +76,6 @@
   sha256
   sha384
   sha512
-  sha3-224
-  sha3-256
-  sha3-384
-  sha3-512
   tiger
   whirlpool)
 

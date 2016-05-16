@@ -17,6 +17,11 @@
         siphash   "Siphash-2-4"
         siphash48 "Siphash-4-8"}
 
+      ;; KECCAK
+      (into
+        (for [length [224 256 384 512]]
+          [(as-sym 'keccak- length) (str "Keccak-" length)]))
+
       ;; MDx
       (into
         (for [v [2 4 5]]
