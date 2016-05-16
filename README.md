@@ -8,13 +8,13 @@ and [Signature](https://en.wikipedia.org/wiki/Digital_signature)
 library for Clojure.
 
 [![Build Status](https://travis-ci.org/xsc/pandect.svg?branch=master)](https://travis-ci.org/xsc/pandect)
-[![endorse](https://api.coderwall.com/xsc/endorsecount.png)](https://coderwall.com/xsc)
 
 ## Usage
 
 __Leiningen__ ([via Clojars](https://clojars.org/pandect))
 
-[![Clojars Project](http://clojars.org/pandect/latest-version.svg)](http://clojars.org/pandect)
+
+[![Clojars Project](https://img.shields.io/clojars/v/pandect.svg)](https://clojars.org/pandect)
 
 Note that - for versions 0.6.0 and up - to use functions based on the
 BouncyCastle crypto provider, you have to manually include a version of
