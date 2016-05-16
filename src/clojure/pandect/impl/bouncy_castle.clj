@@ -21,6 +21,10 @@
     (for [length [224 256 384 512]]
       [(str "Keccak-" length) (str "Hmac-Keccak" length)])
 
+    ;; BLAKE2B
+    (for [length [160 256 384 512]]
+      [(str "BLAKE2B-" length)])
+
     ;; RipeMD
     (for [rmd-length [128 160 256 320]]
       [(str "RipeMD" rmd-length) (str "Hmac-RipeMD" rmd-length)])

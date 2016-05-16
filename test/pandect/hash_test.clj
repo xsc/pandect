@@ -18,6 +18,10 @@
 
          adler32        "1c49043e"
          crc32          "1c291ca3"
+         blake2b-160    "e7338d05e5aa2b5e4943389f9475fce2525b92f2"
+         blake2b-256    "bf56c0728fd4e9cf64bfaf6dabab81554103298cdee5cc4d580433aa25e98b00"
+         blake2b-384    "53fd759520545fe93270e61bac03b243b686af32ed39a4aa635555be47a89004851d6a13ece00d95b7bdf9910cb71071"
+         blake2b-512    "54b113f499799d2f3c0711da174e3bc724737ad18f63feb286184f0597e1466436705d6c8e8c7d3d3b88f5a22e83496e0043c44a3c2b1700e0e02259f8ac468e"
          gost           "636a32a952ecb9e8529ea759ecff1c33623945e5d868352a7df5f240ea747ded"
          md2            "315f7c67223f01fb7cab4b95100e872e"
          md4            "b2a5cc34fc21a764ae2fad94d56fadf6"

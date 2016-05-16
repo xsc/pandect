@@ -22,6 +22,11 @@
         (for [length [224 256 384 512]]
           [(as-sym 'keccak- length) (str "Keccak-" length)]))
 
+      ;; BLAKE2B
+      (into
+        (for [length [160 256 384 512]]
+          [(as-sym 'blake2b- length) (str "BLAKE2B-" length)]))
+
       ;; MDx
       (into
         (for [v [2 4 5]]

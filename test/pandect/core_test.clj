@@ -51,11 +51,15 @@
   [:* :file* :file :bytes :file-bytes]
   adler32
   crc32
-  md2
+  blake2b-160
+  blake2b-256
+  blake2b-384
+  blake2b-512
   sha3-224
   sha3-256
   sha3-384
-  sha3-512)
+  sha3-512
+  md2)
 
 (deftest-api t-digest-and-hmac-functions
   [      :*     :file*      :file      :bytes      :file-bytes
