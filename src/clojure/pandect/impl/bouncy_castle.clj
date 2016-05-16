@@ -8,20 +8,22 @@
 ;; ## Message Digest/HMAC Algorithms
 
 (def ^:private MD_ALGORITHMS
-  (vector
-    ["GOST3411"   "Hmac-GOST3411"]
-    ["MD4"        "Hmac-MD4"]
-    ["RipeMD128"  "Hmac-RipeMD128"]
-    ["RipeMD160"  "Hmac-RipeMD160"]
-    ["RipeMD256"  "Hmac-RipeMD256"]
-    ["RipeMD320"  "Hmac-RipeMD320"]
-    ["SHA-224"    "Hmac-SHA224"]
-    ["SHA3-224"   "Hmac-SHA3-224"]
-    ["SHA3-256"   "Hmac-SHA3-256"]
-    ["SHA3-384"   "Hmac-SHA3-384"]
-    ["SHA3-512"   "Hmac-SHA3-512"]
-    ["Tiger"      "Hmac-Tiger"]
-    ["Whirlpool"  "Hmac-Whirlpool"]))
+  (concat
+    ;; Single Instances
+    (vector
+      ["GOST3411"   "Hmac-GOST3411"]
+      ["MD4"        "Hmac-MD4"]
+      ["SHA-224"    "Hmac-SHA224"]
+      ["Tiger"      "Hmac-Tiger"]
+      ["Whirlpool"  "Hmac-Whirlpool"])
+
+    ;; RipeMD
+    (for [rmd-length [128 160 256 320]]
+      [(str "RipeMD" rmd-length) (str "Hmac-RipeMD" rmd-length)])
+
+    ;; SHA-3
+    (for [sha3-length [224 256 384 512]]
+      [(str "SHA3-" sha3-length) (str "Hmac-SHA3-" sha3-length)])))
 
 (doseq [[hash-algorithm
          hmac-algorithm] MD_ALGORITHMS]

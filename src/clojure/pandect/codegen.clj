@@ -3,24 +3,39 @@
             [clojure.java.io :refer [file writer]]
             [pandect.impl message-digest checksum bouncy-castle]
             [pandect.gen
-             [core :refer [generate get-code-generators]]
+             [core :refer [generate get-code-generators as-sym]]
              [hash-generator :refer [hash-generator]]
              [hmac-generator :refer [hmac-generator]]
              [signature-generator :refer [signature-generator]]]))
 
 (def ^:private algorithms-names
-  '{md5       "MD5"           md2       "MD2"
-    md4       "MD4"           gost      "GOST3411"
-    sha1      "SHA-1"         sha224    "SHA-224"
-    sha256    "SHA-256"       sha384    "SHA-384"
-    sha512    "SHA-512"       sha3-256  "SHA3-256"
-    sha3-224  "SHA3-224"      sha3-384  "SHA3-384"
-    sha3-512  "SHA3-512"      whirlpool "Whirlpool"
-    adler32   "ADLER-32"      crc32     "CRC-32"
-    ripemd128 "RipeMD128"     ripemd160 "RipeMD160"
-    ripemd256 "RipeMD256"     ripemd320 "RipeMD320"
-    tiger     "Tiger"
-    siphash   "Siphash-2-4"   siphash48 "Siphash-4-8"})
+  (-> '{gost      "GOST3411"
+        whirlpool "Whirlpool"
+        adler32   "ADLER-32"
+        crc32     "CRC-32"
+        tiger     "Tiger"
+        siphash   "Siphash-2-4"
+        siphash48 "Siphash-4-8"}
+
+      ;; MDx
+      (into
+        (for [v [2 4 5]]
+          [(as-sym 'md v) (str "MD" v)]))
+
+      ;; RipeMD
+      (into
+        (for [length [128 160 256 320]]
+          [(as-sym 'ripemd length) (str "RipeMD" length)]))
+
+      ;; SHA
+      (into
+        (for [length [1 224 256 384 512]]
+          [(as-sym 'sha length) (str "SHA-" length)]))
+
+      ;; SHA-3
+      (into
+        (for [length [224 256 384 512]]
+          [(as-sym 'sha3- length) (str "SHA3-" length)]))))
 
 (def ^:private generators
   [hash-generator

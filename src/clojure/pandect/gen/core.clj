@@ -68,6 +68,10 @@
      `(with-open [~sym (FileInputStream. (~wrap-fn ~fsym))]
         ~generator-code))))
 
+(defn as-sym
+  [sym & suffixes]
+  (symbol (apply str (name sym) suffixes)))
+
 (defn symbol+
   [sym suffix]
   (cond (= suffix :*) (symbol (str (name sym) "*"))
