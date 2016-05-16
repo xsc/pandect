@@ -6,7 +6,7 @@
             :year 2014
             :key "mit"}
   :dependencies [[org.clojure/clojure "1.8.0" :scope "provided"]
-                 [org.bouncycastle/bcprov-jdk15on "1.52" :scope "provided"]]
+                 [org.bouncycastle/bcprov-jdk15on "1.54" :scope "provided"]]
   :exclusions [org.clojure/clojure]
   :source-paths ["src/clojure" "target/generated"]
   :java-source-paths ["src/java"]
