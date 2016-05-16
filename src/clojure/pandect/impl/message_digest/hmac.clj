@@ -8,14 +8,16 @@
 
 ;; ## Code Generator
 
-(deftype MessageDigestHMACGen [algorithm]
+(deftype MessageDigestHMACGen [algorithm symbol-suffix]
   gen/CodeGen
   (algorithm-string [_]
     algorithm)
 
   hmac/HMACGen
   (base-symbol [_ sym]
-    (gen/symbol+ sym :hmac))
+    (if symbol-suffix
+      (gen/symbol+ sym symbol-suffix)
+      sym))
   (bytes->hmac [_ msg-form key-form]
     `(let [mac# (Mac/getInstance ~algorithm)
            msg# (bytes ~msg-form)
@@ -46,4 +48,8 @@
 
 (defn make
   [algorithm]
-  (some-> algorithm ->MessageDigestHMACGen))
+  (some-> algorithm (->MessageDigestHMACGen :hmac)))
+
+(defn make-exclusive
+  [algorithm]
+  (some-> algorithm (->MessageDigestHMACGen nil)))
