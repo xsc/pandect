@@ -37,11 +37,12 @@
   "Register new algorithm code generator."
   ([code-gen]
    (register-algorithm! {:name (algorithm-string code-gen)} code-gen))
-  ([{:keys [name requires]} & code-gens]
+  ([{:keys [name requires docstring]} & code-gens]
    (alter-var-root
      #'code-generators
      (fn [gens]
        (-> gens
+           (update-in [name :docstring] #(or % docstring))
            (update-in [name :requires] concat requires)
            (update-in [name :code-gens]
                       concat (filter identity code-gens)))))))
