@@ -36,8 +36,9 @@
 (doseq [[hash-algorithm
          hmac-algorithm] MD_ALGORITHMS]
   (gen/register-algorithm!
-    {:name     hash-algorithm
-     :requires '(pandect.utils.bouncy-castle-provider)}
+    {:name      hash-algorithm
+     :requires  '(pandect.utils.bouncy-castle-provider)
+     :docstring "(requires `org.bouncycastle/bcprov-jdk15on` to be on the classpath)"}
     (hash/make hash-algorithm)
     (hmac/make hmac-algorithm)))
 
@@ -50,6 +51,7 @@
 
 (doseq [[hmac-algorithm] HMAC_ALGORITHMS]
   (gen/register-algorithm!
-    {:name     hmac-algorithm
-     :requires '(pandect.utils.bouncy-castle-provider)}
+    {:name      hmac-algorithm
+     :requires  '(pandect.utils.bouncy-castle-provider)
+     :docstring "(requires `org.bouncycastle/bcprov-jdk15on` to be on the classpath)"}
     (hmac/make-exclusive hmac-algorithm)))
