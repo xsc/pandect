@@ -82,16 +82,25 @@
 
 (defn- generate-algo-namespaces!
   [base]
-  (doseq [[sym algorithm] algorithms-names
-          :let [filename (.replace (format "%s.clj" sym) \- \_)]]
-    (doto (file base "pandect" "algo" filename)
-      (-> .getParentFile .mkdirs)
-      (write-source! sym algorithm))))
+  (->> (sort-by val algorithms-names)
+       (pmap
+         (fn [[sym algorithm]]
+           (let [filename (.replace (format "%s.clj" sym) \- \_)]
+             (locking *out*
+               (println "[codegen] *" algorithm))
+             (doto (file base "pandect" "algo" filename)
+               (-> .getParentFile .mkdirs)
+               (write-source! sym algorithm)))))
+       (dorun)))
 
 (defn algorithms
   []
   (keys algorithms-names))
 
-(defn -main [& [base]]
-  (generate-algo-namespaces!
-    (or base "target/generated")))
+(defn -main
+  [& [base]]
+  (let [base (or base "target/generated")]
+    (println "[codegen] writing algorithms to:" base)
+    (generate-algo-namespaces! base)
+    (println "[codegen] done.")
+    (shutdown-agents)))
