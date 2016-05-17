@@ -2,7 +2,7 @@
   :description "Message Digest and Checksum Library for Clojure"
   :url "https://github.com/xsc/pandect"
   :license {:name "MIT License"
-            :url "http://opensource.org/licenses/MIT"
+            :url "https://opensource.org/licenses/MIT"
             :year 2014
             :key "mit"}
   :dependencies [[org.clojure/clojure "1.8.0" :scope "provided"]
