@@ -10,8 +10,13 @@
   :exclusions [org.clojure/clojure]
   :source-paths ["src/clojure" "target/generated"]
   :java-source-paths ["src/java"]
-  :profiles {:dev {:plugins [[codox "0.8.10"]]
-                   :codox {:project {:name "pandect"}} }
+  :profiles {:dev {:plugins [[lein-codox "0.9.4"]]
+                   :codox {:project {:name "pandect"}
+                           :metadata {:doc/format :markdown}
+                           :output-path "doc"
+                           :namespaces [pandect.core
+                                        pandect.buffer
+                                        #"^pandect\.algo\.[a-z\-]+"]}}
              :benchmark {:dependencies [[criterium "0.4.3"]
                                         [clj-message-digest "1.0.0"]
                                         [digest "1.4.4"]]
