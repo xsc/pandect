@@ -4,8 +4,11 @@
 
 - __BREAKING__: BouncyCastle dependency has to be explicitly included.
 - __BREAKING__: The implementation of SHA3 included in versions <= 0.5.4 has
-  been renamed to Keccak, i.e. `sha3-224` is now `keccak-224`.
+  been renamed to Keccak, i.e. `sha3-224` is now `keccak-224` (see BouncyCastle
+  [release notes](https://www.bouncycastle.org/releasenotes.html) for version
+  1.53).
 - added Digest algorithms:
+  - KECCAK (formerly SHA3)
   - SHA3
   - BLAKE2b
 
