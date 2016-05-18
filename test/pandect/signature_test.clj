@@ -10,7 +10,7 @@
 (defn- generate-keys
   [algorithm bits]
   (let [gen (doto (KeyPairGenerator/getInstance algorithm)
-              (.initialize bits))
+              (.initialize (int bits)))
         pair (.genKeyPair gen)]
     (vector
       (.getPrivate pair)
@@ -22,8 +22,8 @@
 
 (let [[private-key public-key] (generate-keys "RSA" 768)
       inputs {:string  identity
-              :bytes  #(.getBytes % "UTF-8")
-              :stream #(java.io.ByteArrayInputStream. (.getBytes % "UTF-8"))}]
+              :bytes  #(.getBytes ^String % "UTF-8")
+              :stream #(java.io.ByteArrayInputStream. (.getBytes ^String % "UTF-8"))}]
   (deftest t-rsa-algorithms
     (are [sign-algorithm verify-algorithm]
          (do
@@ -45,8 +45,8 @@
 
 (let [[private-key public-key] (generate-keys "DSA" 768)
       inputs {:string  identity
-              :bytes  #(.getBytes % "UTF-8")
-              :stream #(java.io.ByteArrayInputStream. (.getBytes % "UTF-8"))}]
+              :bytes  #(.getBytes ^String % "UTF-8")
+              :stream #(java.io.ByteArrayInputStream. (.getBytes ^String % "UTF-8"))}]
   (deftest t-dsa-algorithms
     (are [sign-algorithm verify-algorithm]
          (do

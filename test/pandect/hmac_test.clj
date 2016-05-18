@@ -8,8 +8,8 @@
 (def test-key "key")
 
 (let [inputs {:string identity
-              :bytes  #(.getBytes % "UTF-8")
-              :stream #(java.io.ByteArrayInputStream. (.getBytes % "UTF-8"))}]
+              :bytes  #(.getBytes ^String % "UTF-8")
+              :stream #(java.io.ByteArrayInputStream. (.getBytes ^String % "UTF-8"))}]
   (deftest t-hmac-algorithms
     (are [algorithm result]
          (do

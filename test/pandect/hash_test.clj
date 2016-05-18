@@ -7,8 +7,8 @@
 (def test-string "Hello World!")
 
 (let [inputs {:string  identity
-              :bytes  #(.getBytes % "UTF-8")
-              :stream #(java.io.ByteArrayInputStream. (.getBytes % "UTF-8"))}]
+              :bytes  #(.getBytes ^String % "UTF-8")
+              :stream #(java.io.ByteArrayInputStream. (.getBytes ^String % "UTF-8"))}]
   (deftest t-hash-algorithms
     (are [algorithm result]
          (do
