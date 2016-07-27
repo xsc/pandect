@@ -18,7 +18,9 @@ __Leiningen__ ([via Clojars](https://clojars.org/pandect))
 
 Note that - for versions 0.6.0 and up - to use functions based on the
 BouncyCastle crypto provider, you have to manually include a version of
-the `org.bouncycastle/bcprov-jdk15on` artifact.
+the `org.bouncycastle/bcprov-jdk15on` artifact. Additionally, you need to take
+special care when trying to create an uberjar
+ ([see here](#uberjars-and-bouncycastle)).
 
 __REPL__
 
@@ -87,6 +89,39 @@ functions and their parameters.
 
 \* not available as MAC<br />
 <sup>+</sup> only available as MAC
+
+## Uberjars and BouncyCastle
+
+The BouncyCastle JAR has been signed to prevent tempering - and JCE won't allow
+usage of any of its functions if that signature is not present. This poses a
+problem when creating an Uberjar since all needed class files will be extracted
+from their JARs and repackaged into a single one - removing any existing
+signature.
+
+You'll see, for example, the following exceptions in that case:
+
+```
+java.security.NoSuchAlgorithmException: Algorithm (...) not available
+java.security.NoSuchProviderException: JCE cannot authenticate the provider BC
+```
+
+Primarily, this means you have to prevent the BouncyCastle files ending up
+within the JAR  which can be accomplished using the `:provided` profile in you
+`project.clj`:
+
+```clojure
+:profiles
+{:provided
+ {:dependencies [[org.bouncycastle/bcprov-jdk15on "1.54"]}}
+```
+
+Now you can build your uberjar but you have to make sure that the BouncyCastle
+JAR is on your classpath when running it, i.e. assuming they are both in the
+same directory:
+
+```
+java -cp bcprov-jdk15on-1.54.jar:app-standalone.jar app.core
+```
 
 ## Benchmarks
 
