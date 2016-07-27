@@ -92,7 +92,7 @@ functions and their parameters.
 
 ## Uberjars and BouncyCastle
 
-The BouncyCastle JAR has been signed to prevent tempering - and JCE won't allow
+The BouncyCastle JAR has been signed to prevent tampering - and JCE won't allow
 usage of any of its functions if that signature is not present. This poses a
 problem when creating an Uberjar since all needed class files will be extracted
 from their JARs and repackaged into a single one - removing any existing
