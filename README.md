@@ -123,6 +123,11 @@ same directory:
 java -cp bcprov-jdk15on-1.54.jar:app-standalone.jar app.core
 ```
 
+Before version 0.6.0, pandect accessed the BouncyCastle functionality directly
+(i.e. not via `MessageDigest/getInstance` or `Mac/getInstance` but using actual
+constructor calls), meaning these limitations did not apply. It is, thus,
+strongly recommended to do it right and upgrade to 0.6.0.
+
 ## Benchmarks
 
 You can run benchmarks on the following Message Digest implementations:
