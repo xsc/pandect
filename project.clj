@@ -24,10 +24,11 @@
                          :jvm-opts ^:replace ["-Xmx1g" "-server"]}
              :1.5 {:dependencies [[org.clojure/clojure "1.5.1"]]}
              :1.6 {:dependencies [[org.clojure/clojure "1.6.0"]]}
-             :1.7 {:dependencies [[org.clojure/clojure "1.7.0"]]}}
+             :1.7 {:dependencies [[org.clojure/clojure "1.7.0"]]}
+             :1.9 {:dependencies [[org.clojure/clojure "1.9.0-alpha13"]]}}
 
   :prep-tasks ["codegen"]
   :aliases {"benchmark" ["with-profile" "dev,benchmark" "run" "-m"]
             "codegen" ["run" "-m" "pandect.codegen"]
-            "all" ["with-profile" "+dev:+1.5:+1.6:+1.7"]}
+            "all" ["with-profile" "+dev:+1.5:+1.6:+1.7:+1.9"]}
   :pedantic? :abort)
