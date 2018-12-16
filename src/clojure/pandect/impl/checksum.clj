@@ -1,8 +1,7 @@
 (ns ^:no-doc pandect.impl.checksum
-  (:require [pandect.gen
-             [core :refer :all]
-             [hash-generator :refer :all]
-             [hmac-generator :refer :all]]
+  (:require [pandect.gen.core :refer :all]
+            [pandect.gen.hash-generator :refer :all]
+            [pandect.gen.hmac-generator :refer :all]
             [pandect.utils.convert :as c :only [long->4-bytes]])
   (:import [java.util.zip Adler32 CRC32]))
 
