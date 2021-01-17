@@ -1,7 +1,7 @@
 (ns pandect.core-test
-  (:require [clojure.test :refer :all]
-            [pandect.gen.core :refer [symbol+]]
-            [pandect.utils.convert :refer [bytes->hex]]))
+  (:require [pandect.gen.core :refer [symbol+]]
+            [pandect.utils.convert :refer [bytes->hex]]
+            [clojure.test :refer [deftest are is]]))
 
 ;; ## Utils Tests
 
@@ -15,6 +15,8 @@
        [-5 127 4 15] "fb7f040f"))
 
 ;; ## API Tests
+
+;; ### Helpers
 
 (defn- namespace-exists?
   [ns]
@@ -46,6 +48,40 @@
                             (is (suffix-exists? ~'algo-ns ~'algorithm ~'suffix)))
                           true)
           ~@(for [algorithm algorithms] `(quote ~algorithm)))))
+
+;; ### Declare (for clj-kondo)
+
+(declare adler32
+         crc32
+         blake2b-160
+         blake2b-256
+         blake2b-384
+         blake2b-512
+         sha3-224
+         sha3-256
+         sha3-384
+         sha3-512
+         md2
+         gost
+         keccak-224
+         keccak-256
+         keccak-384
+         keccak-512
+         md4
+         md5
+         ripemd128
+         ripemd160
+         ripemd256
+         ripemd320
+         sha1
+         sha224
+         sha256
+         sha384
+         sha512
+         tiger
+         whirlpool)
+
+;; ### Tests
 
 (deftest-api t-digest-only-functions
   [:* :file* :file :bytes :file-bytes]

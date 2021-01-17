@@ -33,7 +33,7 @@
         len (.length data)
         result (byte-array (quot len 2))]
     (loop [i 0]
-      (if (< i len)
+      (when (< i len)
         (let [a (.charAt data i)
               b (.charAt data (inc i))
               v (+ (* (hex-val a) 16) (hex-val b))]

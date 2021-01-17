@@ -97,7 +97,7 @@
 
 (defn -main
   [& [base]]
-  (let [base (or base "target/generated")]
+  (let [base (or base "src")]
     (println "[codegen] writing algorithms to:" base)
     (generate-algo-namespaces! base)
     (println "[codegen] done.")

@@ -1,5 +1,8 @@
 # pandect
 
+[![Clojars Project](https://img.shields.io/clojars/v/pandect.svg)](https://clojars.org/pandect)
+[![CI](https://github.com/xsc/pandect/workflows/CI/badge.svg)](https://github.com/xsc/pandect/actions?query=workflow%3ACI)
+
 __pandect__ is a fast and easy-to-use
 [Message Digest](http://en.wikipedia.org/wiki/Message_digest),
 [Checksum](http://en.wikipedia.org/wiki/Checksum),
@@ -7,20 +10,13 @@ __pandect__ is a fast and easy-to-use
 and [Signature](https://en.wikipedia.org/wiki/Digital_signature)
 library for Clojure.
 
-[![Build Status](https://travis-ci.org/xsc/pandect.svg?branch=master)](https://travis-ci.org/xsc/pandect)
-
 ## Usage
-
-__Leiningen__ ([via Clojars](https://clojars.org/pandect))
-
-
-[![Clojars Project](https://img.shields.io/clojars/v/pandect.svg)](https://clojars.org/pandect)
 
 Note that - for versions 0.6.0 and up - to use functions based on the
 BouncyCastle crypto provider, you have to manually include a version of
 the `org.bouncycastle/bcprov-jdk15on` artifact. Additionally, you need to take
 special care when trying to create an uberjar
- ([see here](#uberjars-and-bouncycastle)).
+([see here](#uberjars-and-bouncycastle)).
 
 __REPL__
 
@@ -193,7 +189,7 @@ __clj-message-digest__    |   112ms  |  3.07ms  |  4.59ms  |  6.73ms  |  5.17ms 
 ```
 MIT License
 
-Copyright (c) 2014-2016 Yannick Scherer
+Copyright (c) 2014-2021 Yannick Scherer
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

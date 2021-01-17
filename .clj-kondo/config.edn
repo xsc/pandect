@@ -1,0 +1,2 @@
+{:lint-as {pandect.core-test/deftest-api clojure.test/deftest}
+ :output  {:exclude-files ["^src/pandect/algo"]}}

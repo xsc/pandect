@@ -2,8 +2,7 @@
   (:require [pandect.gen.core :as gen]
             [pandect.impl.message-digest
              [hmac :as hmac]
-             [hash :as hash]]
-            [pandect.utils.convert :as c]))
+             [hash :as hash]]))
 
 ;; ## Message Digest/HMAC Algorithms
 
