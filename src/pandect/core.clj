@@ -2,7 +2,7 @@
       :author "Yannick Scherer"}
   pandect.core
   (:require [pandect.buffer :refer [*buffer-size*]]
-            [pandect.utils.potemkin :refer [import-vars]]
+            [potemkin :refer [import-vars]]
             [pandect.codegen :refer [algorithms algorithm-namespace]]))
 
 (set! *warn-on-reflection* true)
