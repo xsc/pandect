@@ -14,3 +14,4 @@ pom.xml.asc
 *~
 .nrepl-port
 src/pandect/algo
+.clj-kondo/.cache

@@ -1,5 +1,5 @@
 (ns ^:no-doc pandect.gen.core
-  (:import [java.io File FileInputStream InputStream]))
+  (:import [java.io File FileInputStream]))
 
 ;; ## Concept
 ;;

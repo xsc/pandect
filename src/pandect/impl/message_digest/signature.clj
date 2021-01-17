@@ -3,7 +3,7 @@
              [core :as gen]
              [signature-generator :as sig]]
             [pandect.utils.convert :as convert])
-  (:import [java.security Signature PublicKey]))
+  (:import [java.security Signature]))
 
 ;; ## Code Generator
 

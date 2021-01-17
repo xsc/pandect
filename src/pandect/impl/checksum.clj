@@ -1,8 +1,7 @@
 (ns ^:no-doc pandect.impl.checksum
   (:require [pandect.gen
-             [core :refer :all]
-             [hash-generator :refer :all]
-             [hmac-generator :refer :all]]
+             [core :as core]
+             [hash-generator :as hash-gen]]
             [pandect.utils.convert :as c])
   (:import [java.util.zip Adler32 CRC32]))
 
@@ -12,11 +11,11 @@
 ;; ## Checksum Class
 
 (deftype ChecksumCodeGen [algorithm checksum-class]
-  CodeGen
+  core/CodeGen
   (algorithm-string [_]
     algorithm)
 
-  HashGen
+  hash-gen/HashGen
   (bytes->hash [_ form]
     `(let [buf# (bytes ~form)
            a# (new ~checksum-class)]
@@ -45,5 +44,5 @@
    "ADLER-32" `Adler32})
 
 (doseq [[algorithm checksum-class] CS_ALGORITHMS]
-  (register-algorithm!
+  (core/register-algorithm!
     (ChecksumCodeGen. algorithm checksum-class)))
