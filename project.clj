@@ -1,4 +1,4 @@
-(defproject pandect "0.6.2-SNAPSHOT"
+(defproject pandect "1.0.0-SNAPSHOT"
   :description "Message Digest and Checksum Library for Clojure"
   :url "https://github.com/xsc/pandect"
   :license {:name "MIT"
