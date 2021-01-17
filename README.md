@@ -193,7 +193,7 @@ __clj-message-digest__    |   112ms  |  3.07ms  |  4.59ms  |  6.73ms  |  5.17ms 
 ```
 MIT License
 
-Copyright (c) 2014-2016 Yannick Scherer
+Copyright (c) 2014-2021 Yannick Scherer
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

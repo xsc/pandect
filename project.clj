@@ -1,8 +1,9 @@
 (defproject pandect "0.6.2-SNAPSHOT"
   :description "Message Digest and Checksum Library for Clojure"
   :url "https://github.com/xsc/pandect"
-  :license {:name "MIT License"
-            :url "https://opensource.org/licenses/MIT"
+  :license {:name "MIT"
+            :comment "MIT License"
+            :url "https://choosealicense.com/licenses/mit"
             :year 2014
             :key "mit"}
   :dependencies [[org.clojure/clojure "1.10.1" :scope "provided"]
