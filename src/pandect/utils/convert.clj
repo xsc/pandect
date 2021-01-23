@@ -43,15 +43,14 @@
 
 ;; ## Unsigned Int (as Long) to Byte Array
 
-(defmacro long->4-bytes
+(defn long->4-bytes
   "Convert an unsigned 32-bit integer (given as long) to a 4-byte array."
-  [v]
-  `(let [v# (long ~v)]
-     (doto (byte-array 4)
-      (aset 0 (byte (bit-and (bit-shift-right v# 24) 0xFF)))
-      (aset 1 (byte (bit-and (bit-shift-right v# 16) 0xFF)))
-      (aset 2 (byte (bit-and (bit-shift-right v# 8) 0xFF)))
-      (aset 3 (byte (bit-and v# 0xFF))))))
+  [^long v]
+  (doto (byte-array 4)
+    (aset 0 (byte (bit-and (bit-shift-right v 24) 0xFF)))
+    (aset 1 (byte (bit-and (bit-shift-right v 16) 0xFF)))
+    (aset 2 (byte (bit-and (bit-shift-right v 8) 0xFF)))
+    (aset 3 (byte (bit-and v 0xFF)))))
 
 ;; ## Unsigned Int (as Long) to String
 
