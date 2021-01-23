@@ -1,4 +1,4 @@
-(ns pandect.utils.convert
+(ns ^:no-doc pandect.utils.convert
   (:require [clojure.java.io :as io]))
 
 (set! *unchecked-math* true)

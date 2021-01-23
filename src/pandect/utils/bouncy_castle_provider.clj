@@ -1,4 +1,4 @@
-(ns pandect.utils.bouncy-castle-provider
+(ns ^:no-doc pandect.utils.bouncy-castle-provider
   (:import java.security.Security
            org.bouncycastle.jce.provider.BouncyCastleProvider))
 

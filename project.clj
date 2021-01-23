@@ -17,6 +17,10 @@
                                         [digest "1.4.4"]]
                          :source-paths ["shootout"]
                          :jvm-opts ^:replace ["-Xmx1g" "-server"]}
+             :codox
+             {:dependencies [[codox-theme-rdash "0.1.2"]]
+              :plugins [[lein-codox "0.10.7"]]
+              :codox {:themes [:rdash]}}
              :kaocha
              {:dependencies [[lambdaisland/kaocha "1.0.732"
                               :exclusions [org.clojure/spec.alpha]]]}
@@ -31,6 +35,7 @@
   :aliases {"kaocha"    ["with-profile" "+kaocha" "run" "-m" "kaocha.runner"]
             "ci"        ["with-profile" "+ci" "run" "-m" "kaocha.runner"
                          "--reporter" "documentation"]
+            "codox"     ["with-profile" "codox" "codox"]
             "benchmark" ["with-profile" "dev,benchmark" "run" "-m"]
             "codegen"   ["run" "-m" "pandect.codegen"]}
   :pedantic? :abort)
