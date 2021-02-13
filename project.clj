@@ -28,7 +28,7 @@
               {:dependencies [[buddy/buddy-core "1.9.0"]
                               [digest "1.4.10"]]
                :jvm-opts ^:replace ["-Xmx2g" "-server"]
-               :resource-paths ["benchmarks"]
+               :source-paths ["benchmarks"]
                :global-vars {*warn-on-reflection* false}}]
              :kaocha
              {:dependencies [[lambdaisland/kaocha "1.0.732"
