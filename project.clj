@@ -7,11 +7,13 @@
             :year 2014
             :key "mit"}
   :dependencies [[org.clojure/clojure "1.10.1" :scope "provided"]
-                 [org.bouncycastle/bcprov-jdk15on "1.54" :scope "provided"]
+                 [org.bouncycastle/bcprov-jdk15on "1.67" :scope "provided"]
                  ^:inline-dep [potemkin "0.4.5"]
                  ^:inline-dep [riddley "0.2.0"]]
   :profiles {:dev
-             {:global-vars {*warn-on-reflection* true}}
+             {:dependencies [[perforate "0.3.4"]]
+              :plugins [[perforate "0.3.4"]]
+              :global-vars {*warn-on-reflection* true}}
              :benchmark {:dependencies [[criterium "0.4.3"]
                                         [clj-message-digest "1.0.0"]
                                         [digest "1.4.4"]]
@@ -21,6 +23,13 @@
              {:dependencies [[codox-theme-rdash "0.1.2"]]
               :plugins [[lein-codox "0.10.7"]]
               :codox {:themes [:rdash]}}
+             :perforate
+             [:dev
+              {:dependencies [[buddy/buddy-core "1.9.0"]
+                              [digest "1.4.10"]]
+               :jvm-opts ^:replace ["-Xmx2g" "-server"]
+               :source-paths ["benchmarks"]
+               :global-vars {*warn-on-reflection* false}}]
              :kaocha
              {:dependencies [[lambdaisland/kaocha "1.0.732"
                               :exclusions [org.clojure/spec.alpha]]]}
@@ -36,6 +45,6 @@
             "ci"        ["with-profile" "+ci" "run" "-m" "kaocha.runner"
                          "--reporter" "documentation"]
             "codox"     ["with-profile" "codox" "codox"]
-            "benchmark" ["with-profile" "dev,benchmark" "run" "-m"]
+            "bench"     ["with-profile" "perforate" "perforate"]
             "codegen"   ["run" "-m" "pandect.codegen"]}
   :pedantic? :abort)
