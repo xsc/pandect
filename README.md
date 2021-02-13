@@ -176,14 +176,6 @@ __pandect__               |   112ms  |  3.14ms  |  4.57ms  |  6.74ms  |   5.1ms 
 __clj-digest__            |   113ms  |  4.18ms  |  5.81ms  |  7.87ms  |  6.15ms  |  6.23ms  |     -    |     -    |
 __clj-message-digest__    |   112ms  |  3.07ms  |  4.59ms  |  6.73ms  |  5.17ms  |  5.19ms  |     -    |     -    |
 
-## Contributors
-
-- Yannick Scherer ([@xsc](https://github.com/xsc))
-- Toshiki Takeuchi ([@totakke](https://github.com/totakke))
-- Jan Stępień ([@jstepien](https://github.com/jstepien))
-- Tom Crayford ([@tcrayford](https://github.com/tcrayford))
-- Alexander Kiel ([@alexanderkiel](https://github.com/alexanderkiel))
-
 ## License
 
 ```
