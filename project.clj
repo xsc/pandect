@@ -7,16 +7,16 @@
             :year 2014
             :key "mit"}
   :dependencies [[org.clojure/clojure "1.10.1" :scope "provided"]
-                 [org.bouncycastle/bcprov-jdk15on "1.67" :scope "provided"]
+                 [org.bouncycastle/bcprov-jdk15on "1.68" :scope "provided"]
                  ^:inline-dep [potemkin "0.4.5"]
                  ^:inline-dep [riddley "0.2.0"]]
   :profiles {:dev
              {:dependencies [[perforate "0.3.4"]]
               :plugins [[perforate "0.3.4"]]
               :global-vars {*warn-on-reflection* true}}
-             :benchmark {:dependencies [[criterium "0.4.3"]
-                                        [clj-message-digest "1.0.0"]
-                                        [digest "1.4.4"]]
+             :benchmark {:dependencies [[criterium "0.4.6"]
+                                        [clj-message-digest "1.0.1"]
+                                        [digest "1.4.10"]]
                          :source-paths ["shootout"]
                          :jvm-opts ^:replace ["-Xmx1g" "-server"]}
              :codox
