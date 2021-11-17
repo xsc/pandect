@@ -1,6 +1,7 @@
 # pandect
 
 [![Clojars Project](https://img.shields.io/clojars/v/pandect.svg)](https://clojars.org/pandect)
+[![Documentation](https://cljdoc.org/badge/pandect/pandect)](https://cljdoc.org/d/pandect/pandect/CURRENT)
 [![CI](https://github.com/xsc/pandect/workflows/CI/badge.svg)](https://github.com/xsc/pandect/actions?query=workflow%3ACI)
 
 __pandect__ is a fast and easy-to-use
@@ -73,8 +74,9 @@ startup/compile times, using algorithm-specific ones is recommended.
 
 ## Supported Algorithms
 
-See the [generated documentation](http://xsc.github.io/pandect) for the available
-functions and their parameters.
+
+See the [generated documentation](https://cljdoc.org/d/pandect/pandect/CURRENT)
+for the available functions and their parameters.
 
 | Checksum | MDx  | SHA      | SHA-3      | RIPEMD     | BLAKE2      | Others                  |
 |----------|------|----------|------------|------------|-------------|-------------------------|
