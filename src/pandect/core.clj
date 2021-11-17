@@ -2,7 +2,7 @@
       :author "Yannick Scherer"}
   pandect.core
   (:require [pandect.buffer]
-            [potemkin :refer [import-vars]]
+            [pandect.utils.import-defs :refer [import-vars]]
             [pandect.codegen :refer [algorithms algorithm-namespace]]))
 
 ;; ## Re-export all algorithms

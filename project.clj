@@ -7,9 +7,7 @@
             :year 2014
             :key "mit"}
   :dependencies [[org.clojure/clojure "1.10.1" :scope "provided"]
-                 [org.bouncycastle/bcprov-jdk15on "1.68" :scope "provided"]
-                 ^:inline-dep [potemkin "0.4.5"]
-                 ^:inline-dep [riddley "0.2.0"]]
+                 [org.bouncycastle/bcprov-jdk15on "1.68" :scope "provided"]]
   :profiles {:dev
              {:dependencies [[perforate "0.3.4"]]
               :plugins [[perforate "0.3.4"]]
@@ -38,8 +36,6 @@
               {:global-vars {*warn-on-reflection* false}}]}
 
   :prep-tasks [["codegen"]]
-  :plugins [[lein-isolate "0.2.2-SNAPSHOT"]]
-  :middleware [leiningen.isolate/middleware]
 
   :aliases {"kaocha"    ["with-profile" "+kaocha" "run" "-m" "kaocha.runner"]
             "ci"        ["with-profile" "+ci" "run" "-m" "kaocha.runner"
