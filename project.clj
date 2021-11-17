@@ -17,10 +17,6 @@
                                         [digest "1.4.10"]]
                          :source-paths ["shootout"]
                          :jvm-opts ^:replace ["-Xmx1g" "-server"]}
-             :codox
-             {:dependencies [[codox-theme-rdash "0.1.2"]]
-              :plugins [[lein-codox "0.10.7"]]
-              :codox {:themes [:rdash]}}
              :perforate
              [:dev
               {:dependencies [[buddy/buddy-core "1.9.0"]
@@ -40,7 +36,6 @@
   :aliases {"kaocha"    ["with-profile" "+kaocha" "run" "-m" "kaocha.runner"]
             "ci"        ["with-profile" "+ci" "run" "-m" "kaocha.runner"
                          "--reporter" "documentation"]
-            "codox"     ["with-profile" "codox" "codox"]
             "bench"     ["with-profile" "perforate" "perforate"]
             "codegen"   ["run" "-m" "pandect.codegen"]}
   :pedantic? :abort)
