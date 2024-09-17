@@ -1,12 +1,14 @@
 (ns ^:no-doc pandect.codegen
   (:require [clojure.pprint :refer [pprint]]
             [clojure.java.io :refer [file writer]]
+            [clojure.string :as str]
             [pandect.impl message-digest checksum bouncy-castle]
             [pandect.gen
              [core :refer [generate get-code-generators as-sym]]
              [hash-generator :refer [hash-generator]]
              [hmac-generator :refer [hmac-generator]]
-             [signature-generator :refer [signature-generator]]]))
+             [signature-generator :refer [signature-generator]]])
+  (:import (java.security Security)))
 
 (def ^:private algorithms-names
   (-> '{gost                "GOST3411"
@@ -98,16 +100,13 @@
         (for [length [384 512 1024]]
           [(as-sym 'skein1024- length) (str "SKEIN-1024-" length)]))))
 
-
-(defn missing-algorithms
+(defn- missing-algorithms
   []
-  (->> (java.security.Security/getAlgorithms "MessageDigest")
-       (remove #(re-matches #"^.*\d\.\d.+" %))
-       (remove (comp (set (sort (map clojure.string/lower-case (vals algorithms-names))))
-                     clojure.string/lower-case))
-       (sort)))
-
-(missing-algorithms) 
+  (require 'pandect.utils.bouncy-castle-provider)
+  (let [implemented (set (map str/lower-case (vals algorithms-names)))
+        available (->> (Security/getAlgorithms "MessageDigest")
+                       (remove #(re-matches #"^.*\d\.\d.+" %)))]
+    (remove (comp implemented str/lower-case) available)))
 
 (def ^:private generators
   [hash-generator
@@ -163,4 +162,6 @@
     (println "[codegen] writing algorithms to:" base)
     (generate-algo-namespaces! base)
     (println "[codegen] done.")
+    (when-let [algos (seq (missing-algorithms))]
+      (println "[codegen] Unimplemented:" (str/join ", " algos)))
     (shutdown-agents)))
