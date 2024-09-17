@@ -9,23 +9,54 @@
              [signature-generator :refer [signature-generator]]]))
 
 (def ^:private algorithms-names
-  (-> '{gost      "GOST3411"
-        whirlpool "Whirlpool"
-        adler32   "ADLER-32"
-        crc32     "CRC-32"
-        tiger     "Tiger"
-        siphash   "Siphash-2-4"
-        siphash48 "Siphash-4-8"}
-
-      ;; KECCAK
-      (into
-        (for [length [224 256 384 512]]
-          [(as-sym 'keccak- length) (str "Keccak-" length)]))
+  (-> '{gost                "GOST3411"
+        whirlpool           "Whirlpool"
+        adler32             "ADLER-32"
+        crc32               "CRC-32"
+        tiger               "Tiger"
+        parallelhash128-256 "PARALLELHASH128-256"
+        parallelhash256-512 "PARALLELHASH256-512"
+        siphash             "Siphash-2-4"
+        siphash48           "Siphash-4-8"
+        shake128-256        "SHAKE128-256"
+        shake256-512        "SHAKE256-512"
+        sm3                 "SM3"
+        tuplehash128-256    "TUPLEHASH128-256"
+        tuplehash256-512    "TUPLEHASH256-512"
+        }
 
       ;; BLAKE2B
       (into
         (for [length [160 256 384 512]]
           [(as-sym 'blake2b- length) (str "BLAKE2B-" length)]))
+
+      ;; BLAKE2S
+      (into
+        (for [length [128 160 224 256]]
+          [(as-sym 'blake2s- length) (str "BLAKE2S-" length)]))
+
+      ;; BLAKE3
+      (into
+        (for [length [256]]
+          [(as-sym 'blake3- length) (str "BLAKE3-" length)]))
+
+      ;; HARAKA
+      (into
+        (for [length [256 512]]
+          [(as-sym 'haraka- length) (str "HARAKA-" length)]))
+
+      ;; KECCAK
+      (into
+        (for [length [224 256 288 384 512]]
+          [(as-sym 'keccak- length) (str "Keccak-" length)]))
+
+      ;; KUPYNA
+      (into
+        (for [length [256 384 512]]
+          [(as-sym 'kupyna- length) (str "DSTU7564-" length)]))
+      (into
+        (for [length [256 384 512]]
+          [(as-sym 'dstu7464- length) (str "DSTU7564-" length)]))
 
       ;; MDx
       (into
@@ -45,7 +76,38 @@
       ;; SHA-3
       (into
         (for [length [224 256 384 512]]
-          [(as-sym 'sha3- length) (str "SHA3-" length)]))))
+          [(as-sym 'sha3- length) (str "SHA3-" length)]))
+
+      ;; SHA-512
+      (into
+        (for [length [224 256]]
+          [(as-sym 'sha512- length) (str "SHA-512/" length)]))
+
+      ;; SKEIN-256
+      (into
+        (for [length [128 160 224 256]]
+          [(as-sym 'skein256- length) (str "SKEIN-256-" length)]))
+
+      ;; SKEIN-512
+      (into
+        (for [length [128 160 224 256 384 512]]
+          [(as-sym 'skein512- length) (str "SKEIN-512-" length)]))
+
+      ;; SKEIN-1024
+      (into
+        (for [length [384 512 1024]]
+          [(as-sym 'skein1024- length) (str "SKEIN-1024-" length)]))))
+
+
+(defn missing-algorithms
+  []
+  (->> (java.security.Security/getAlgorithms "MessageDigest")
+       (remove #(re-matches #"^.*\d\.\d.+" %))
+       (remove (comp (set (sort (map clojure.string/lower-case (vals algorithms-names))))
+                     clojure.string/lower-case))
+       (sort)))
+
+(missing-algorithms) 
 
 (def ^:private generators
   [hash-generator
@@ -85,7 +147,7 @@
          (fn [[sym algorithm]]
            (let [filename (.replace (format "%s.clj" sym) \- \_)]
              (locking *out*
-               (println "[codegen] *" algorithm))
+               (println "[codegen] *" sym '-> algorithm))
              (doto (file base "pandect" "algo" filename)
                (-> .getParentFile .mkdirs)
                (write-source! sym algorithm)))))
