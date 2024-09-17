@@ -6,8 +6,8 @@
             :url "https://choosealicense.com/licenses/mit"
             :year 2014
             :key "mit"}
-  :dependencies [[org.clojure/clojure "1.10.1" :scope "provided"]
-                 [org.bouncycastle/bcprov-jdk15on "1.68" :scope "provided"]]
+  :dependencies [[org.clojure/clojure "1.12.0" :scope "provided"]
+                 [org.bouncycastle/bcprov-jdk18on "1.78.1" :scope "provided"]]
   :profiles {:dev
              {:dependencies [[perforate "0.3.4"]]
               :plugins [[perforate "0.3.4"]]
@@ -19,13 +19,13 @@
                          :jvm-opts ^:replace ["-Xmx1g" "-server"]}
              :perforate
              [:dev
-              {:dependencies [[buddy/buddy-core "1.9.0"]
+              {:dependencies [[buddy/buddy-core "1.12.0-430"]
                               [digest "1.4.10"]]
                :jvm-opts ^:replace ["-Xmx2g" "-server"]
                :source-paths ["benchmarks"]
                :global-vars {*warn-on-reflection* false}}]
              :kaocha
-             {:dependencies [[lambdaisland/kaocha "1.0.732"
+             {:dependencies [[lambdaisland/kaocha "1.91.1392"
                               :exclusions [org.clojure/spec.alpha]]]}
              :ci
              [:kaocha
